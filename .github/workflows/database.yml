@@ -1,0 +1,57 @@
+name: Database Migrations
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/*.sql'
+  workflow_dispatch:
+    inputs:
+      migration_file:
+        description: 'Specific migration file to run (optional)'
+        required: false
+        type: string
+
+jobs:
+  migrate:
+    name: Run Database Migrations
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get changed SQL files
+        id: changed-files
+        uses: tj-actions/changed-files@v42
+        with:
+          files: |
+            scripts/*.sql
+
+      - name: Run migrations
+        if: steps.changed-files.outputs.any_changed == 'true' || github.event.inputs.migration_file
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [ -n "${{ github.event.inputs.migration_file }}" ]; then
+            echo "Running specific migration: ${{ github.event.inputs.migration_file }}"
+            psql "$DATABASE_URL" -f "scripts/${{ github.event.inputs.migration_file }}"
+          else
+            echo "Running all changed migrations..."
+            for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+              echo "Running: $file"
+              psql "$DATABASE_URL" -f "$file"
+            done
+          fi
+
+      - name: Notify on completion
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#database'
+          fields: repo,message,commit,author
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

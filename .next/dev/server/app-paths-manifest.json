@@ -1,0 +1,10 @@
+{
+  "/dashboard/content/page": "app/dashboard/content/page.js",
+  "/dashboard/crm/page": "app/dashboard/crm/page.js",
+  "/dashboard/email/page": "app/dashboard/email/page.js",
+  "/dashboard/leads/page": "app/dashboard/leads/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/social/page": "app/dashboard/social/page.js",
+  "/dashboard/workflows/page": "app/dashboard/workflows/page.js",
+  "/page": "app/page.js"
+}
