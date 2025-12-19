@@ -1,17 +1,16 @@
 from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Text, JSON, Integer
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid
 
-from app.core.database import Base
+from app.core.database import Base, GUID
 
 
 class SocialAccount(Base):
     __tablename__ = "social_accounts"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
     platform = Column(String(50), nullable=False)  # twitter, facebook, instagram, linkedin
     account_id = Column(String(255), nullable=False)
     account_name = Column(String(255))
@@ -33,10 +32,10 @@ class SocialAccount(Base):
 class SocialPost(Base):
     __tablename__ = "social_posts"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
-    account_id = Column(UUID(as_uuid=True), ForeignKey("social_accounts.id", ondelete="CASCADE"), nullable=False)
-    content_id = Column(UUID(as_uuid=True), ForeignKey("content.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    account_id = Column(GUID(), ForeignKey("social_accounts.id", ondelete="CASCADE"), nullable=False)
+    content_id = Column(GUID(), ForeignKey("content.id", ondelete="SET NULL"))
     platform = Column(String(50), nullable=False)
     post_text = Column(Text, nullable=False)
     media_urls = Column(JSON, default=[])

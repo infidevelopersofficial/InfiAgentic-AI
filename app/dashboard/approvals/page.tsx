@@ -1,13 +1,19 @@
 "use client"
 
+import { useState } from "react"
 import { ApprovalQueue } from "@/components/dashboard/approval-queue"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { CheckCircle, Clock, XCircle } from "lucide-react"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
+import { CheckCircle, Clock, XCircle, Eye, MessageSquare } from "lucide-react"
 import type { ApprovalRequest } from "@/lib/types"
+import { useToast } from "@/hooks/use-toast"
 
-const mockApprovals: ApprovalRequest[] = [
+const initialApprovals: ApprovalRequest[] = [
   {
     id: "1",
     type: "content",
@@ -66,9 +72,79 @@ const mockApprovals: ApprovalRequest[] = [
 ]
 
 export default function ApprovalsPage() {
-  const pendingCount = mockApprovals.filter((a) => a.status === "pending").length
-  const approvedCount = mockApprovals.filter((a) => a.status === "approved").length
-  const rejectedCount = mockApprovals.filter((a) => a.status === "rejected").length
+  const { toast } = useToast()
+  const [approvals, setApprovals] = useState(initialApprovals)
+  const [selectedRequest, setSelectedRequest] = useState<ApprovalRequest | null>(null)
+  const [viewDialogOpen, setViewDialogOpen] = useState(false)
+  const [rejectDialogOpen, setRejectDialogOpen] = useState(false)
+  const [rejectComment, setRejectComment] = useState("")
+
+  const pendingCount = approvals.filter((a) => a.status === "pending").length
+  const approvedCount = approvals.filter((a) => a.status === "approved").length
+  const rejectedCount = approvals.filter((a) => a.status === "rejected").length
+
+  const handleApprove = (request: ApprovalRequest) => {
+    setApprovals(prev =>
+      prev.map(approval =>
+        approval.id === request.id
+          ? {
+              ...approval,
+              status: "approved" as const,
+              reviewedBy: "Current User",
+              reviewedAt: new Date(),
+            }
+          : approval
+      )
+    )
+    
+    toast({
+      title: "Request Approved",
+      description: `${request.title} has been approved.`,
+    })
+  }
+
+  const handleReject = (request: ApprovalRequest) => {
+    setSelectedRequest(request)
+    setRejectDialogOpen(true)
+  }
+
+  const confirmReject = () => {
+    if (!selectedRequest) return
+
+    setApprovals(prev =>
+      prev.map(approval =>
+        approval.id === selectedRequest.id
+          ? {
+              ...approval,
+              status: "rejected" as const,
+              reviewedBy: "Current User",
+              reviewedAt: new Date(),
+              comments: rejectComment,
+            }
+          : approval
+      )
+    )
+    
+    setRejectDialogOpen(false)
+    setRejectComment("")
+    setSelectedRequest(null)
+    
+    toast({
+      title: "Request Rejected",
+      description: `${selectedRequest.title} has been rejected.`,
+      variant: "destructive",
+    })
+  }
+
+  const handleView = (request: ApprovalRequest) => {
+    setSelectedRequest(request)
+    setViewDialogOpen(true)
+  }
+
+  const getFilteredApprovals = (status: string) => {
+    if (status === "all") return approvals
+    return approvals.filter((a) => a.status === status)
+  }
 
   return (
     <div className="space-y-6">
@@ -128,18 +204,140 @@ export default function ApprovalsPage() {
           <TabsTrigger value="all">All</TabsTrigger>
         </TabsList>
         <TabsContent value="pending" className="mt-6">
-          <ApprovalQueue requests={mockApprovals.filter((a) => a.status === "pending")} />
+          <ApprovalQueue 
+            requests={getFilteredApprovals("pending")} 
+            onApprove={handleApprove}
+            onReject={handleReject}
+            onView={handleView}
+          />
         </TabsContent>
         <TabsContent value="approved" className="mt-6">
-          <ApprovalQueue requests={mockApprovals.filter((a) => a.status === "approved")} />
+          <ApprovalQueue 
+            requests={getFilteredApprovals("approved")} 
+            onApprove={handleApprove}
+            onReject={handleReject}
+            onView={handleView}
+          />
         </TabsContent>
         <TabsContent value="rejected" className="mt-6">
-          <ApprovalQueue requests={mockApprovals.filter((a) => a.status === "rejected")} />
+          <ApprovalQueue 
+            requests={getFilteredApprovals("rejected")} 
+            onApprove={handleApprove}
+            onReject={handleReject}
+            onView={handleView}
+          />
         </TabsContent>
         <TabsContent value="all" className="mt-6">
-          <ApprovalQueue requests={mockApprovals} />
+          <ApprovalQueue 
+            requests={getFilteredApprovals("all")} 
+            onApprove={handleApprove}
+            onReject={handleReject}
+            onView={handleView}
+          />
         </TabsContent>
       </Tabs>
+
+      {/* View Dialog */}
+      <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Eye className="h-5 w-5" />
+              Approval Request Details
+            </DialogTitle>
+          </DialogHeader>
+          {selectedRequest && (
+            <div className="space-y-4">
+              <div>
+                <h3 className="font-semibold">{selectedRequest.title}</h3>
+                <Badge variant="secondary" className="mt-1">
+                  {selectedRequest.type}
+                </Badge>
+              </div>
+              <p className="text-muted-foreground">{selectedRequest.description}</p>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <Label>Requested By</Label>
+                  <p>{selectedRequest.requestedBy}</p>
+                </div>
+                <div>
+                  <Label>Requested At</Label>
+                  <p>{new Date(selectedRequest.requestedAt).toLocaleDateString()}</p>
+                </div>
+                {selectedRequest.reviewedBy && (
+                  <>
+                    <div>
+                      <Label>Reviewed By</Label>
+                      <p>{selectedRequest.reviewedBy}</p>
+                    </div>
+                    <div>
+                      <Label>Reviewed At</Label>
+                      <p>{selectedRequest.reviewedAt ? new Date(selectedRequest.reviewedAt).toLocaleDateString() : "N/A"}</p>
+                    </div>
+                  </>
+                )}
+              </div>
+              {selectedRequest.comments && (
+                <div>
+                  <Label>Comments</Label>
+                  <p className="text-sm text-muted-foreground">{selectedRequest.comments}</p>
+                </div>
+              )}
+              <div className="flex justify-end gap-2">
+                {selectedRequest.status === "pending" && (
+                  <>
+                    <Button variant="outline" onClick={() => handleReject(selectedRequest)}>
+                      Reject
+                    </Button>
+                    <Button onClick={() => handleApprove(selectedRequest)}>
+                      Approve
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Reject Dialog */}
+      <Dialog open={rejectDialogOpen} onOpenChange={setRejectDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <XCircle className="h-5 w-5" />
+              Reject Request
+            </DialogTitle>
+            <DialogDescription>
+              Please provide a reason for rejecting this request.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-semibold">{selectedRequest?.title}</h3>
+              <p className="text-sm text-muted-foreground">{selectedRequest?.description}</p>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="comments">Comments</Label>
+              <Textarea
+                id="comments"
+                placeholder="Provide feedback for the rejection..."
+                value={rejectComment}
+                onChange={(e) => setRejectComment(e.target.value)}
+                rows={3}
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setRejectDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button variant="destructive" onClick={confirmReject}>
+                Reject Request
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

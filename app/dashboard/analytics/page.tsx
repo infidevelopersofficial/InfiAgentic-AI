@@ -1,11 +1,14 @@
 "use client"
 
+import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AnalyticsChart } from "@/components/dashboard/analytics-chart"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Download, TrendingUp, Users, Eye, MousePointer } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Download, TrendingUp, Users, Eye, MousePointer, Calendar, Filter, RefreshCw } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
 const trafficData = [
   { date: "Jan", value: 4000 },
@@ -46,16 +49,77 @@ const channelData = [
 ]
 
 export default function AnalyticsPage() {
+  const { toast } = useToast()
+  const [selectedPeriod, setSelectedPeriod] = useState("30d")
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [lastUpdated, setLastUpdated] = useState(new Date())
+
+  const handleExport = () => {
+    toast({
+      title: "Export Started",
+      description: `Exporting analytics data for the last ${selectedPeriod}...`,
+    })
+    
+    // Simulate export process
+    setTimeout(() => {
+      toast({
+        title: "Export Complete",
+        description: "Analytics data has been exported successfully.",
+      })
+    }, 2000)
+  }
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true)
+    
+    // Simulate data refresh
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    
+    setLastUpdated(new Date())
+    setIsRefreshing(false)
+    
+    toast({
+      title: "Data Refreshed",
+      description: "Analytics data has been updated.",
+    })
+  }
+
+  const handlePeriodChange = (period: string) => {
+    setSelectedPeriod(period)
+    toast({
+      title: "Period Changed",
+      description: `Showing data for the last ${period}`,
+    })
+  }
+
+  const getPeriodLabel = (period: string) => {
+    switch (period) {
+      case "7d": return "Last 7 days"
+      case "30d": return "Last 30 days"
+      case "90d": return "Last 90 days"
+      case "1y": return "Last year"
+      default: return "Last 30 days"
+    }
+  }
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
-          <p className="text-muted-foreground">Track performance across all marketing channels</p>
+          <div className="flex items-center gap-2 mt-1">
+            <p className="text-muted-foreground">Track performance across all marketing channels</p>
+            <Badge variant="outline" className="text-xs">
+              <Calendar className="h-3 w-3 mr-1" />
+              {getPeriodLabel(selectedPeriod)}
+            </Badge>
+            <span className="text-xs text-muted-foreground">
+              Updated {lastUpdated.toLocaleTimeString()}
+            </span>
+          </div>
         </div>
         <div className="flex gap-3">
-          <Select defaultValue="30d">
-            <SelectTrigger className="w-32">
+          <Select value={selectedPeriod} onValueChange={handlePeriodChange}>
+            <SelectTrigger className="w-40">
               <SelectValue placeholder="Period" />
             </SelectTrigger>
             <SelectContent>
@@ -65,7 +129,16 @@ export default function AnalyticsPage() {
               <SelectItem value="1y">Last year</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" className="gap-2 bg-transparent">
+          <Button 
+            variant="outline" 
+            className="gap-2 bg-transparent"
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+          >
+            <RefreshCw className={`h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
+          <Button variant="outline" className="gap-2 bg-transparent" onClick={handleExport}>
             <Download className="h-4 w-4" />
             Export
           </Button>

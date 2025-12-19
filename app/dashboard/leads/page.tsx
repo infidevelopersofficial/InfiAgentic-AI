@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+import { CreateFlowDialog } from "@/components/dashboard/create-flow-dialog"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -7,7 +9,16 @@ import { Switch } from "@/components/ui/switch"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Plus, MoreHorizontal, GitBranch, Users, Zap, TrendingUp, ArrowRight, Mail, Clock } from "lucide-react"
 
-const leadFlows = [
+const triggerOptions = [
+  { value: "form_submission", label: "Form Submission" },
+  { value: "demo_request", label: "Demo Request" },
+  { value: "email_signup", label: "Email Signup" },
+  { value: "inactive_30_days", label: "Inactive 30 Days" },
+  { value: "campaign_response", label: "Campaign Response" },
+  { value: "manual_add", label: "Manual Add" },
+]
+
+const initialLeadFlows = [
   {
     id: "1",
     name: "Website Signup Flow",
@@ -60,6 +71,21 @@ const statusColors: Record<string, string> = {
 }
 
 export default function LeadFlowsPage() {
+  const [leadFlows, setLeadFlows] = useState(initialLeadFlows)
+
+  const handleCreateFlow = (newFlow: any) => {
+    const flow = {
+      id: (leadFlows.length + 1).toString(),
+      name: newFlow.name,
+      description: newFlow.description,
+      status: "paused",
+      trigger: triggerOptions.find(opt => opt.value === newFlow.trigger)?.label || newFlow.trigger,
+      leads: 0,
+      conversionRate: 0,
+      steps: newFlow.steps,
+    }
+    setLeadFlows([flow, ...leadFlows])
+  }
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -67,10 +93,12 @@ export default function LeadFlowsPage() {
           <h1 className="text-3xl font-bold tracking-tight">Lead Flows</h1>
           <p className="text-muted-foreground">Automated lead nurturing sequences powered by AI</p>
         </div>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          Create Flow
-        </Button>
+        <CreateFlowDialog onCreateFlow={handleCreateFlow}>
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" />
+            Create Flow
+          </Button>
+        </CreateFlowDialog>
       </div>
 
       {/* Metrics */}

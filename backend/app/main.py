@@ -9,6 +9,7 @@ import asyncio
 
 from app.core.config import settings
 from app.core.database import engine, Base
+from sqlalchemy import text
 from app.core.logging_config import setup_logging
 from app.core.middleware import (
     RequestIDMiddleware,
@@ -137,7 +138,7 @@ async def readiness_check():
     
     try:
         async with AsyncSessionLocal() as session:
-            await session.execute("SELECT 1")
+            await session.execute(text("SELECT 1"))
         
         return {
             "status": "ready",

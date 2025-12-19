@@ -144,6 +144,7 @@ __turbopack_context__.s([
     ()=>LeadFlowsPage
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/node_modules/.pnpm/next@16.0.7_@opentelemetry+api@1.9.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/node_modules/.pnpm/next@16.0.7_@opentelemetry+api@1.9.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/components/ui/card.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/components/ui/button.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/components/ui/badge.tsx [app-ssr] (ecmascript)");
@@ -166,7 +167,34 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d
 ;
 ;
 ;
-const leadFlows = [
+;
+const triggerOptions = [
+    {
+        value: "form_submission",
+        label: "Form Submission"
+    },
+    {
+        value: "demo_request",
+        label: "Demo Request"
+    },
+    {
+        value: "email_signup",
+        label: "Email Signup"
+    },
+    {
+        value: "inactive_30_days",
+        label: "Inactive 30 Days"
+    },
+    {
+        value: "campaign_response",
+        label: "Campaign Response"
+    },
+    {
+        value: "manual_add",
+        label: "Manual Add"
+    }
+];
+const initialLeadFlows = [
     {
         id: "1",
         name: "Website Signup Flow",
@@ -250,6 +278,23 @@ const statusColors = {
     paused: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20"
 };
 function LeadFlowsPage() {
+    const [leadFlows, setLeadFlows] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(initialLeadFlows);
+    const handleCreateFlow = (newFlow)=>{
+        const flow = {
+            id: (leadFlows.length + 1).toString(),
+            name: newFlow.name,
+            description: newFlow.description,
+            status: "paused",
+            trigger: triggerOptions.find((opt)=>opt.value === newFlow.trigger)?.label || newFlow.trigger,
+            leads: 0,
+            conversionRate: 0,
+            steps: newFlow.steps
+        };
+        setLeadFlows([
+            flow,
+            ...leadFlows
+        ]);
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "space-y-6",
         children: [
@@ -263,7 +308,7 @@ function LeadFlowsPage() {
                                 children: "Lead Flows"
                             }, void 0, false, {
                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                lineNumber: 67,
+                                lineNumber: 93,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -271,13 +316,13 @@ function LeadFlowsPage() {
                                 children: "Automated lead nurturing sequences powered by AI"
                             }, void 0, false, {
                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                lineNumber: 68,
+                                lineNumber: 94,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                        lineNumber: 66,
+                        lineNumber: 92,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -287,20 +332,20 @@ function LeadFlowsPage() {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                lineNumber: 71,
+                                lineNumber: 97,
                                 columnNumber: 11
                             }, this),
                             "Create Flow"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                        lineNumber: 70,
+                        lineNumber: 96,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                lineNumber: 65,
+                lineNumber: 91,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -316,12 +361,12 @@ function LeadFlowsPage() {
                                         className: "h-6 w-6 text-primary"
                                     }, void 0, false, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                        lineNumber: 81,
+                                        lineNumber: 107,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                    lineNumber: 80,
+                                    lineNumber: 106,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -331,7 +376,7 @@ function LeadFlowsPage() {
                                             children: "Active Flows"
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                            lineNumber: 84,
+                                            lineNumber: 110,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -339,24 +384,24 @@ function LeadFlowsPage() {
                                             children: leadFlows.filter((f)=>f.status === "active").length
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                            lineNumber: 85,
+                                            lineNumber: 111,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                    lineNumber: 83,
+                                    lineNumber: 109,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                            lineNumber: 79,
+                            lineNumber: 105,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                        lineNumber: 78,
+                        lineNumber: 104,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -369,12 +414,12 @@ function LeadFlowsPage() {
                                         className: "h-6 w-6 text-blue-500"
                                     }, void 0, false, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                        lineNumber: 92,
+                                        lineNumber: 118,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                    lineNumber: 91,
+                                    lineNumber: 117,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -384,7 +429,7 @@ function LeadFlowsPage() {
                                             children: "Leads in Flows"
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                            lineNumber: 95,
+                                            lineNumber: 121,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -392,24 +437,24 @@ function LeadFlowsPage() {
                                             children: leadFlows.reduce((acc, f)=>acc + f.leads, 0).toLocaleString()
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                            lineNumber: 96,
+                                            lineNumber: 122,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                    lineNumber: 94,
+                                    lineNumber: 120,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                            lineNumber: 90,
+                            lineNumber: 116,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                        lineNumber: 89,
+                        lineNumber: 115,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -422,12 +467,12 @@ function LeadFlowsPage() {
                                         className: "h-6 w-6 text-green-500"
                                     }, void 0, false, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                        lineNumber: 103,
+                                        lineNumber: 129,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                    lineNumber: 102,
+                                    lineNumber: 128,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -437,7 +482,7 @@ function LeadFlowsPage() {
                                             children: "Avg. Conversion"
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                            lineNumber: 106,
+                                            lineNumber: 132,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -448,24 +493,24 @@ function LeadFlowsPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                            lineNumber: 107,
+                                            lineNumber: 133,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                    lineNumber: 105,
+                                    lineNumber: 131,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                            lineNumber: 101,
+                            lineNumber: 127,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                        lineNumber: 100,
+                        lineNumber: 126,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -478,12 +523,12 @@ function LeadFlowsPage() {
                                         className: "h-6 w-6 text-purple-500"
                                     }, void 0, false, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                        lineNumber: 116,
+                                        lineNumber: 142,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                    lineNumber: 115,
+                                    lineNumber: 141,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -493,7 +538,7 @@ function LeadFlowsPage() {
                                             children: "Emails Sent"
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                            lineNumber: 119,
+                                            lineNumber: 145,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -501,30 +546,30 @@ function LeadFlowsPage() {
                                             children: "48.2K"
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                            lineNumber: 120,
+                                            lineNumber: 146,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                    lineNumber: 118,
+                                    lineNumber: 144,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                            lineNumber: 114,
+                            lineNumber: 140,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                        lineNumber: 113,
+                        lineNumber: 139,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                lineNumber: 77,
+                lineNumber: 103,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -546,7 +591,7 @@ function LeadFlowsPage() {
                                                         children: flow.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 134,
+                                                        lineNumber: 160,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -555,13 +600,13 @@ function LeadFlowsPage() {
                                                         children: flow.status
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 135,
+                                                        lineNumber: 161,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                lineNumber: 133,
+                                                lineNumber: 159,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -569,7 +614,7 @@ function LeadFlowsPage() {
                                                 children: flow.description
                                             }, void 0, false, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                lineNumber: 139,
+                                                lineNumber: 165,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -584,13 +629,13 @@ function LeadFlowsPage() {
                                                                         className: "h-4 w-4 text-blue-500"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                        lineNumber: 147,
+                                                                        lineNumber: 173,
                                                                         columnNumber: 29
                                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$454$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$clock$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Clock$3e$__["Clock"], {
                                                                         className: "h-4 w-4 text-orange-500"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                        lineNumber: 149,
+                                                                        lineNumber: 175,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -598,31 +643,31 @@ function LeadFlowsPage() {
                                                                         children: step.label
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                        lineNumber: 151,
+                                                                        lineNumber: 177,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                lineNumber: 145,
+                                                                lineNumber: 171,
                                                                 columnNumber: 25
                                                             }, this),
                                                             index < flow.steps.length - 1 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$lucide$2d$react$40$0$2e$454$2e$0_react$40$19$2e$2$2e$0$2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
                                                                 className: "h-4 w-4 text-muted-foreground shrink-0"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                lineNumber: 154,
+                                                                lineNumber: 180,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, index, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 144,
+                                                        lineNumber: 170,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                lineNumber: 142,
+                                                lineNumber: 168,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -635,7 +680,7 @@ function LeadFlowsPage() {
                                                                 className: "h-4 w-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                lineNumber: 162,
+                                                                lineNumber: 188,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -645,13 +690,13 @@ function LeadFlowsPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                lineNumber: 163,
+                                                                lineNumber: 189,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 161,
+                                                        lineNumber: 187,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -662,7 +707,7 @@ function LeadFlowsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 165,
+                                                        lineNumber: 191,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -673,19 +718,19 @@ function LeadFlowsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 166,
+                                                        lineNumber: 192,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                lineNumber: 160,
+                                                lineNumber: 186,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                        lineNumber: 132,
+                                        lineNumber: 158,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -699,20 +744,20 @@ function LeadFlowsPage() {
                                                         children: flow.status === "active" ? "Active" : "Paused"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 171,
+                                                        lineNumber: 197,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Switch"], {
                                                         checked: flow.status === "active"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 174,
+                                                        lineNumber: 200,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                lineNumber: 170,
+                                                lineNumber: 196,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenu"], {
@@ -726,17 +771,17 @@ function LeadFlowsPage() {
                                                                 className: "h-4 w-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                lineNumber: 179,
+                                                                lineNumber: 205,
                                                                 columnNumber: 25
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                            lineNumber: 178,
+                                                            lineNumber: 204,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 177,
+                                                        lineNumber: 203,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuContent"], {
@@ -746,21 +791,21 @@ function LeadFlowsPage() {
                                                                 children: "Edit Flow"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                lineNumber: 183,
+                                                                lineNumber: 209,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
                                                                 children: "Duplicate"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                lineNumber: 184,
+                                                                lineNumber: 210,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
                                                                 children: "View Analytics"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                lineNumber: 185,
+                                                                lineNumber: 211,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -768,52 +813,52 @@ function LeadFlowsPage() {
                                                                 children: "Delete"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                                lineNumber: 186,
+                                                                lineNumber: 212,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                        lineNumber: 182,
+                                                        lineNumber: 208,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                                lineNumber: 176,
+                                                lineNumber: 202,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                        lineNumber: 169,
+                                        lineNumber: 195,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                                lineNumber: 131,
+                                lineNumber: 157,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                            lineNumber: 130,
+                            lineNumber: 156,
                             columnNumber: 13
                         }, this)
                     }, flow.id, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                        lineNumber: 129,
+                        lineNumber: 155,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-                lineNumber: 127,
+                lineNumber: 153,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/leads/page.tsx",
-        lineNumber: 64,
+        lineNumber: 90,
         columnNumber: 5
     }, this);
 }

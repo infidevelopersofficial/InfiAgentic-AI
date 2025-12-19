@@ -144,6 +144,7 @@ __turbopack_context__.s([
     ()=>WorkflowsPage
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/node_modules/.pnpm/next@16.0.7_@opentelemetry+api@1.9.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/node_modules/.pnpm/next@16.0.7_@opentelemetry+api@1.9.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/components/ui/card.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/components/ui/button.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Codework/agentic-ai-platform/components/ui/badge.tsx [app-ssr] (ecmascript)");
@@ -164,7 +165,42 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d
 ;
 ;
 ;
-const workflows = [
+;
+const triggerOptions = [
+    {
+        value: "new_lead",
+        label: "New Lead Created"
+    },
+    {
+        value: "content_ready",
+        label: "Content Marked Ready"
+    },
+    {
+        value: "lead_inactive",
+        label: "Lead Inactive 30 Days"
+    },
+    {
+        value: "weekly_schedule",
+        label: "Weekly Schedule"
+    },
+    {
+        value: "daily_schedule",
+        label: "Daily Schedule"
+    },
+    {
+        value: "campaign_response",
+        label: "Campaign Response"
+    },
+    {
+        value: "manual_trigger",
+        label: "Manual Trigger"
+    },
+    {
+        value: "data_change",
+        label: "Data Change"
+    }
+];
+const initialWorkflows = [
     {
         id: "1",
         name: "New Lead Nurture Sequence",
@@ -212,6 +248,23 @@ const statusColors = {
     draft: "bg-muted text-muted-foreground"
 };
 function WorkflowsPage() {
+    const [workflows, setWorkflows] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(initialWorkflows);
+    const handleCreateWorkflow = (newWorkflow)=>{
+        const workflow = {
+            id: (workflows.length + 1).toString(),
+            name: newWorkflow.name,
+            description: newWorkflow.description,
+            status: "draft",
+            trigger: triggerOptions.find((opt)=>opt.value === newWorkflow.trigger)?.label || newWorkflow.trigger,
+            steps: newWorkflow.steps.length,
+            runs: 0,
+            successRate: 0
+        };
+        setWorkflows([
+            workflow,
+            ...workflows
+        ]);
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "space-y-6",
         children: [
@@ -225,7 +278,7 @@ function WorkflowsPage() {
                                 children: "Workflows"
                             }, void 0, false, {
                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                lineNumber: 64,
+                                lineNumber: 92,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -233,13 +286,13 @@ function WorkflowsPage() {
                                 children: "Automate your marketing processes with AI-powered workflows"
                             }, void 0, false, {
                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                lineNumber: 65,
+                                lineNumber: 93,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                        lineNumber: 63,
+                        lineNumber: 91,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -249,20 +302,20 @@ function WorkflowsPage() {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                lineNumber: 68,
+                                lineNumber: 96,
                                 columnNumber: 11
                             }, this),
                             "Create Workflow"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                        lineNumber: 67,
+                        lineNumber: 95,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                lineNumber: 62,
+                lineNumber: 90,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -278,12 +331,12 @@ function WorkflowsPage() {
                                         className: "h-6 w-6 text-primary"
                                     }, void 0, false, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                        lineNumber: 78,
+                                        lineNumber: 106,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                    lineNumber: 77,
+                                    lineNumber: 105,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -293,7 +346,7 @@ function WorkflowsPage() {
                                             children: "Total Workflows"
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                            lineNumber: 81,
+                                            lineNumber: 109,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -301,24 +354,24 @@ function WorkflowsPage() {
                                             children: workflows.length
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                            lineNumber: 82,
+                                            lineNumber: 110,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                    lineNumber: 80,
+                                    lineNumber: 108,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                            lineNumber: 76,
+                            lineNumber: 104,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                        lineNumber: 75,
+                        lineNumber: 103,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -331,12 +384,12 @@ function WorkflowsPage() {
                                         className: "h-6 w-6 text-green-500"
                                     }, void 0, false, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                        lineNumber: 89,
+                                        lineNumber: 117,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                    lineNumber: 88,
+                                    lineNumber: 116,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -346,7 +399,7 @@ function WorkflowsPage() {
                                             children: "Active"
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                            lineNumber: 92,
+                                            lineNumber: 120,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -354,24 +407,24 @@ function WorkflowsPage() {
                                             children: workflows.filter((w)=>w.status === "active").length
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                            lineNumber: 93,
+                                            lineNumber: 121,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                    lineNumber: 91,
+                                    lineNumber: 119,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                            lineNumber: 87,
+                            lineNumber: 115,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                        lineNumber: 86,
+                        lineNumber: 114,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -384,12 +437,12 @@ function WorkflowsPage() {
                                         className: "h-6 w-6 text-blue-500"
                                     }, void 0, false, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                        lineNumber: 100,
+                                        lineNumber: 128,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                    lineNumber: 99,
+                                    lineNumber: 127,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -399,7 +452,7 @@ function WorkflowsPage() {
                                             children: "Total Runs"
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                            lineNumber: 103,
+                                            lineNumber: 131,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -407,24 +460,24 @@ function WorkflowsPage() {
                                             children: workflows.reduce((acc, w)=>acc + w.runs, 0).toLocaleString()
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                            lineNumber: 104,
+                                            lineNumber: 132,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                    lineNumber: 102,
+                                    lineNumber: 130,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                            lineNumber: 98,
+                            lineNumber: 126,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                        lineNumber: 97,
+                        lineNumber: 125,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -437,12 +490,12 @@ function WorkflowsPage() {
                                         className: "h-6 w-6 text-purple-500"
                                     }, void 0, false, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                        lineNumber: 111,
+                                        lineNumber: 139,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                    lineNumber: 110,
+                                    lineNumber: 138,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -452,7 +505,7 @@ function WorkflowsPage() {
                                             children: "Avg Success Rate"
                                         }, void 0, false, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                            lineNumber: 114,
+                                            lineNumber: 142,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -463,30 +516,30 @@ function WorkflowsPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                            lineNumber: 115,
+                                            lineNumber: 143,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                    lineNumber: 113,
+                                    lineNumber: 141,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                            lineNumber: 109,
+                            lineNumber: 137,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                        lineNumber: 108,
+                        lineNumber: 136,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                lineNumber: 74,
+                lineNumber: 102,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -508,7 +561,7 @@ function WorkflowsPage() {
                                                         children: workflow.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 131,
+                                                        lineNumber: 159,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -517,13 +570,13 @@ function WorkflowsPage() {
                                                         children: workflow.status
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 132,
+                                                        lineNumber: 160,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                lineNumber: 130,
+                                                lineNumber: 158,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -531,7 +584,7 @@ function WorkflowsPage() {
                                                 children: workflow.description
                                             }, void 0, false, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                lineNumber: 136,
+                                                lineNumber: 164,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -544,7 +597,7 @@ function WorkflowsPage() {
                                                                 className: "h-4 w-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                                lineNumber: 139,
+                                                                lineNumber: 167,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -554,13 +607,13 @@ function WorkflowsPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                                lineNumber: 140,
+                                                                lineNumber: 168,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 138,
+                                                        lineNumber: 166,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -570,7 +623,7 @@ function WorkflowsPage() {
                                                                 className: "h-4 w-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                                lineNumber: 143,
+                                                                lineNumber: 171,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -580,13 +633,13 @@ function WorkflowsPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                                lineNumber: 144,
+                                                                lineNumber: 172,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 142,
+                                                        lineNumber: 170,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -597,7 +650,7 @@ function WorkflowsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 146,
+                                                        lineNumber: 174,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -608,19 +661,19 @@ function WorkflowsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 147,
+                                                        lineNumber: 175,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                lineNumber: 137,
+                                                lineNumber: 165,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                        lineNumber: 129,
+                                        lineNumber: 157,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -634,20 +687,20 @@ function WorkflowsPage() {
                                                         children: workflow.status === "active" ? "Active" : "Paused"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 152,
+                                                        lineNumber: 180,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$switch$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Switch"], {
                                                         checked: workflow.status === "active"
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 155,
+                                                        lineNumber: 183,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                lineNumber: 151,
+                                                lineNumber: 179,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenu"], {
@@ -661,17 +714,17 @@ function WorkflowsPage() {
                                                                 className: "h-4 w-4"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                                lineNumber: 160,
+                                                                lineNumber: 188,
                                                                 columnNumber: 25
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                            lineNumber: 159,
+                                                            lineNumber: 187,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 158,
+                                                        lineNumber: 186,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuContent"], {
@@ -681,21 +734,21 @@ function WorkflowsPage() {
                                                                 children: "Edit"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                                lineNumber: 164,
+                                                                lineNumber: 192,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
                                                                 children: "Duplicate"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                                lineNumber: 165,
+                                                                lineNumber: 193,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
                                                                 children: "View Logs"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                                lineNumber: 166,
+                                                                lineNumber: 194,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$node_modules$2f2e$pnpm$2f$next$40$16$2e$0$2e$7_$40$opentelemetry$2b$api$40$1$2e$9$2e$0_react$2d$dom$40$19$2e$2$2e$0_react$40$19$2e$2$2e$0_$5f$react$40$19$2e$2$2e$0$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Codework$2f$agentic$2d$ai$2d$platform$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -703,52 +756,52 @@ function WorkflowsPage() {
                                                                 children: "Delete"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                                lineNumber: 167,
+                                                                lineNumber: 195,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                        lineNumber: 163,
+                                                        lineNumber: 191,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                                lineNumber: 157,
+                                                lineNumber: 185,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                        lineNumber: 150,
+                                        lineNumber: 178,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                                lineNumber: 128,
+                                lineNumber: 156,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                            lineNumber: 127,
+                            lineNumber: 155,
                             columnNumber: 13
                         }, this)
                     }, workflow.id, false, {
                         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                        lineNumber: 126,
+                        lineNumber: 154,
                         columnNumber: 11
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-                lineNumber: 124,
+                lineNumber: 152,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/Codework/agentic-ai-platform/app/dashboard/workflows/page.tsx",
-        lineNumber: 61,
+        lineNumber: 89,
         columnNumber: 5
     }, this);
 }

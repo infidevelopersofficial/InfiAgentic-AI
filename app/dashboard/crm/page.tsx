@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { LeadPipeline } from "@/components/dashboard/lead-pipeline"
+import { CreateLeadDialog } from "@/components/dashboard/create-lead-dialog"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,7 +13,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Plus, Search, Users, DollarSign, TrendingUp, Clock } from "lucide-react"
 import type { Lead } from "@/lib/types"
 
-const mockLeads: Lead[] = [
+const initialLeads: Lead[] = [
   {
     id: "1",
     name: "John Smith",
@@ -129,12 +130,31 @@ const mockLeads: Lead[] = [
 
 export default function CRMPage() {
   const [searchQuery, setSearchQuery] = useState("")
+  const [leads, setLeads] = useState(initialLeads)
 
-  const filteredLeads = mockLeads.filter(
+  const filteredLeads = leads.filter(
     (lead) =>
       lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       lead.company?.toLowerCase().includes(searchQuery.toLowerCase()),
   )
+
+  const handleCreateLead = (newLead: any) => {
+    const lead: Lead = {
+      id: (leads.length + 1).toString(),
+      name: newLead.name,
+      email: newLead.email,
+      company: newLead.company,
+      phone: newLead.phone,
+      status: newLead.status as any,
+      score: Math.floor(Math.random() * 40) + 60, // Random score between 60-100
+      source: newLead.source,
+      tags: newLead.tags,
+      notes: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+    setLeads([lead, ...leads])
+  }
 
   return (
     <div className="space-y-6">
@@ -143,10 +163,12 @@ export default function CRMPage() {
           <h1 className="text-3xl font-bold tracking-tight">CRM</h1>
           <p className="text-muted-foreground">Manage your leads and customer relationships</p>
         </div>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          Add Lead
-        </Button>
+        <CreateLeadDialog onCreateLead={handleCreateLead}>
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" />
+            Add Lead
+          </Button>
+        </CreateLeadDialog>
       </div>
 
       {/* Metrics */}

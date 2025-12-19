@@ -1,21 +1,20 @@
 from sqlalchemy import Column, String, DateTime, ForeignKey, JSON, Integer, Numeric, Date
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 import uuid
 
-from app.core.database import Base
+from app.core.database import Base, GUID
 
 
 class AnalyticsEvent(Base):
     __tablename__ = "analytics_events"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
     event_type = Column(String(100), nullable=False)
     event_source = Column(String(50))  # content, social, email, crm, agent
     entity_type = Column(String(50))  # content, post, campaign, lead, deal
-    entity_id = Column(UUID(as_uuid=True))
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"))
+    entity_id = Column(GUID())
+    user_id = Column(GUID(), ForeignKey("users.id", ondelete="SET NULL"))
     properties = Column(JSON, default={})
     session_id = Column(String(100))
     ip_address = Column(String(45))
@@ -26,9 +25,9 @@ class AnalyticsEvent(Base):
 class DailyMetric(Base):
     __tablename__ = "daily_metrics"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
-    product_id = Column(UUID(as_uuid=True), ForeignKey("products.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    product_id = Column(GUID(), ForeignKey("products.id", ondelete="SET NULL"))
     date = Column(Date, nullable=False)
     metric_type = Column(String(50), nullable=False)
     # Content metrics

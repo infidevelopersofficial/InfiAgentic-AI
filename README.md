@@ -93,8 +93,8 @@ pnpm dev
 cd backend
 
 # Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
@@ -212,10 +212,12 @@ pnpm test
 \`\`\`
 
 ### Backend
-\`\`\`bash
+
+```bash
 cd backend
+source .venv/bin/activate
 pytest -v
-\`\`\`
+```
 
 ## Deployment
 

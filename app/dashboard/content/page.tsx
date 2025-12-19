@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ContentList } from "@/components/dashboard/content-list"
+import { CreateContentDialog } from "@/components/dashboard/create-content-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -72,12 +73,28 @@ const mockContent: ContentItem[] = [
 export default function ContentPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [typeFilter, setTypeFilter] = useState("all")
+  const [content, setContent] = useState(mockContent)
 
-  const filteredContent = mockContent.filter((item) => {
+  const filteredContent = content.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesType = typeFilter === "all" || item.type === typeFilter
     return matchesSearch && matchesType
   })
+
+  const handleCreateContent = (newContent: any) => {
+    const contentItem: ContentItem = {
+      id: (content.length + 1).toString(),
+      title: newContent.title,
+      type: newContent.type as any,
+      status: "draft",
+      content: newContent.content,
+      metadata: { keywords: [], seoScore: 0 },
+      createdBy: "current_user",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+    setContent([contentItem, ...content])
+  }
 
   return (
     <div className="space-y-6">
@@ -87,14 +104,18 @@ export default function ContentPage() {
           <p className="text-muted-foreground">Create, manage, and optimize your marketing content</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" className="gap-2 bg-transparent">
-            <Sparkles className="h-4 w-4" />
-            AI Generate
-          </Button>
-          <Button className="gap-2">
-            <Plus className="h-4 w-4" />
-            New Content
-          </Button>
+          <CreateContentDialog onCreateContent={handleCreateContent}>
+            <Button variant="outline" className="gap-2 bg-transparent">
+              <Sparkles className="h-4 w-4" />
+              AI Generate
+            </Button>
+          </CreateContentDialog>
+          <CreateContentDialog onCreateContent={handleCreateContent}>
+            <Button className="gap-2">
+              <Plus className="h-4 w-4" />
+              New Content
+            </Button>
+          </CreateContentDialog>
         </div>
       </div>
 

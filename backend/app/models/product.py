@@ -1,17 +1,16 @@
 from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Text, Numeric, JSON
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid
 
-from app.core.database import Base
+from app.core.database import Base, GUID
 
 
 class Product(Base):
     __tablename__ = "products"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
     name = Column(String(255), nullable=False)
     slug = Column(String(100), nullable=False)
     description = Column(Text)

@@ -1,6 +1,11 @@
-[00:00:11.783] Server  LOG      ✓ Ready in 8.8s
-[00:00:14.835] Server  LOG      ○ Compiling / ...
-[00:00:30.349] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+[00:00:03.176] Server  LOG      ✓ Ready in 2.1s
+[00:00:59.281] Server  LOG      ○ Compiling / ...
+[00:01:07.610] Server  WARN     ⚠ Cross origin request detected from 127.0.0.1 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+[00:01:08.175] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:01:08.175] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:01:08.175] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/?id=43866ea0-b6fb-44ce-861a-d0b1789b626f&vscodeBrowserReqId=1766159502312 color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://127.0.0.1:38401/?id=43866ea0-b6fb-44ce-861a-d0b1789b626f&vscodeBrowserReqId=1766159502312","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159514147}
+[00:01:13.766] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
 
 - A server/client branch `if (typeof window !== 'undefined')`.
 - Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
@@ -33,33 +38,2608 @@ It can also happen if the client has a browser extension installed which messes 
                         <html lang="en" suppressHydrationWarning={true}>
                           <body
                             className="font-sans antialiased"
--                           data-new-gr-c-s-check-loaded="14.1265.0"
+-                           data-new-gr-c-s-check-loaded="14.1267.0"
 -                           data-gr-ext-installed=""
                           >
                   ...
 
-[00:00:30.540] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:30.540] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:00:30.540] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1765463249076}
-[00:00:43.872] Server  LOG      ○ Compiling /dashboard ...
-[00:00:53.638] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+[00:01:14.294] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:01:14.294] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:01:14.295] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://127.0.0.1:38401/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159520267}
+[00:01:25.407] Server  LOG      ○ Compiling /dashboard ...
+[00:01:30.727] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
        please check the style of container, or the props width(100%) and height(100%),
        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
        height and width.
-[00:00:53.638] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+[00:01:30.727] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
        please check the style of container, or the props width(100%) and height(100%),
        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
        height and width.
-[00:00:53.639] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1765463271902}
-[00:00:59.751] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1765463278210}
-[00:01:09.919] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+[00:01:30.727] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://127.0.0.1:38401/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159536219}
+[00:01:42.340] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://127.0.0.1:38401/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159548277}
+[00:04:02.337] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
        please check the style of container, or the props width(100%) and height(100%),
        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
        height and width.
-[00:01:09.919] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+[00:04:02.338] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
        please check the style of container, or the props width(100%) and height(100%),
        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
        height and width.
-[00:01:09.919] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://localhost:3000/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1765463288258}
-[00:02:01.595] Server  LOG      ○ Compiling /dashboard/email ...
-[00:02:14.101] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://localhost:3000/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1765478795612}
+[00:04:02.338] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://127.0.0.1:38401/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159687981}
+[00:06:56.018] Server  LOG      ✓ Compiled in 1063ms
+[00:07:17.143] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://127.0.0.1:38401/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159883048}
+[00:07:19.545] Server  LOG      ✓ Compiled in 617ms
+[00:07:26.848] Server  LOG      ○ Compiling /dashboard/social ...
+[00:07:29.074] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:07:29.074] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:07:29.074] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://127.0.0.1:38401/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159894768}
+[00:08:31.982] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://127.0.0.1:38401/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159957935}
+[00:08:37.110] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://127.0.0.1:38401/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159963036}
+[00:08:43.352] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://127.0.0.1:38401/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159969304}
+[00:08:48.137] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:08:48.137] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:08:48.137] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://127.0.0.1:38401/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766159973915}
+[00:09:17.128] Server  LOG      ✓ Compiled in 377ms
+[00:09:24.190] Server  LOG      ✓ Compiled in 200ms
+[00:09:29.512] Server  LOG      ✓ Compiled in 94ms
+[00:09:37.317] Server  LOG      ✓ Compiled in 493ms
+[00:10:12.177] Server  LOG      ✓ Compiled in 382ms
+[00:11:39.881] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:11:39.881] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:11:39.881] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160145622}
+[00:11:41.417] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:11:41.417] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:11:41.417] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://127.0.0.1:38401/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160147389}
+[00:11:45.617] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:11:45.618] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:11:45.618] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/?id=d6b68caf-6ec2-42d4-963e-2de837ddaf2a&vscodeBrowserReqId=1766160149457 color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://127.0.0.1:38401/?id=d6b68caf-6ec2-42d4-963e-2de837ddaf2a&vscodeBrowserReqId=1766160149457","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160151590}
+[00:11:47.850] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:11:47.850] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:11:48.502] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://127.0.0.1:38401/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160154181}
+[00:11:57.653] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://127.0.0.1:38401/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160163608}
+[00:12:22.982] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:12:22.982] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:12:22.982] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://127.0.0.1:38401/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160188740}
+[00:12:32.483] Server  LOG      ○ Compiling /dashboard/email ...
+[00:12:33.742] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:12:33.742] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:12:33.742] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://127.0.0.1:38401/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160199367}
+[00:13:35.193] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://127.0.0.1:38401/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160261164}
+[00:13:38.955] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://127.0.0.1:38401/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160264922}
+[00:13:42.032] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://127.0.0.1:38401/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160267992}
+[00:13:45.037] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:13:45.037] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:13:45.037] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://127.0.0.1:38401/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160270835}
+[00:14:03.488] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://127.0.0.1:38401/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160289450}
+[00:14:11.380] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:14:11.380] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:14:11.380] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://127.0.0.1:38401/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160297277}
+[00:14:12.108] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://127.0.0.1:38401/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766160298048}
+[00:30:27.838] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:30:27.838] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:30:28.413] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://127.0.0.1:38401/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161555711}
+[00:30:35.664] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:30:35.665] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:30:35.665] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161563073}
+[00:30:54.191] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161581766}
+[00:30:55.839] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:30:55.839] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:30:55.839] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161583368}
+[00:31:02.175] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161589778}
+[00:31:47.213] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:31:47.213] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:31:47.213] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://localhost:3000/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161634660}
+[00:31:55.935] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:31:55.935] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:31:55.935] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161643522}
+[00:31:57.705] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://localhost:3000/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161645348}
+[00:32:07.584] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161655175}
+[00:32:09.799] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:32:09.799] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:32:09.799] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161657343}
+[00:32:17.424] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161665017}
+[00:33:53.701] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:33:53.701] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:33:53.701] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://127.0.0.1:38401/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161761272}
+[00:34:04.022] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:34:04.022] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:34:04.022] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://127.0.0.1:38401/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161771576}
+[00:34:04.990] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:34:04.990] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:34:04.990] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://127.0.0.1:38401/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161772531}
+[00:34:06.492] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:34:06.492] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:34:06.492] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://127.0.0.1:38401/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161774079}
+[00:35:57.696] Server  LOG      ✓ Compiled in 667ms
+[00:36:01.633] Server  LOG      ✓ Compiled in 908ms
+[00:36:18.845] Server  LOG      ✓ Compiled in 161ms
+[00:37:02.706] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://127.0.0.1:38401/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161950318}
+[00:37:04.509] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:37:04.509] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:37:04.509] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://127.0.0.1:38401/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161952081}
+[00:37:06.601] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://127.0.0.1:38401/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161954245}
+[00:37:08.856] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://127.0.0.1:38401/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161956502}
+[00:37:12.771] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://127.0.0.1:38401/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161960416}
+[00:37:37.492] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:37:37.493] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:37:37.493] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://127.0.0.1:38401/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161985041}
+[00:37:41.427] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://127.0.0.1:38401/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161989050}
+[00:37:43.216] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://127.0.0.1:38401/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161990861}
+[00:37:46.976] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://127.0.0.1:38401/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161994621}
+[00:37:47.826] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://127.0.0.1:38401/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766161995448}
+[00:39:05.034] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:39:05.034] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:39:05.034] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://127.0.0.1:38401/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162072608}
+[00:39:19.261] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:39:19.261] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:39:19.261] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://127.0.0.1:38401/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162086851}
+[00:39:25.987] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://127.0.0.1:38401/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162093633}
+[00:41:05.473] Server  LOG      ✓ Compiled in 284ms
+[00:41:11.520] Server  LOG      ✓ Compiled in 287ms
+[00:41:11.937] Browser ERROR   uncaughtError: ReferenceError: mockLeads is not defined
+[00:41:16.530] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:41:16.539] Server  LOG      ✓ Compiled in 140ms
+[00:41:18.357] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://127.0.0.1:38401/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162204455}
+[00:41:19.826] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:41:19.827] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/crm","route":"/dashboard/crm"}
+[00:41:19.827] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://127.0.0.1:38401/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162207476}
+[00:41:23.958] Server  LOG      ✓ Compiled in 1082ms
+[00:47:53.943] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/dashboard..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="/Codework/...">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="en" suppressHydrationWarning={true}>
+                          <body
+                            className="font-sans antialiased"
+-                           data-new-gr-c-s-check-loaded="14.1267.0"
+-                           data-gr-ext-installed=""
+                          >
+                  ...
+
+[00:47:54.253] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:47:54.253] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/content","route":"/dashboard/content"}
+[00:47:54.253] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162601903}
+[00:47:55.659] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://localhost:3000/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162603301}
+[00:49:22.107] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://localhost:3000/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162689729}
+[00:50:02.634] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://127.0.0.1:38401/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162730269}
+[00:51:04.313] Server  LOG      ✓ Compiled in 615ms
+[00:51:08.498] Server  LOG      ✓ Compiled in 613ms
+[00:51:13.616] Server  LOG      ✓ Compiled in 139ms
+[00:51:13.783] Browser ERROR   uncaughtError: ReferenceError: leadFlows is not defined
+[00:51:13.808] Browser ERROR   uncaughtError: ReferenceError: leadFlows is not defined
+[00:51:20.061] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:51:20.062] Server  LOG      ✓ Compiled in 353ms
+[00:51:20.063] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:51:21.915] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://127.0.0.1:38401/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162808086}
+[00:51:21.916] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://localhost:3000/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162808124}
+[00:51:24.170] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:51:24.170] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/leads","route":"/dashboard/leads"}
+[00:51:24.170] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://localhost:3000/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162811821}
+[00:51:24.441] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:51:24.441] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/leads","route":"/dashboard/leads"}
+[00:51:24.441] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://127.0.0.1:38401/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162812092}
+[00:51:24.935] Server  LOG      ✓ Compiled in 128ms
+[00:51:29.764] Server  LOG      ✓ Compiled in 1467ms
+[00:53:50.921] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://127.0.0.1:38401/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766162958564}
+[00:54:55.328] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:54:55.328] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:54:55.328] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://127.0.0.1:38401/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766163022608}
+[00:55:00.415] Server  LOG      ✓ Compiled in 716ms
+[00:55:08.079] Server  LOG      ✓ Compiled in 793ms
+[00:55:10.513] Server  LOG      ✓ Compiled in 192ms
+[00:55:16.516] Server  LOG      ✓ Compiled in 699ms
+[00:55:19.461] Server  LOG      ✓ Compiled in 156ms
+[00:55:22.351] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://127.0.0.1:38401/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766163049992}
+[00:55:23.731] Server  LOG      ✓ Compiled in 1248ms
+[00:55:39.830] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:55:39.830] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:55:39.830] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://127.0.0.1:38401/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766163067419}
+[00:55:41.228] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://127.0.0.1:38401/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766163068866}
+[00:57:00.644] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:57:00.644] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[00:57:00.644] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://127.0.0.1:38401/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766163148196}
+[01:01:27.148] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://127.0.0.1:38401/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766163414795}
+[01:01:39.975] Server  LOG      ○ Compiling /dashboard/calendar ...
+[01:01:54.055] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:01:54.065] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:01:54.065] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:01:54.065] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:01:54.065] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:01:54.065] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:01:54.065] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:01:54.065] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:01:54.065] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://127.0.0.1:38401/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766163440662}
+[01:02:01.764] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/settings color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/settings","o":"http://127.0.0.1:38401/dashboard/settings","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766163449350}
+[01:10:47.411] Server  LOG      ✓ Compiled in 470ms
+[01:11:12.463] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:12.463] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:12.463] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:12.463] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:12.463] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:12.463] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:12.463] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:12.463] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:12.463] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://127.0.0.1:38401/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766163999782}
+[01:11:14.907] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:14.907] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:14.907] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:14.907] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:15.665] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:15.665] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:16.366] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:11:16.366] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:45:04.295] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/settings color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/settings","o":"http://127.0.0.1:38401/dashboard/settings","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166031888}
+[01:45:37.760] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://127.0.0.1:38401/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166065398}
+[01:46:39.431] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:46:39.431] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:46:39.431] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://127.0.0.1:38401/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166126929}
+[01:46:44.271] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:46:44.272] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:46:44.272] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://127.0.0.1:38401/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166131778}
+[01:46:48.744] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:46:48.744] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:46:48.744] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://127.0.0.1:38401/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166136314}
+[01:48:57.851] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://localhost:3000/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166265491}
+[01:49:02.263] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:02.263] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:02.263] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166269691}
+[01:49:05.952] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:05.952] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:05.952] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://localhost:3000/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166273454}
+[01:49:10.447] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://localhost:3000/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166278093}
+[01:49:12.573] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/calendar color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/calendar","o":"http://localhost:3000/dashboard/calendar","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166280176}
+[01:49:14.637] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:14.637] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:14.637] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:14.637] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:14.637] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:14.637] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:14.637] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:14.637] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:14.637] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://localhost:3000/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166281994}
+[01:49:27.909] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/settings color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/settings","o":"http://localhost:3000/dashboard/settings","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166295495}
+[01:49:35.652] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://localhost:3000/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166303298}
+[01:49:36.794] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:36.794] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[01:49:36.794] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://localhost:3000/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766166304324}
+[02:06:11.489] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/settings color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/settings","o":"http://127.0.0.1:38401/dashboard/settings","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167299088}
+[02:06:56.105] Server  LOG      ✓ Compiled in 1192ms
+[02:07:15.333] Server  LOG      ✓ Compiled in 13.5s
+[02:07:15.956] Browser ERROR   A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://react.dev/link/controlled-components
+[02:07:22.856] Server  LOG      ✓ Compiled in 1494ms
+[02:07:27.070] Server  LOG      ✓ Compiled in 460ms
+[02:07:34.459] Server  LOG      ✓ Compiled in 1568ms
+[02:09:55.587] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/settings color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/settings","o":"http://127.0.0.1:38401/dashboard/settings","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167522555}
+[02:13:02.537] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:02.537] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:02.537] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:02.537] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:02.537] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:02.537] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:02.537] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:02.537] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:02.537] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://127.0.0.1:38401/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167709943}
+[02:13:05.394] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:05.394] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:05.394] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:05.394] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:05.877] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:05.877] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:06.353] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:06.353] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:07.976] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/calendar color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/calendar","o":"http://127.0.0.1:38401/dashboard/calendar","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167715601}
+[02:13:11.510] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://127.0.0.1:38401/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167719156}
+[02:13:18.971] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:18.971] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:13:18.972] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://127.0.0.1:38401/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167726566}
+[02:13:23.469] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://127.0.0.1:38401/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167731116}
+[02:13:24.526] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/calendar color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/calendar","o":"http://127.0.0.1:38401/dashboard/calendar","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167732157}
+[02:14:49.568] Server  LOG      ✓ Compiled in 528ms
+[02:14:57.200] Server  LOG      ✓ Compiled in 245ms
+[02:15:03.340] Server  LOG      ✓ Compiled in 1826ms
+[02:15:14.060] Server  LOG      ✓ Compiled in 986ms
+[02:15:21.911] Server  LOG      ✓ Compiled in 465ms
+[02:15:25.262] Server  LOG      ✓ Compiled in 89ms
+[02:15:25.736] Browser ERROR   uncaughtError: ReferenceError: events is not defined
+[02:15:31.240] Server  LOG      ✓ Compiled in 385ms
+[02:15:31.313] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[02:15:33.502] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/calendar color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/calendar","o":"http://127.0.0.1:38401/dashboard/calendar","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167859303}
+[02:15:36.177] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:15:36.177] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/calendar","route":"/dashboard/calendar"}
+[02:15:36.178] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/calendar color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/calendar","o":"http://127.0.0.1:38401/dashboard/calendar","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766167863828}
+[02:15:40.567] Server  LOG      ✓ Compiled in 2.4s
+[02:15:42.153] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:165:36
+Parsing ecmascript source code failed
+  163 |                       <SelectItem value="1:00 PM">1:00 PM</SelectItem>
+  164 |                       <SelectItem value="2:;00 PM.
+> 165 |                  图的显示，; "2:;00.;PM"; "3 3:;00; .PM"/control/4()</Select, "4:.
+      |                                    ^
+  166 |                     </, "5;00:00 PM</; "6;00 00 PM"; "7 .7;00alg; ";00 PM"; "8 .8; 00 00 PM  PM; "BPM", " 9: .00 PM; "10:00 PM" </SelectItem>
+  167 |                   </SelectContent>
+  168 |                 </Select>
+
+Expected '</', got 'numeric literal (2, 2)'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:42.919] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:165:36
+Parsing ecmascript source code failed
+  163 |                       <SelectItem value="1:00 PM">1:00 PM</SelectItem>
+  164 |                       <SelectItem value="2:;00 PM.
+> 165 |                  图的显示，; "2:;00.;PM"; "3 3:;00; .PM"/control/4()</Select, "4:.
+      |                                    ^
+  166 |                     </, "5;00:00 PM</; "6;00 00 PM"; "7 .7;00alg; ";00 PM"; "8 .8; 00 00 PM  PM; "BPM", " 9: .00 PM; "10:00 PM" </SelectItem>
+  167 |                   </SelectContent>
+  168 |                 </Select>
+
+Expected '</', got 'numeric literal (2, 2)'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:42.919] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:165:36
+Parsing ecmascript source code failed
+  163 |                       <SelectItem value="1:00 PM">1:00 PM</SelectItem>
+  164 |                       <SelectItem value="2:;00 PM.
+> 165 |                  图的显示，; "2:;00.;PM"; "3 3:;00; .PM"/control/4()</Select, "4:.
+      |                                    ^
+  166 |                     </, "5;00:00 PM</; "6;00 00 PM"; "7 .7;00alg; ";00 PM"; "8 .8; 00 00 PM  PM; "BPM", " 9: .00 PM; "10:00 PM" </SelectItem>
+  167 |                   </SelectContent>
+  168 |                 </Select>
+
+Expected '</', got 'numeric literal (2, 2)'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:46.210] Server  LOG      ✓ Compiled in 210ms
+[02:15:46.319] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:46.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:46.877] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:51.788] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:51.879] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:51.880] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:56.613] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:56.877] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:15:56.877] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:04.131] Server  LOG      ✓ Compiled in 292ms
+[02:16:04.234] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:04.878] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:04.879] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:09.283] Server  LOG      ✓ Compiled in 434ms
+[02:16:09.392] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:09.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:09.877] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:13.579] Server  LOG      ✓ Compiled in 442ms
+[02:16:13.684] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:13.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:13.877] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:18.217] Server  LOG      ✓ Compiled in 657ms
+[02:16:18.321] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:18.879] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:16:18.880] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx:204:27
+Parsing ecmascript source code failed
+  202 |               </Button>
+  203 |             </DialogFooter>
+> 204 |           </DialogContent>
+      |                           ^
+> 205 |         </Dialog>
+      | ^^^^^^^^^
+  206 |       </div>
+  207 |
+  208 |       <div className="grid gap-6 lg:grid-cols-3">
+
+Expected '</', got 'jsx text (
+        )'
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/calendar/page.tsx [Server Component]
+[02:17:10.445] Server  LOG      ✓ Compiled in 1647ms
+[02:19:47.879] Server  LOG      ✓ Compiled in 755ms
+[02:19:52.141] Server  LOG      ✓ Compiled in 251ms
+[02:20:00.468] Server  LOG      ✓ Compiled in 98ms
+[02:20:06.575] Server  LOG      ✓ Compiled in 105ms
+[02:20:11.333] Server  LOG      ✓ Compiled in 1192ms
+[02:20:15.712] Server  ERROR    ⨯ ReferenceError: Users is not defined
+[02:20:16.542] Server  ERROR    ⨯ ReferenceError: Users is not defined
+[02:20:17.587] Server  WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:20:22.195] Browser ERROR   uncaughtError: ReferenceError: Users is not defined
+[02:20:23.938] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:20:23.938] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:20:23.938] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/dashboard..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="/Codework/...">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="en" suppressHydrationWarning={true}>
+                          <body
+                            className="font-sans antialiased"
+-                           data-new-gr-c-s-check-loaded="14.1267.0"
+-                           data-gr-ext-installed=""
+                          >
+                            ...
+                              <div className="mt-4 flex ...">
+                                <div className="text-xs te...">
+                                  <span>
++                                   12/19/2025, 11:45:48 PM
+-                                   12/19/2025, 11:45:45 PM
+                                ...
+                            ...
+                  ...
+
+[02:20:24.876] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:20:24.876] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/agents","route":"/dashboard/agents"}
+[02:20:24.876] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/agents","route":"/dashboard/agents"}
+[02:20:24.876] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://localhost:3000/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766168151692}
+[02:20:24.876] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://localhost:3000/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766168151692}
+[02:23:13.861] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[02:23:14.243] Server  LOG      ✓ Compiled in 579ms
+[02:23:14.931] Server  ERROR    ⨯ ReferenceError: Users is not defined
+[02:23:15.008] Browser ERROR   unhandledRejection: Error: No link element found for chunk /_next/static/chunks/%5Broot-of-the-server%5D__f43ac749._.css
+[02:23:16.879] Browser ERROR   uncaughtError: ReferenceError: Users is not defined
+[02:23:34.388] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[02:23:34.389] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./Codework/agentic-ai-platform/components/dashboard/integration-config-dialog.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[02:23:34.392] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[02:23:34.396] Server  LOG      ✓ Compiled in 277ms
+[02:23:37.876] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/dashboard..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="/Codework/...">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="en" suppressHydrationWarning={true}>
+                          <body
+                            className="font-sans antialiased"
+-                           data-new-gr-c-s-check-loaded="14.1267.0"
+-                           data-gr-ext-installed=""
+                          >
+                  ...
+
+[02:23:37.876] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:23:37.876] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/settings","route":"/dashboard/settings"}
+[02:23:37.876] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/settings color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/settings","o":"http://127.0.0.1:38401/dashboard/settings","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766168345201}
+[02:24:02.544] Server  LOG      ✓ Compiled in 1335ms
+[02:24:02.671] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:02.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:02.877] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:09.212] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:09.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:09.882] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:13.801] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:13.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:13.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:25.314] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:25.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:24:25.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:25:35.916] Server  LOG      ✓ Compiled in 853ms
+[02:25:36.016] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:25:36.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:25:36.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:25:49.544] Server  LOG      ✓ Compiled in 675ms
+[02:25:49.653] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:25:49.653] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx:199:11
+Parsing ecmascript source code failed
+  197 |   }
+  198 |       name: newAgent.name,
+> 199 |       type: newAgent.type as any,
+      |           ^
+  200 |       status: "idle",
+  201 |       description: newAgent.description,
+  202 |       lastRun: new Date(),
+
+Expected ';', '}' or <eof>
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Server Component]
+[02:25:49.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:25:49.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx:199:11
+Parsing ecmascript source code failed
+  197 |   }
+  198 |       name: newAgent.name,
+> 199 |       type: newAgent.type as any,
+      |           ^
+  200 |       status: "idle",
+  201 |       description: newAgent.description,
+  202 |       lastRun: new Date(),
+
+Expected ';', '}' or <eof>
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Server Component]
+[02:25:49.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:25:49.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx:199:11
+Parsing ecmascript source code failed
+  197 |   }
+  198 |       name: newAgent.name,
+> 199 |       type: newAgent.type as any,
+      |           ^
+  200 |       status: "idle",
+  201 |       description: newAgent.description,
+  202 |       lastRun: new Date(),
+
+Expected ';', '}' or <eof>
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/agents/page.tsx [Server Component]
+[02:25:52.564] Server  LOG      ✓ Compiled in 606ms
+[02:25:52.664] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:25:52.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:25:52.877] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:01.911] Server  LOG      ✓ Compiled in 415ms
+[02:26:02.010] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:02.875] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:02.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:11.425] Server  LOG      ✓ Compiled in 840ms
+[02:26:11.528] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:11.875] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:11.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:21.835] Server  LOG      ✓ Compiled in 467ms
+[02:26:21.935] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:22.879] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:22.879] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:50.386] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:50.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:50.881] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:56.591] Server  LOG      ✓ Compiled in 162ms
+[02:26:56.696] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:56.877] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:26:56.883] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:27:15.792] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:27:15.881] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:27:15.882] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:27:29.537] Server  LOG      ✓ Compiled in 262ms
+[02:27:29.640] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:27:29.876] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:27:29.877] Browser ERROR   ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx:107:1
+Parsing ecmascript source code failed
+  105 | }
+  106 |
+> 107 | export default function SocialPage() {
+      | ^^^^^^
+  108 |   const { toast } = useToast()
+  109 |   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
+  110 |   const [createDialogOpen, setCreateDialogOpen] = useState(false)
+
+'import', and 'export' cannot be used outside of module code
+
+Import traces:
+  Client Component Browser:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component Browser]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Client Component SSR]
+    ./Codework/agentic-ai-platform/app/dashboard/social/page.tsx [Server Component]
+[02:36:33.683] Server  LOG      ✓ Compiled in 3.2s
+[02:36:35.077] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:36:35.077] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:05.063] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:05.063] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:05.063] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:05.063] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:05.063] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:05.063] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:05.063] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:05.063] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:05.063] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://127.0.0.1:38401/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169152112}
+[02:37:18.880] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:18.880] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:18.880] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:18.880] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:18.880] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:18.880] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:18.880] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:18.880] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:18.880] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://127.0.0.1:38401/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169165971}
+[02:37:22.306] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:22.306] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:22.306] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:22.306] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:22.306] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:22.306] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:22.306] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:22.306] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:22.306] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://localhost:3000/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169169638}
+[02:37:36.122] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:36.122] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:36.122] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:36.122] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:38.812] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:38.812] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:41.886] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:41.886] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:37:57.845] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/calendar color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/calendar","o":"http://localhost:3000/dashboard/calendar","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169205426}
+[02:37:59.558] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://localhost:3000/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169207201}
+[02:38:26.598] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:38:26.598] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:38:26.598] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://localhost:3000/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169234133}
+[02:45:20.506] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://localhost:3000/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169648152}
+[02:45:21.966] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://localhost:3000/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169649598}
+[02:46:13.979] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://localhost:3000/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169701614}
+[02:46:45.302] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://localhost:3000/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169732945}
+[02:47:08.749] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:47:08.749] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:47:08.749] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169756112}
+[02:47:40.753] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:47:40.753] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:47:40.753] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://localhost:3000/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169788081}
+[02:47:56.197] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/settings color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/settings","o":"http://localhost:3000/dashboard/settings","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169803767}
+[02:49:45.728] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://localhost:3000/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169913364}
+[02:49:47.111] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://localhost:3000/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169914753}
+[02:49:49.808] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:49:49.808] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:49:49.808] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://localhost:3000/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766169917351}
+[02:51:16.106] Server  LOG      ✓ Compiled in 785ms
+[02:51:41.238] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:51:41.238] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:51:41.238] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://127.0.0.1:38401/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766170028776}
+[02:52:10.936] Server  LOG      ✓ Compiled in 651ms
+[02:52:21.960] Server  LOG      ✓ Compiled in 2.2s
+[02:52:24.666] Server  LOG      ✓ Compiled in 421ms
+[02:52:29.142] Server  LOG      ✓ Compiled in 480ms
+[02:53:05.567] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://127.0.0.1:38401/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766170113210}
+[02:53:16.738] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:53:16.738] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:53:16.738] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://127.0.0.1:38401/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766170124254}
+[02:55:58.076] Server  LOG      ✓ Compiled in 434ms
+[02:56:02.380] Server  LOG      ✓ Compiled in 385ms
+[02:56:03.016] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:56:03.016] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:56:03.252] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:56:03.252] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:56:06.042] Server  LOG      ✓ Compiled in 215ms
+[02:56:12.961] Server  LOG      ✓ Compiled in 1930ms
+[02:56:23.230] Server  LOG      ✓ Compiled in 957ms
+[02:56:32.170] Server  LOG      ✓ Compiled in 216ms
+[02:56:42.645] Server  LOG      ✓ Compiled in 82ms
+[02:56:48.713] Server  LOG      ✓ Compiled in 1202ms
+[02:56:52.833] Server  LOG      ✓ Compiled in 108ms
+[02:56:59.790] Server  LOG      ✓ Compiled in 142ms
+[02:57:04.219] Server  LOG      ✓ Compiled in 110ms
+[02:57:12.325] Server  LOG      ✓ Compiled in 218ms
+[02:57:56.224] Server  WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:57:57.216] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:57:57.216] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:57:57.497] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:57:57.497] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/social","route":"/dashboard/social"}
+[02:57:57.497] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://localhost:3000/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766170405148}
+[02:58:00.138] Server  WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:00.140] Server  WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:00.142] Server  WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:00.143] Server  WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:01.355] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:01.355] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:01.355] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:01.355] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:01.355] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:01.355] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:01.355] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:01.355] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:01.355] Browser ERROR   uncaughtError: Error: Hydration failed because the server rendered text didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <LoadingBoundary name="analytics/" loading={null}>
+      <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+        <RedirectBoundary>
+          <RedirectErrorBoundary router={{...}}>
+            <InnerLayoutRouter url="/dashboard..." tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} ...>
+              <SegmentViewNode type="page" pagePath="/Codework/...">
+                <SegmentTrieNode>
+                <ClientPageRoot Component={function AnalyticsPage} serverProvidedParams={{...}}>
+                  <AnalyticsPage params={Promise} searchParams={Promise}>
+                    <div className="space-y-6">
+                      <div className="flex items...">
+                        <div>
+                          <h1>
+                          <div className="flex items...">
+                            <p>
+                            <Badge>
+                            <span className="text-xs te...">
++                             12:23:28 AM
+-                             12:23:27 AM
+                        ...
+                      ...
+              ...
+            ...
+
+[02:58:01.457] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[02:58:01.458] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/analytics","route":"/dashboard/analytics"}
+[02:58:01.458] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/analytics","route":"/dashboard/analytics"}
+[02:58:01.458] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://127.0.0.1:38401/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766170409108}
+[02:58:01.458] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://127.0.0.1:38401/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766170409108}
+[02:58:08.055] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:08.055] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:58:08.055] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://127.0.0.1:38401/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://127.0.0.1:38401/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766170415581}
+[02:59:05.427] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:59:05.427] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[02:59:05.427] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766170472867}

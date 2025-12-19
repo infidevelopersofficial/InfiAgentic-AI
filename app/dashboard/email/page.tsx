@@ -1,16 +1,21 @@
 "use client"
 
+import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { AnalyticsChart } from "@/components/dashboard/analytics-chart"
+import { CreateCampaignDialog } from "@/components/dashboard/create-campaign-dialog"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Plus, Mail, Users, MousePointer, MoreHorizontal, Send, Eye, Edit, Trash2 } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { Plus, Mail, Users, MousePointer, MoreHorizontal, Send, Eye, Edit, Trash2, Search, Filter, Calendar, TrendingUp } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useToast } from "@/hooks/use-toast"
 
-const campaigns = [
+const initialCampaigns = [
   {
     id: "1",
     name: "Product Launch Newsletter",
@@ -70,6 +75,78 @@ const statusColors: Record<string, string> = {
 }
 
 export default function EmailPage() {
+  const { toast } = useToast()
+  const [campaigns, setCampaigns] = useState(initialCampaigns)
+  const [createDialogOpen, setCreateDialogOpen] = useState(false)
+  const [selectedStatus, setSelectedStatus] = useState("all")
+  const [searchTerm, setSearchTerm] = useState("")
+
+  const handleCreateCampaign = (campaignData: any) => {
+    const newCampaign = {
+      id: Date.now().toString(),
+      ...campaignData,
+      sent: 0,
+      delivered: 0,
+      opened: 0,
+      clicked: 0,
+      status: campaignData.scheduledFor ? "scheduled" : "draft",
+    }
+    setCampaigns(prev => [newCampaign, ...prev])
+    setCreateDialogOpen(false)
+    
+    toast({
+      title: "Campaign Created",
+      description: `${campaignData.name} has been created successfully.`,
+    })
+  }
+
+  const handleSendCampaign = (campaignId: string) => {
+    setCampaigns(prev =>
+      prev.map(campaign =>
+        campaign.id === campaignId
+          ? { ...campaign, status: "active" as const }
+          : campaign
+      )
+    )
+    
+    toast({
+      title: "Campaign Sent",
+      description: "Campaign has been sent successfully.",
+    })
+  }
+
+  const handleDeleteCampaign = (campaignId: string) => {
+    setCampaigns(prev => prev.filter(campaign => campaign.id !== campaignId))
+    
+    toast({
+      title: "Campaign Deleted",
+      description: "Campaign has been removed.",
+      variant: "destructive",
+    })
+  }
+
+  const filteredCampaigns = campaigns.filter(campaign => {
+    const matchesStatus = selectedStatus === "all" || campaign.status === selectedStatus
+    const matchesSearch = campaign.name.toLowerCase().includes(searchTerm.toLowerCase())
+    return matchesStatus && matchesSearch
+  })
+
+  const calculateMetrics = () => {
+    const totalSent = campaigns.reduce((sum, c) => sum + c.sent, 0)
+    const totalDelivered = campaigns.reduce((sum, c) => sum + c.delivered, 0)
+    const totalOpened = campaigns.reduce((sum, c) => sum + c.opened, 0)
+    const totalClicked = campaigns.reduce((sum, c) => sum + c.clicked, 0)
+    
+    return {
+      totalSent,
+      deliveryRate: totalSent > 0 ? (totalDelivered / totalSent) * 100 : 0,
+      openRate: totalDelivered > 0 ? (totalOpened / totalDelivered) * 100 : 0,
+      clickRate: totalOpened > 0 ? (totalClicked / totalOpened) * 100 : 0,
+    }
+  }
+
+  const metrics = calculateMetrics()
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -77,58 +154,84 @@ export default function EmailPage() {
           <h1 className="text-3xl font-bold tracking-tight">Email Campaigns</h1>
           <p className="text-muted-foreground">Create and manage email marketing campaigns</p>
         </div>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          New Campaign
-        </Button>
+        <CreateCampaignDialog onCreateCampaign={handleCreateCampaign}>
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" />
+            New Campaign
+          </Button>
+        </CreateCampaignDialog>
       </div>
 
       {/* Metrics */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardContent className="flex items-center gap-4 p-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-              <Mail className="h-6 w-6 text-primary" />
+            <div className="h-12 w-12 rounded-lg bg-blue-100 flex items-center justify-center">
+              <Send className="h-6 w-6 text-blue-600" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Sent</p>
-              <p className="text-2xl font-bold">127.4K</p>
+              <p className="text-2xl font-bold">{metrics.totalSent.toLocaleString()}</p>
+              <p className="text-sm text-muted-foreground">Total Sent</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="flex items-center gap-4 p-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-500/10">
-              <Users className="h-6 w-6 text-green-500" />
+            <div className="h-12 w-12 rounded-lg bg-green-100 flex items-center justify-center">
+              <TrendingUp className="h-6 w-6 text-green-600" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Open Rate</p>
-              <p className="text-2xl font-bold">54.2%</p>
+              <p className="text-2xl font-bold">{metrics.deliveryRate.toFixed(1)}%</p>
+              <p className="text-sm text-muted-foreground">Delivery Rate</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="flex items-center gap-4 p-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10">
-              <MousePointer className="h-6 w-6 text-blue-500" />
+            <div className="h-12 w-12 rounded-lg bg-orange-100 flex items-center justify-center">
+              <Eye className="h-6 w-6 text-orange-600" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Click Rate</p>
-              <p className="text-2xl font-bold">14.3%</p>
+              <p className="text-2xl font-bold">{metrics.openRate.toFixed(1)}%</p>
+              <p className="text-sm text-muted-foreground">Open Rate</p>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="flex items-center gap-4 p-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/10">
-              <Send className="h-6 w-6 text-purple-500" />
+            <div className="h-12 w-12 rounded-lg bg-purple-100 flex items-center justify-center">
+              <MousePointer className="h-6 w-6 text-purple-600" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Active Campaigns</p>
-              <p className="text-2xl font-bold">4</p>
+              <p className="text-2xl font-bold">{metrics.clickRate.toFixed(1)}%</p>
+              <p className="text-sm text-muted-foreground">Click Rate</p>
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Filters */}
+      <div className="flex items-center gap-4">
+        <div className="flex-1">
+          <Input
+            placeholder="Search campaigns..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="max-w-sm"
+          />
+        </div>
+        <Select value={selectedStatus} onValueChange={setSelectedStatus}>
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="completed">Completed</SelectItem>
+            <SelectItem value="scheduled">Scheduled</SelectItem>
+            <SelectItem value="draft">Draft</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Chart and Campaigns */}
@@ -151,7 +254,7 @@ export default function EmailPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {campaigns.map((campaign) => {
+                  {filteredCampaigns.map((campaign) => {
                     const openRate = campaign.sent > 0 ? ((campaign.opened / campaign.sent) * 100).toFixed(1) : "-"
                     const clickRate = campaign.sent > 0 ? ((campaign.clicked / campaign.sent) * 100).toFixed(1) : "-"
                     return (
@@ -164,39 +267,53 @@ export default function EmailPage() {
                         </TableCell>
                         <TableCell>{campaign.sent > 0 ? campaign.sent.toLocaleString() : "-"}</TableCell>
                         <TableCell>
-                          {openRate !== "-" && (
+                          {openRate !== "-" ? (
                             <div className="flex items-center gap-2">
-                              <Progress value={Number.parseFloat(openRate)} className="w-16 h-2" />
-                              <span className="text-sm">{openRate}%</span>
+                              <span>{openRate}%</span>
+                              <Progress value={parseFloat(openRate)} className="w-12 h-2" />
                             </div>
+                          ) : (
+                            "-"
                           )}
-                          {openRate === "-" && <span className="text-muted-foreground">-</span>}
                         </TableCell>
                         <TableCell>
-                          {clickRate !== "-" && (
+                          {clickRate !== "-" ? (
                             <div className="flex items-center gap-2">
-                              <Progress value={Number.parseFloat(clickRate)} className="w-16 h-2" />
-                              <span className="text-sm">{clickRate}%</span>
+                              <span>{clickRate}%</span>
+                              <Progress value={parseFloat(clickRate)} className="w-12 h-2" />
                             </div>
+                          ) : (
+                            "-"
                           )}
-                          {clickRate === "-" && <span className="text-muted-foreground">-</span>}
                         </TableCell>
                         <TableCell>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <Button variant="ghost" size="icon">
                                 <MoreHorizontal className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
+                              {campaign.status === "draft" && (
+                                <DropdownMenuItem onClick={() => handleSendCampaign(campaign.id)}>
+                                  <Send className="h-4 w-4 mr-2" />
+                                  Send Campaign
+                                </DropdownMenuItem>
+                              )}
                               <DropdownMenuItem>
-                                <Eye className="mr-2 h-4 w-4" /> View
+                                <Eye className="h-4 w-4 mr-2" />
+                                View Details
                               </DropdownMenuItem>
                               <DropdownMenuItem>
-                                <Edit className="mr-2 h-4 w-4" /> Edit
+                                <Edit className="h-4 w-4 mr-2" />
+                                Edit
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="text-destructive">
-                                <Trash2 className="mr-2 h-4 w-4" /> Delete
+                              <DropdownMenuItem 
+                                onClick={() => handleDeleteCampaign(campaign.id)}
+                                className="text-destructive"
+                              >
+                                <Trash2 className="h-4 w-4 mr-2" />
+                                Delete
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>

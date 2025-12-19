@@ -1,19 +1,18 @@
 from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Text, JSON, Integer, Numeric
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid
 
-from app.core.database import Base
+from app.core.database import Base, GUID
 
 
 class Lead(Base):
     __tablename__ = "leads"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
-    product_id = Column(UUID(as_uuid=True), ForeignKey("products.id", ondelete="SET NULL"))
-    assigned_to = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    product_id = Column(GUID(), ForeignKey("products.id", ondelete="SET NULL"))
+    assigned_to = Column(GUID(), ForeignKey("users.id", ondelete="SET NULL"))
     email = Column(String(255), nullable=False)
     phone = Column(String(20))
     first_name = Column(String(100))
@@ -38,12 +37,12 @@ class Lead(Base):
 class LeadAction(Base):
     __tablename__ = "lead_actions"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    lead_id = Column(UUID(as_uuid=True), ForeignKey("leads.id", ondelete="CASCADE"), nullable=False)
-    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    lead_id = Column(GUID(), ForeignKey("leads.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(GUID(), ForeignKey("users.id", ondelete="SET NULL"))
     action_type = Column(String(50), nullable=False)  # email_sent, call, meeting, note, status_change
     description = Column(Text)
-    metadata = Column(JSON, default={})
+    meta = Column("metadata", JSON, default={})
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     # Relationships
@@ -53,9 +52,9 @@ class LeadAction(Base):
 class LeadFlow(Base):
     __tablename__ = "lead_flows"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
-    product_id = Column(UUID(as_uuid=True), ForeignKey("products.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    product_id = Column(GUID(), ForeignKey("products.id", ondelete="SET NULL"))
     name = Column(String(255), nullable=False)
     description = Column(Text)
     trigger_type = Column(String(50), nullable=False)  # form_submit, page_visit, score_threshold, manual
@@ -71,9 +70,9 @@ class LeadFlow(Base):
 class Contact(Base):
     __tablename__ = "contacts"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
-    lead_id = Column(UUID(as_uuid=True), ForeignKey("leads.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    lead_id = Column(GUID(), ForeignKey("leads.id", ondelete="SET NULL"))
     email = Column(String(255), nullable=False)
     phone = Column(String(20))
     first_name = Column(String(100))
@@ -98,11 +97,11 @@ class Contact(Base):
 class Deal(Base):
     __tablename__ = "deals"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
-    contact_id = Column(UUID(as_uuid=True), ForeignKey("contacts.id", ondelete="SET NULL"))
-    product_id = Column(UUID(as_uuid=True), ForeignKey("products.id", ondelete="SET NULL"))
-    assigned_to = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    contact_id = Column(GUID(), ForeignKey("contacts.id", ondelete="SET NULL"))
+    product_id = Column(GUID(), ForeignKey("products.id", ondelete="SET NULL"))
+    assigned_to = Column(GUID(), ForeignKey("users.id", ondelete="SET NULL"))
     name = Column(String(255), nullable=False)
     value = Column(Numeric(12, 2))
     currency = Column(String(3), default="INR")

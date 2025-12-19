@@ -187,10 +187,13 @@ async def create_lead_action(
     if not lead:
         raise HTTPException(status_code=404, detail="Lead not found")
     
+    action_payload = action_data.model_dump()
+    metadata_payload = action_payload.pop("metadata", {})
     action = LeadAction(
         lead_id=lead_id,
         user_id=current_user.id,
-        **action_data.model_dump()
+        meta=metadata_payload,
+        **action_payload,
     )
     db.add(action)
     

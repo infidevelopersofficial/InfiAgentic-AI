@@ -20,18 +20,24 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     """Create all tables"""
     
-    # Enable UUID extension
-    op.execute('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
-    op.execute('CREATE EXTENSION IF NOT EXISTS "pgcrypto"')
+    # Check if we're using PostgreSQL
+    import alembic.context
+    context = alembic.context.get_context()
+    is_postgres = 'postgresql' in str(context.dialect.name)
+    
+    # Enable UUID extension (PostgreSQL only)
+    if is_postgres:
+        op.execute('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+        op.execute('CREATE EXTENSION IF NOT EXISTS "pgcrypto"')
     
     # Organizations
     op.create_table(
         'organizations',
-        sa.Column('id', postgresql.UUID(as_uuid=True), primary_key=True),
+        sa.Column('id', sa.String(36), primary_key=True),  # UUID as string for SQLite
         sa.Column('name', sa.String(255), nullable=False),
         sa.Column('slug', sa.String(100), unique=True, nullable=False),
         sa.Column('logo_url', sa.Text),
-        sa.Column('settings', postgresql.JSONB, default={}),
+        sa.Column('settings', sa.JSON, default={}),  # Generic JSON for SQLite
         sa.Column('subscription_tier', sa.String(50), default='free'),
         sa.Column('subscription_expires_at', sa.DateTime(timezone=True)),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now()),
@@ -41,11 +47,11 @@ def upgrade() -> None:
     # Roles
     op.create_table(
         'roles',
-        sa.Column('id', postgresql.UUID(as_uuid=True), primary_key=True),
-        sa.Column('org_id', postgresql.UUID(as_uuid=True), sa.ForeignKey('organizations.id', ondelete='CASCADE')),
+        sa.Column('id', sa.String(36), primary_key=True),  # UUID as string for SQLite
+        sa.Column('org_id', sa.String(36), sa.ForeignKey('organizations.id', ondelete='CASCADE')),
         sa.Column('name', sa.String(100), nullable=False),
         sa.Column('description', sa.Text),
-        sa.Column('permissions', postgresql.JSONB, default=[]),
+        sa.Column('permissions', sa.JSON, default=[]),  # Generic JSON for SQLite
         sa.Column('is_system', sa.Boolean, default=False),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now())
     )
@@ -53,9 +59,9 @@ def upgrade() -> None:
     # Users
     op.create_table(
         'users',
-        sa.Column('id', postgresql.UUID(as_uuid=True), primary_key=True),
-        sa.Column('org_id', postgresql.UUID(as_uuid=True), sa.ForeignKey('organizations.id', ondelete='CASCADE'), nullable=False),
-        sa.Column('role_id', postgresql.UUID(as_uuid=True), sa.ForeignKey('roles.id', ondelete='SET NULL')),
+        sa.Column('id', sa.String(36), primary_key=True),  # UUID as string for SQLite
+        sa.Column('org_id', sa.String(36), sa.ForeignKey('organizations.id', ondelete='CASCADE'), nullable=False),
+        sa.Column('role_id', sa.String(36), sa.ForeignKey('roles.id', ondelete='SET NULL')),
         sa.Column('email', sa.String(255), nullable=False),
         sa.Column('password_hash', sa.String(255), nullable=False),
         sa.Column('first_name', sa.String(100)),

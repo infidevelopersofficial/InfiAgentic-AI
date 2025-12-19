@@ -4,6 +4,7 @@ Pytest configuration and fixtures for InfiAgentic tests.
 import pytest
 import asyncio
 import os
+import uuid
 from typing import AsyncGenerator, Generator
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
@@ -17,7 +18,7 @@ from app.models.user import User, Organization
 
 TEST_DATABASE_URL = os.getenv(
     "TEST_DATABASE_URL",
-    "postgresql+asyncpg://postgres:postgres@localhost:5432/infiagentic_test"
+    "sqlite+aiosqlite:///./test.db"
 )
 
 # For CI environments without PostgreSQL, use SQLite with string UUIDs
@@ -63,15 +64,26 @@ async def test_engine():
 @pytest.fixture
 async def db_session(test_engine) -> AsyncGenerator[AsyncSession, None]:
     """Create a test database session."""
-    async_session = async_sessionmaker(
-        test_engine,
-        class_=AsyncSession,
-        expire_on_commit=False
-    )
-    
-    async with async_session() as session:
-        yield session
-        await session.rollback()
+    async with test_engine.connect() as conn:
+        trans = await conn.begin()
+
+        async_session = async_sessionmaker(
+            bind=conn,
+            class_=AsyncSession,
+            expire_on_commit=False,
+        )
+
+        async with async_session() as session:
+            await session.begin_nested()
+
+            @event.listens_for(session.sync_session, "after_transaction_end")
+            def _restart_savepoint(sess, transaction):
+                if transaction.nested and not transaction._parent.nested:
+                    sess.begin_nested()
+
+            yield session
+
+        await trans.rollback()
 
 
 @pytest.fixture
@@ -95,7 +107,7 @@ async def test_org(db_session: AsyncSession) -> Organization:
     """Create a test organization."""
     org = Organization(
         name="Test Organization",
-        slug="test-org"
+        slug=f"test-org-{uuid.uuid4().hex[:8]}"
     )
     db_session.add(org)
     await db_session.commit()

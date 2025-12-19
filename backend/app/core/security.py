@@ -15,9 +15,9 @@ from sqlalchemy import select
 
 # Password hashing with secure config
 pwd_context = CryptContext(
-    schemes=["bcrypt"],
+    schemes=["pbkdf2_sha256"],
     deprecated="auto",
-    bcrypt__rounds=12  # Increased rounds for better security
+    pbkdf2_sha256__rounds=29000
 )
 
 # JWT Bearer

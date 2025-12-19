@@ -14,9 +14,30 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "next-themes"
+import { useRouter } from "next/navigation"
 
 export function DashboardHeader() {
   const { theme, setTheme } = useTheme()
+  const router = useRouter()
+
+  const handleCreateAction = (action: string) => {
+    switch (action) {
+      case "content":
+        router.push("/dashboard/content")
+        break
+      case "campaign":
+        router.push("/dashboard/email")
+        break
+      case "workflow":
+        router.push("/dashboard/workflows")
+        break
+      case "lead":
+        router.push("/dashboard/leads")
+        break
+      default:
+        break
+    }
+  }
 
   return (
     <header className="flex h-16 items-center justify-between border-b border-border bg-card px-6">
@@ -36,10 +57,18 @@ export function DashboardHeader() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
-            <DropdownMenuItem>New Content</DropdownMenuItem>
-            <DropdownMenuItem>New Campaign</DropdownMenuItem>
-            <DropdownMenuItem>New Workflow</DropdownMenuItem>
-            <DropdownMenuItem>New Lead</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleCreateAction("content")}>
+              New Content
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleCreateAction("campaign")}>
+              New Campaign
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleCreateAction("workflow")}>
+              New Workflow
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleCreateAction("lead")}>
+              New Lead
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 

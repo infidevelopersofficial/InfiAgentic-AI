@@ -1,16 +1,15 @@
 from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, JSON
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid
 
-from app.core.database import Base
+from app.core.database import Base, GUID
 
 
 class Organization(Base):
     __tablename__ = "organizations"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
     name = Column(String(255), nullable=False)
     slug = Column(String(100), unique=True, nullable=False)
     logo_url = Column(String)
@@ -28,8 +27,8 @@ class Organization(Base):
 class Role(Base):
     __tablename__ = "roles"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"))
     name = Column(String(100), nullable=False)
     description = Column(String)
     permissions = Column(JSON, default=[])
@@ -44,9 +43,9 @@ class Role(Base):
 class User(Base):
     __tablename__ = "users"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
-    role_id = Column(UUID(as_uuid=True), ForeignKey("roles.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    role_id = Column(GUID(), ForeignKey("roles.id", ondelete="SET NULL"))
     email = Column(String(255), nullable=False)
     password_hash = Column(String(255), nullable=False)
     first_name = Column(String(100))

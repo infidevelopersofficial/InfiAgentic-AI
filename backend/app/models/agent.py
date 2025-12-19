@@ -1,17 +1,16 @@
 from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Text, JSON, Integer, Float
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid
 
-from app.core.database import Base
+from app.core.database import Base, GUID
 
 
 class AIAgent(Base):
     __tablename__ = "ai_agents"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
     name = Column(String(255), nullable=False)
     agent_type = Column(String(50), nullable=False)  # content_writer, social_manager, email_marketer, sales_agent, orchestrator
     description = Column(Text)
@@ -35,8 +34,8 @@ class AIAgent(Base):
 class AgentPrompt(Base):
     __tablename__ = "agent_prompts"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    agent_id = Column(UUID(as_uuid=True), ForeignKey("ai_agents.id", ondelete="CASCADE"), nullable=False)
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    agent_id = Column(GUID(), ForeignKey("ai_agents.id", ondelete="CASCADE"), nullable=False)
     name = Column(String(255), nullable=False)
     prompt_type = Column(String(50), nullable=False)  # system, user, few_shot
     content = Column(Text, nullable=False)
@@ -52,8 +51,8 @@ class AgentPrompt(Base):
 class Workflow(Base):
     __tablename__ = "workflows"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
     name = Column(String(255), nullable=False)
     description = Column(Text)
     trigger_type = Column(String(50), nullable=False)  # manual, scheduled, event, webhook
@@ -73,9 +72,9 @@ class Workflow(Base):
 class WorkflowRun(Base):
     __tablename__ = "workflow_runs"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    workflow_id = Column(UUID(as_uuid=True), ForeignKey("workflows.id", ondelete="CASCADE"), nullable=False)
-    triggered_by = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    workflow_id = Column(GUID(), ForeignKey("workflows.id", ondelete="CASCADE"), nullable=False)
+    triggered_by = Column(GUID(), ForeignKey("users.id", ondelete="SET NULL"))
     status = Column(String(20), default="pending")  # pending, running, completed, failed, cancelled
     started_at = Column(DateTime(timezone=True))
     completed_at = Column(DateTime(timezone=True))

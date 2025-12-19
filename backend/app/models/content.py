@@ -1,19 +1,18 @@
 from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Text, JSON, Integer
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 import uuid
 
-from app.core.database import Base
+from app.core.database import Base, GUID
 
 
 class Content(Base):
     __tablename__ = "content"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    org_id = Column(UUID(as_uuid=True), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
-    product_id = Column(UUID(as_uuid=True), ForeignKey("products.id", ondelete="SET NULL"))
-    created_by = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    org_id = Column(GUID(), ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False)
+    product_id = Column(GUID(), ForeignKey("products.id", ondelete="SET NULL"))
+    created_by = Column(GUID(), ForeignKey("users.id", ondelete="SET NULL"))
     title = Column(String(500), nullable=False)
     content_type = Column(String(50), nullable=False)  # blog, social, email, ad_copy, landing_page
     body = Column(Text, nullable=False)
@@ -40,9 +39,9 @@ class Content(Base):
 class ContentApproval(Base):
     __tablename__ = "content_approvals"
     
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    content_id = Column(UUID(as_uuid=True), ForeignKey("content.id", ondelete="CASCADE"), nullable=False)
-    reviewer_id = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL"))
+    id = Column(GUID(), primary_key=True, default=uuid.uuid4)
+    content_id = Column(GUID(), ForeignKey("content.id", ondelete="CASCADE"), nullable=False)
+    reviewer_id = Column(GUID(), ForeignKey("users.id", ondelete="SET NULL"))
     status = Column(String(20), nullable=False)  # approved, rejected, revision_requested
     feedback = Column(Text)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

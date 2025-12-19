@@ -1,15 +1,39 @@
 "use client"
 
+import { useState } from "react"
 import { AgentStatusCard } from "@/components/dashboard/agent-status-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AnalyticsChart } from "@/components/dashboard/analytics-chart"
-import { Plus, Bot, Zap, Clock, CheckCircle, AlertCircle } from "lucide-react"
+import { CreateAgentDialog } from "@/components/dashboard/create-agent-dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { 
+  Plus, 
+  Bot, 
+  Zap, 
+  Clock, 
+  CheckCircle, 
+  AlertCircle, 
+  Play, 
+  Pause, 
+  Square, 
+  Settings, 
+  MoreHorizontal,
+  Search,
+  Filter,
+  Edit,
+  Trash2,
+  RefreshCw,
+  Activity,
+} from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 import type { Agent } from "@/lib/types"
 
-const agents: Agent[] = [
+const initialAgents: Agent[] = [
   {
     id: "1",
     name: "Content Writer Agent",
@@ -89,9 +113,88 @@ const recentLogs = [
 ]
 
 export default function AgentsPage() {
+  const { toast } = useToast()
+  const [agents, setAgents] = useState(initialAgents)
+  const [createDialogOpen, setCreateDialogOpen] = useState(false)
+  const [selectedType, setSelectedType] = useState("all")
+  const [searchTerm, setSearchTerm] = useState("")
+  
   const runningAgents = agents.filter((a) => a.status === "running").length
   const totalTasks = 1247
   const successRate = 98.5
+
+  const handleCreateAgent = (newAgent: any) => {
+    const agent: Agent = {
+      id: Date.now().toString(),
+      ...newAgent,
+      status: "idle",
+      lastRun: new Date(),
+      nextRun: new Date(Date.now() + 3600000),
+    }
+    
+    setAgents(prev => [agent, ...prev])
+    setCreateDialogOpen(false)
+    
+    toast({
+      title: "Agent Created",
+      description: `${newAgent.name} has been created successfully.`,
+    })
+  }
+
+  const handleStartAgent = (agentId: string) => {
+    setAgents(prev =>
+      prev.map(agent =>
+        agent.id === agentId
+          ? { ...agent, status: "running" as const }
+          : agent
+      )
+    )
+    
+    toast({
+      title: "Agent Started",
+      description: "Agent has been started successfully.",
+    })
+  }
+
+  const handleStopAgent = (agentId: string) => {
+    setAgents(prev =>
+      prev.map(agent =>
+        agent.id === agentId
+          ? { ...agent, status: "idle" as const }
+          : agent
+      )
+    )
+    
+    toast({
+      title: "Agent Stopped",
+      description: "Agent has been stopped.",
+    })
+  }
+
+  const handleDeleteAgent = (agentId: string) => {
+    setAgents(prev => prev.filter(agent => agent.id !== agentId))
+    
+    toast({
+      title: "Agent Deleted",
+      description: "Agent has been removed.",
+      variant: "destructive",
+    })
+  }
+
+  const filteredAgents = agents.filter(agent => {
+    const matchesType = selectedType === "all" || agent.type === selectedType
+    const matchesSearch = agent.name.toLowerCase().includes(searchTerm.toLowerCase())
+    return matchesType && matchesSearch
+  })
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "running": return "text-green-600 bg-green-50"
+      case "idle": return "text-gray-600 bg-gray-50"
+      case "error": return "text-red-600 bg-red-50"
+      default: return "text-gray-600 bg-gray-50"
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -100,10 +203,38 @@ export default function AgentsPage() {
           <h1 className="text-3xl font-bold tracking-tight">AI Agents</h1>
           <p className="text-muted-foreground">Monitor and manage your AI agent workforce</p>
         </div>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          Create Agent
-        </Button>
+        <CreateAgentDialog onCreateAgent={handleCreateAgent}>
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" />
+            New Agent
+          </Button>
+        </CreateAgentDialog>
+      </div>
+
+      {/* Filters */}
+      <div className="flex items-center gap-4">
+        <div className="flex-1">
+          <Input
+            placeholder="Search agents..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="max-w-sm"
+          />
+        </div>
+        <Select value={selectedType} onValueChange={setSelectedType}>
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder="Type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Types</SelectItem>
+            <SelectItem value="content">Content</SelectItem>
+            <SelectItem value="social">Social</SelectItem>
+            <SelectItem value="email">Email</SelectItem>
+            <SelectItem value="seo">SEO</SelectItem>
+            <SelectItem value="analytics">Analytics</SelectItem>
+            <SelectItem value="orchestrator">Orchestrator</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Metrics */}
@@ -165,26 +296,177 @@ export default function AgentsPage() {
         </TabsList>
         <TabsContent value="all" className="mt-6">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {agents.map((agent) => (
-              <AgentStatusCard key={agent.id} agent={agent} />
+            {filteredAgents.map((agent) => (
+              <Card key={agent.id} className="relative">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${
+                        agent.status === 'running' ? 'bg-green-100' : 'bg-gray-100'
+                      }`}>
+                        <Bot className={`h-5 w-5 ${
+                          agent.status === 'running' ? 'text-green-600' : 'text-gray-600'
+                        }`} />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold">{agent.name}</h3>
+                        <Badge className={getStatusColor(agent.status)}>
+                          {agent.status}
+                        </Badge>
+                      </div>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        {agent.status === 'idle' ? (
+                          <DropdownMenuItem onClick={() => handleStartAgent(agent.id)}>
+                            <Play className="h-4 w-4 mr-2" />
+                            Start Agent
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem onClick={() => handleStopAgent(agent.id)}>
+                            <Pause className="h-4 w-4 mr-2" />
+                            Stop Agent
+                          </DropdownMenuItem>
+                        )}
+                        <DropdownMenuItem>
+                          <Settings className="h-4 w-4 mr-2" />
+                          Configure
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <Activity className="h-4 w-4 mr-2" />
+                          View Logs
+                        </DropdownMenuItem>
+                        <DropdownMenuItem 
+                          onClick={() => handleDeleteAgent(agent.id)}
+                          className="text-destructive"
+                        >
+                          <Trash2 className="h-4 w-4 mr-2" />
+                          Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                  <p className="mt-3 text-sm text-muted-foreground">{agent.description}</p>
+                  <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+                      <span>Last run: {agent.lastRun?.toLocaleTimeString() || 'Never'}</span>
+                      {agent.nextRun && <span>Next: {agent.nextRun.toLocaleTimeString()}</span>}
+                    </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </TabsContent>
         <TabsContent value="running" className="mt-6">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {agents
+            {filteredAgents
               .filter((a) => a.status === "running")
               .map((agent) => (
-                <AgentStatusCard key={agent.id} agent={agent} />
+                <Card key={agent.id} className="relative">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-lg bg-green-100 flex items-center justify-center">
+                          <Bot className="h-5 w-5 text-green-600" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold">{agent.name}</h3>
+                          <Badge className="text-green-600 bg-green-50">
+                            running
+                          </Badge>
+                        </div>
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handleStopAgent(agent.id)}>
+                            <Pause className="h-4 w-4 mr-2" />
+                            Stop Agent
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Settings className="h-4 w-4 mr-2" />
+                            Configure
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Activity className="h-4 w-4 mr-2" />
+                            View Logs
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                    <p className="mt-3 text-sm text-muted-foreground">{agent.description}</p>
+                    <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+                      <span>Last run: {agent.lastRun?.toLocaleTimeString() || 'Never'}</span>
+                      {agent.nextRun && <span>Next: {agent.nextRun.toLocaleTimeString()}</span>}
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
           </div>
         </TabsContent>
         <TabsContent value="idle" className="mt-6">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {agents
+            {filteredAgents
               .filter((a) => a.status === "idle")
               .map((agent) => (
-                <AgentStatusCard key={agent.id} agent={agent} />
+                <Card key={agent.id} className="relative">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-lg bg-gray-100 flex items-center justify-center">
+                          <Bot className="h-5 w-5 text-gray-600" />
+                        </div>
+                        <div>
+                          <h3 className="font-semibold">{agent.name}</h3>
+                          <Badge className="text-gray-600 bg-gray-50">
+                            idle
+                          </Badge>
+                        </div>
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handleStartAgent(agent.id)}>
+                            <Play className="h-4 w-4 mr-2" />
+                            Start Agent
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Settings className="h-4 w-4 mr-2" />
+                            Configure
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Activity className="h-4 w-4 mr-2" />
+                            View Logs
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => handleDeleteAgent(agent.id)}
+                            className="text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                    <p className="mt-3 text-sm text-muted-foreground">{agent.description}</p>
+                    <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
+                      <span>Last run: {agent.lastRun?.toLocaleTimeString() || 'Never'}</span>
+                      {agent.nextRun && <span>Next: {agent.nextRun.toLocaleTimeString()}</span>}
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
           </div>
         </TabsContent>

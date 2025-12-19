@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react"
+import { CreateWorkflowDialog } from "@/components/dashboard/create-workflow-dialog"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -7,7 +9,18 @@ import { Switch } from "@/components/ui/switch"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Plus, Play, MoreHorizontal, GitBranch, Clock, Zap, ArrowRight } from "lucide-react"
 
-const workflows = [
+const triggerOptions = [
+  { value: "new_lead", label: "New Lead Created" },
+  { value: "content_ready", label: "Content Marked Ready" },
+  { value: "lead_inactive", label: "Lead Inactive 30 Days" },
+  { value: "weekly_schedule", label: "Weekly Schedule" },
+  { value: "daily_schedule", label: "Daily Schedule" },
+  { value: "campaign_response", label: "Campaign Response" },
+  { value: "manual_trigger", label: "Manual Trigger" },
+  { value: "data_change", label: "Data Change" },
+]
+
+const initialWorkflows = [
   {
     id: "1",
     name: "New Lead Nurture Sequence",
@@ -57,6 +70,21 @@ const statusColors: Record<string, string> = {
 }
 
 export default function WorkflowsPage() {
+  const [workflows, setWorkflows] = useState(initialWorkflows)
+
+  const handleCreateWorkflow = (newWorkflow: any) => {
+    const workflow = {
+      id: (workflows.length + 1).toString(),
+      name: newWorkflow.name,
+      description: newWorkflow.description,
+      status: "draft",
+      trigger: triggerOptions.find(opt => opt.value === newWorkflow.trigger)?.label || newWorkflow.trigger,
+      steps: newWorkflow.steps.length,
+      runs: 0,
+      successRate: 0,
+    }
+    setWorkflows([workflow, ...workflows])
+  }
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -64,10 +92,12 @@ export default function WorkflowsPage() {
           <h1 className="text-3xl font-bold tracking-tight">Workflows</h1>
           <p className="text-muted-foreground">Automate your marketing processes with AI-powered workflows</p>
         </div>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" />
-          Create Workflow
-        </Button>
+        <CreateWorkflowDialog onCreateWorkflow={handleCreateWorkflow}>
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" />
+            Create Workflow
+          </Button>
+        </CreateWorkflowDialog>
       </div>
 
       {/* Metrics */}
