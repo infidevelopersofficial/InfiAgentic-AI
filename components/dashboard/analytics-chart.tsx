@@ -36,8 +36,8 @@ export function AnalyticsChart({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="h-[300px] w-full">
+          <ResponsiveContainer width="100%" height={300} minWidth={0} minHeight={0}>
             {type === "line" ? (
               <LineChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />

@@ -112,7 +112,7 @@ export function CreateWorkflowDialog({ children, onCreateWorkflow }: CreateWorkf
     }))
   }
 
-  const updateStep = (index: number, field: string, value: string) => {
+  const updateStep = (index: number, field: string, value: any) => {
     setFormData(prev => ({
       ...prev,
       steps: prev.steps.map((step, i) => 
