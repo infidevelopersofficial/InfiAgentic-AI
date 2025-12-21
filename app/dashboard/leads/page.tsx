@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo, useCallback } from "react"
 import { CreateFlowDialog } from "@/components/dashboard/create-flow-dialog"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -8,6 +8,10 @@ import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Plus, MoreHorizontal, GitBranch, Users, Zap, TrendingUp, ArrowRight, Mail, Clock } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { ErrorBoundary, ErrorState } from "@/components/ui/error-boundary"
+import { LoadingState } from "@/components/ui/loading-state"
+import { usePerformanceMonitor } from "@/lib/performance"
 
 const triggerOptions = [
   { value: "form_submission", label: "Form Submission" },
@@ -71,22 +75,176 @@ const statusColors: Record<string, string> = {
 }
 
 export default function LeadFlowsPage() {
+  const { toast } = useToast()
   const [leadFlows, setLeadFlows] = useState(initialLeadFlows)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleCreateFlow = (newFlow: any) => {
-    const flow = {
-      id: (leadFlows.length + 1).toString(),
-      name: newFlow.name,
-      description: newFlow.description,
-      status: "paused",
-      trigger: triggerOptions.find(opt => opt.value === newFlow.trigger)?.label || newFlow.trigger,
-      leads: 0,
-      conversionRate: 0,
-      steps: newFlow.steps,
+  // Performance monitoring
+  usePerformanceMonitor('LeadFlowsPage')
+
+  // Memoized metrics calculation
+  const metrics = useMemo(() => ({
+    totalFlows: leadFlows.length,
+    activeFlows: leadFlows.filter(flow => flow.status === 'active').length,
+    totalLeads: leadFlows.reduce((acc, flow) => acc + flow.leads, 0),
+    avgConversion: Math.round(
+      leadFlows.reduce((acc, flow) => acc + flow.conversionRate, 0) / leadFlows.length
+    )
+  }), [leadFlows])
+
+  const handleCreateFlow = useCallback(async (newFlow: any) => {
+    setIsLoading(true)
+    setError(null)
+    
+    try {
+      // Validate required fields
+      if (!newFlow.name || !newFlow.name.trim()) {
+        throw new Error("Flow name is required")
+      }
+      
+      if (!newFlow.trigger) {
+        throw new Error("Trigger is required")
+      }
+
+      // Check for duplicate name
+      const duplicateName = leadFlows.some(flow => 
+        flow.name.toLowerCase() === newFlow.name.trim().toLowerCase()
+      )
+      if (duplicateName) {
+        throw new Error("A flow with this name already exists")
+      }
+
+      const flow = {
+        id: (leadFlows.length + 1).toString(),
+        name: newFlow.name.trim(),
+        description: newFlow.description?.trim() || "",
+        status: "paused",
+        trigger: triggerOptions.find(opt => opt.value === newFlow.trigger)?.label || newFlow.trigger,
+        leads: 0,
+        conversionRate: 0,
+        steps: newFlow.steps || [],
+      }
+      
+      setLeadFlows([flow, ...leadFlows])
+      
+      toast({
+        title: "Flow Created",
+        description: `${flow.name} has been created successfully.`,
+      })
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to create flow"
+      setError(errorMessage)
+      
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
     }
-    setLeadFlows([flow, ...leadFlows])
+  }, [leadFlows, toast])
+
+  const handleToggleStatus = useCallback(async (flowId: string) => {
+    try {
+      setLeadFlows(prev =>
+        prev.map(flow =>
+          flow.id === flowId
+            ? { ...flow, status: flow.status === "active" ? "paused" : "active" }
+            : flow
+        )
+      )
+      
+      const flow = leadFlows.find(f => f.id === flowId)
+      toast({
+        title: "Status Updated",
+        description: `${flow?.name} is now ${flow?.status === "active" ? "paused" : "active"}.`,
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update flow status",
+        variant: "destructive",
+      })
+    }
+  }, [leadFlows, toast])
+
+  const handleRetry = useCallback(() => {
+    setError(null)
+    setIsLoading(false)
+  }, [])
+
+  // Memoized flow card component to prevent unnecessary re-renders
+  const FlowCard = useCallback(({ flow }: { flow: any }) => (
+    <Card key={flow.id}>
+      <CardContent className="p-6">
+        <div className="flex items-start justify-between">
+          <div className="flex items-start gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+              <GitBranch className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <h3 className="font-semibold">{flow.name}</h3>
+              <p className="text-sm text-muted-foreground mb-2">{flow.description}</p>
+              <div className="flex items-center gap-2">
+                <Badge className={statusColors[flow.status]}>
+                  {flow.status}
+                </Badge>
+                <span className="text-sm text-muted-foreground">
+                  {flow.trigger}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <div className="text-sm font-medium">{flow.leads.toLocaleString()} leads</div>
+              <div className="text-sm text-muted-foreground">{flow.conversionRate}% conversion</div>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">
+                {flow.status === "active" ? "Active" : "Paused"}
+              </span>
+              <Switch 
+                checked={flow.status === "active"} 
+                onCheckedChange={() => handleToggleStatus(flow.id)}
+              />
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>Edit Flow</DropdownMenuItem>
+                <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                <DropdownMenuItem>View Analytics</DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  ), [handleToggleStatus])
+
+  if (error) {
+    return (
+      <ErrorState 
+        message={error} 
+        onRetry={handleRetry}
+      />
+    )
   }
+
+  if (isLoading) {
+    return <LoadingState message="Creating flow..." />
+  }
+
   return (
+    <ErrorBoundary>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -110,7 +268,7 @@ export default function LeadFlowsPage() {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Active Flows</p>
-              <p className="text-2xl font-bold">{leadFlows.filter((f) => f.status === "active").length}</p>
+              <p className="text-2xl font-bold">{metrics.activeFlows}</p>
             </div>
           </CardContent>
         </Card>
@@ -132,94 +290,19 @@ export default function LeadFlowsPage() {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Avg. Conversion</p>
-              <p className="text-2xl font-bold">
-                {Math.round(leadFlows.reduce((acc, f) => acc + f.conversionRate, 0) / leadFlows.length)}%
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="flex items-center gap-4 p-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-500/10">
-              <Zap className="h-6 w-6 text-purple-500" />
-            </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Emails Sent</p>
-              <p className="text-2xl font-bold">48.2K</p>
+              <p className="text-2xl font-bold">{metrics.avgConversion}%</p>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Lead Flows */}
+      {/* Flow List */}
       <div className="space-y-4">
         {leadFlows.map((flow) => (
-          <Card key={flow.id}>
-            <CardContent className="p-6">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-lg font-semibold">{flow.name}</h3>
-                    <Badge variant="outline" className={statusColors[flow.status]}>
-                      {flow.status}
-                    </Badge>
-                  </div>
-                  <p className="mt-1 text-sm text-muted-foreground">{flow.description}</p>
-
-                  {/* Flow Steps Visualization */}
-                  <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-2">
-                    {flow.steps.map((step, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <div className="flex items-center gap-2 rounded-lg border bg-muted/50 px-3 py-2">
-                          {step.type === "email" ? (
-                            <Mail className="h-4 w-4 text-blue-500" />
-                          ) : (
-                            <Clock className="h-4 w-4 text-orange-500" />
-                          )}
-                          <span className="text-sm whitespace-nowrap">{step.label}</span>
-                        </div>
-                        {index < flow.steps.length - 1 && (
-                          <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-4 flex items-center gap-6 text-sm">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Zap className="h-4 w-4" />
-                      <span>Trigger: {flow.trigger}</span>
-                    </div>
-                    <div className="text-muted-foreground">{flow.leads.toLocaleString()} leads</div>
-                    <div className="text-muted-foreground">{flow.conversionRate}% conversion</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-muted-foreground">
-                      {flow.status === "active" ? "Active" : "Paused"}
-                    </span>
-                    <Switch checked={flow.status === "active"} />
-                  </div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Edit Flow</DropdownMenuItem>
-                      <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                      <DropdownMenuItem>View Analytics</DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <FlowCard key={flow.id} flow={flow} />
         ))}
       </div>
-    </div>
+      </div>
+    </ErrorBoundary>
   )
 }

@@ -7,7 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Switch } from "@/components/ui/switch"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Plus, Play, MoreHorizontal, GitBranch, Clock, Zap, ArrowRight } from "lucide-react"
+import { Plus, MoreHorizontal, GitBranch, Zap, Play, Settings, TrendingUp, Clock, ArrowRight } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { ErrorBoundary, ErrorState } from "@/components/ui/error-boundary"
+import { LoadingState } from "@/components/ui/loading-state"
 
 const triggerOptions = [
   { value: "new_lead", label: "New Lead Created" },
@@ -70,22 +73,140 @@ const statusColors: Record<string, string> = {
 }
 
 export default function WorkflowsPage() {
+  const { toast } = useToast()
   const [workflows, setWorkflows] = useState(initialWorkflows)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleCreateWorkflow = (newWorkflow: any) => {
-    const workflow = {
-      id: (workflows.length + 1).toString(),
-      name: newWorkflow.name,
-      description: newWorkflow.description,
-      status: "draft",
-      trigger: triggerOptions.find(opt => opt.value === newWorkflow.trigger)?.label || newWorkflow.trigger,
-      steps: newWorkflow.steps.length,
-      runs: 0,
-      successRate: 0,
+  const handleCreateWorkflow = async (newWorkflow: any) => {
+    setIsLoading(true)
+    setError(null)
+    
+    try {
+      // Validate required fields
+      if (!newWorkflow.name || !newWorkflow.name.trim()) {
+        throw new Error("Workflow name is required")
+      }
+      
+      if (!newWorkflow.trigger) {
+        throw new Error("Trigger is required")
+      }
+
+      if (!newWorkflow.steps || newWorkflow.steps.length === 0) {
+        throw new Error("At least one workflow step is required")
+      }
+
+      // Check for duplicate name
+      const duplicateName = workflows.some(workflow => 
+        workflow.name.toLowerCase() === newWorkflow.name.trim().toLowerCase()
+      )
+      if (duplicateName) {
+        throw new Error("A workflow with this name already exists")
+      }
+
+      const workflow = {
+        id: (workflows.length + 1).toString(),
+        name: newWorkflow.name.trim(),
+        description: newWorkflow.description?.trim() || "",
+        status: "draft",
+        trigger: triggerOptions.find(opt => opt.value === newWorkflow.trigger)?.label || newWorkflow.trigger,
+        steps: newWorkflow.steps.length,
+        runs: 0,
+        successRate: 0,
+      }
+      
+      setWorkflows([workflow, ...workflows])
+      
+      toast({
+        title: "Workflow Created",
+        description: `${workflow.name} has been created successfully.`,
+      })
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to create workflow"
+      setError(errorMessage)
+      
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
     }
-    setWorkflows([workflow, ...workflows])
   }
+
+  const handleToggleStatus = async (workflowId: string) => {
+    try {
+      setWorkflows(prev =>
+        prev.map(workflow =>
+          workflow.id === workflowId
+            ? { ...workflow, status: workflow.status === "active" ? "paused" : "active" }
+            : workflow
+        )
+      )
+      
+      const workflow = workflows.find(w => w.id === workflowId)
+      toast({
+        title: "Status Updated",
+        description: `${workflow?.name} is now ${workflow?.status === "active" ? "paused" : "active"}.`,
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update workflow status",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleRunWorkflow = async (workflowId: string) => {
+    try {
+      const workflow = workflows.find(w => w.id === workflowId)
+      if (!workflow) return
+
+      // Simulate running workflow
+      toast({
+        title: "Workflow Running",
+        description: `${workflow.name} is now executing...`,
+      })
+      
+      // Update run count
+      setWorkflows(prev =>
+        prev.map(w =>
+          w.id === workflowId
+            ? { ...w, runs: w.runs + 1 }
+            : w
+        )
+      )
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to run workflow",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleRetry = () => {
+    setError(null)
+    setIsLoading(false)
+  }
+
+  if (error) {
+    return (
+      <ErrorState 
+        message={error} 
+        onRetry={handleRetry}
+      />
+    )
+  }
+
+  if (isLoading) {
+    return <LoadingState message="Creating workflow..." />
+  }
+
   return (
+    <ErrorBoundary>
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
@@ -182,7 +303,10 @@ export default function WorkflowsPage() {
                     <span className="text-sm text-muted-foreground">
                       {workflow.status === "active" ? "Active" : "Paused"}
                     </span>
-                    <Switch checked={workflow.status === "active"} />
+                    <Switch 
+                      checked={workflow.status === "active"} 
+                      onCheckedChange={() => handleToggleStatus(workflow.id)}
+                    />
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -191,6 +315,10 @@ export default function WorkflowsPage() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => handleRunWorkflow(workflow.id)}>
+                        <Play className="h-4 w-4 mr-2" />
+                        Run Now
+                      </DropdownMenuItem>
                       <DropdownMenuItem>Edit</DropdownMenuItem>
                       <DropdownMenuItem>Duplicate</DropdownMenuItem>
                       <DropdownMenuItem>View Logs</DropdownMenuItem>
@@ -204,5 +332,6 @@ export default function WorkflowsPage() {
         ))}
       </div>
     </div>
+    </ErrorBoundary>
   )
 }

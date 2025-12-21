@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo, useCallback } from "react"
 import { LeadPipeline } from "@/components/dashboard/lead-pipeline"
 import { CreateLeadDialog } from "@/components/dashboard/create-lead-dialog"
 import { Card, CardContent } from "@/components/ui/card"
@@ -11,7 +11,19 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Plus, Search, Users, DollarSign, TrendingUp, Clock } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { ErrorBoundary, ErrorState } from "@/components/ui/error-boundary"
+import { LoadingState } from "@/components/ui/loading-state"
+import { useDebouncedValue, useOptimizedSearch, usePerformanceMonitor } from "@/lib/performance"
 import type { Lead } from "@/lib/types"
+
+// Status color mapping
+const statusColors: Record<string, string> = {
+  new: "bg-blue-500/10 text-blue-600 border-blue-500/20",
+  contacted: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
+  qualified: "bg-green-500/10 text-green-600 border-green-500/20",
+  converted: "bg-purple-500/10 text-purple-600 border-purple-500/20",
+}
 
 const initialLeads: Lead[] = [
   {
@@ -129,35 +141,129 @@ const initialLeads: Lead[] = [
 ]
 
 export default function CRMPage() {
+  const { toast } = useToast()
   const [searchQuery, setSearchQuery] = useState("")
   const [leads, setLeads] = useState(initialLeads)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const filteredLeads = leads.filter(
-    (lead) =>
-      lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lead.company?.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+  // Performance monitoring
+  usePerformanceMonitor('CRMPage')
 
-  const handleCreateLead = (newLead: any) => {
-    const lead: Lead = {
-      id: (leads.length + 1).toString(),
-      name: newLead.name,
-      email: newLead.email,
-      company: newLead.company,
-      phone: newLead.phone,
-      status: newLead.status as any,
-      score: Math.floor(Math.random() * 40) + 60, // Random score between 60-100
-      source: newLead.source,
-      tags: newLead.tags,
-      notes: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
+  // Optimized search with debouncing
+  const debouncedSearchQuery = useDebouncedValue(searchQuery, 300)
+  const filteredLeads = useOptimizedSearch(leads, ['name', 'company'], debouncedSearchQuery)
+
+  // Memoized metrics calculation
+  const metrics = useMemo(() => ({
+    totalLeads: leads.length,
+    newLeads: leads.filter(lead => lead.status === 'new').length,
+    contactedLeads: leads.filter(lead => lead.status === 'contacted').length,
+    avgScore: Math.round(leads.reduce((acc, lead) => acc + lead.score, 0) / leads.length)
+  }), [leads])
+
+  const handleCreateLead = useCallback(async (newLead: any) => {
+    setIsLoading(true)
+    setError(null)
+    
+    try {
+      // Validate required fields
+      if (!newLead.name || !newLead.email) {
+        throw new Error("Name and email are required fields")
+      }
+
+      // Check for duplicate email
+      const duplicateEmail = leads.some(lead => lead.email === newLead.email)
+      if (duplicateEmail) {
+        throw new Error("A lead with this email already exists")
+      }
+
+      const lead: Lead = {
+        id: (leads.length + 1).toString(),
+        name: newLead.name.trim(),
+        email: newLead.email.trim(),
+        company: newLead.company?.trim() || "",
+        phone: newLead.phone?.trim() || "",
+        status: newLead.status as any,
+        score: Math.floor(Math.random() * 40) + 60, // Random score between 60-100
+        source: newLead.source,
+        tags: newLead.tags || [],
+        notes: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+      
+      setLeads([lead, ...leads])
+      
+      toast({
+        title: "Lead Created",
+        description: `${lead.name} has been added to your pipeline.`,
+      })
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to create lead"
+      setError(errorMessage)
+      
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
     }
-    setLeads([lead, ...leads])
+  }, [leads, toast])
+
+  const handleRetry = useCallback(() => {
+    setError(null)
+    setIsLoading(false)
+  }, [])
+
+  // Memoized lead card component to prevent unnecessary re-renders
+  const LeadCard = useCallback(({ lead }: { lead: Lead }) => (
+    <Card key={lead.id}>
+      <CardContent className="p-4">
+        <div className="flex items-center gap-4">
+          <Avatar>
+            <AvatarFallback>
+              {lead.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-2">
+              <Badge className={statusColors[lead.status] || 'bg-gray-500/10 text-gray-600 border-gray-500/20'}>
+                {lead.status}
+              </Badge>
+              <Badge variant="outline" className="text-xs">
+                Score: {lead.score}
+              </Badge>
+            </div>
+            <h3 className="font-semibold">{lead.name}</h3>
+            <p className="text-sm text-muted-foreground">{lead.email}</p>
+            {lead.company && (
+              <p className="text-sm text-muted-foreground">{lead.company}</p>
+            )}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  ), [])
+
+  if (error) {
+    return (
+      <ErrorState 
+        message={error} 
+        onRetry={handleRetry}
+      />
+    )
+  }
+
+  if (isLoading) {
+    return <LoadingState message="Creating lead..." />
   }
 
   return (
-    <div className="space-y-6">
+    <ErrorBoundary>
+      <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">CRM</h1>
@@ -180,7 +286,7 @@ export default function CRMPage() {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Total Leads</p>
-              <p className="text-2xl font-bold">1,429</p>
+              <p className="text-2xl font-bold">{metrics.totalLeads.toLocaleString()}</p>
             </div>
           </CardContent>
         </Card>
@@ -190,8 +296,8 @@ export default function CRMPage() {
               <DollarSign className="h-6 w-6 text-green-500" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Pipeline Value</p>
-              <p className="text-2xl font-bold">$2.4M</p>
+              <p className="text-sm font-medium text-muted-foreground">New Leads</p>
+              <p className="text-2xl font-bold">{metrics.newLeads}</p>
             </div>
           </CardContent>
         </Card>
@@ -201,8 +307,8 @@ export default function CRMPage() {
               <TrendingUp className="h-6 w-6 text-blue-500" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Conversion Rate</p>
-              <p className="text-2xl font-bold">24.8%</p>
+              <p className="text-sm font-medium text-muted-foreground">Contacted</p>
+              <p className="text-2xl font-bold">{metrics.contactedLeads}</p>
             </div>
           </CardContent>
         </Card>
@@ -212,8 +318,8 @@ export default function CRMPage() {
               <Clock className="h-6 w-6 text-purple-500" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Avg. Close Time</p>
-              <p className="text-2xl font-bold">18 days</p>
+              <p className="text-sm font-medium text-muted-foreground">Avg. Score</p>
+              <p className="text-2xl font-bold">{metrics.avgScore}</p>
             </div>
           </CardContent>
         </Card>
@@ -304,6 +410,7 @@ export default function CRMPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </ErrorBoundary>
   )
 }

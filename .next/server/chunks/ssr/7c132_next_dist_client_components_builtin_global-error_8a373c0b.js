@@ -1,0 +1,3 @@
+module.exports=[131,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(40461);a.n(d("[project]/Codework/agentic-ai-platform/node_modules/.pnpm/next@16.0.7_@opentelemetry+api@1.9.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},35369,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(40461);a.n(d("[project]/Codework/agentic-ai-platform/node_modules/.pnpm/next@16.0.7_@opentelemetry+api@1.9.0_react-dom@19.2.0_react@19.2.0__react@19.2.0/node_modules/next/dist/client/components/builtin/global-error.js"))},44915,a=>{"use strict";a.i(131);var b=a.i(35369);a.n(b)}];
+
+//# sourceMappingURL=7c132_next_dist_client_components_builtin_global-error_8a373c0b.js.map
