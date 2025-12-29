@@ -126,7 +126,7 @@ async def refresh_tokens(
     """Refresh access token using refresh token"""
     
     # Verify refresh token
-    payload = verify_refresh_token(request.refresh_token)
+    payload = await verify_refresh_token(request.refresh_token)
     user_id = payload.get("sub")
     
     if not user_id:
@@ -146,7 +146,7 @@ async def refresh_tokens(
         )
     
     # Blacklist the old refresh token
-    blacklist_token(request.refresh_token)
+    await blacklist_token(request.refresh_token)
     
     # Generate new tokens
     new_access_token = create_access_token({"sub": str(user.id)})
@@ -168,7 +168,7 @@ async def logout(
     """Logout user and invalidate token"""
     
     # Blacklist the current access token
-    blacklist_token(credentials.credentials)
+    await blacklist_token(credentials.credentials)
     
     return None
 

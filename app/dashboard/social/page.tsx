@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -32,6 +32,29 @@ import {
   Send,
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { apiClient } from "@/lib/api-client"
+import type { SocialPost } from "@/lib/types"
+
+// Helper function to map backend social post to frontend SocialPost type
+function mapBackendPostToFrontend(backendPost: any): SocialPost {
+  return {
+    id: backendPost.id,
+    contentId: backendPost.content_id,
+    platform: backendPost.platform as SocialPost['platform'],
+    content: backendPost.post_text || '',
+    media: backendPost.media_urls || [],
+    status: backendPost.status as SocialPost['status'],
+    scheduledFor: backendPost.scheduled_at ? new Date(backendPost.scheduled_at) : undefined,
+    publishedAt: backendPost.published_at ? new Date(backendPost.published_at) : undefined,
+    metrics: {
+      likes: backendPost.likes || 0,
+      comments: backendPost.comments || 0,
+      shares: backendPost.shares || 0,
+      impressions: backendPost.impressions || 0,
+      engagementRate: 0, // Calculate if needed
+    },
+  }
+}
 
 const platforms = [
   { 
@@ -190,59 +213,120 @@ const getPlatformIcon = (platform: string) => {
 
 export default function SocialPage() {
   const { toast } = useToast()
-  const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts)
-  const [createDialogOpen, setCreateDialogOpen] = useState(false)
+  const [scheduledPosts, setScheduledPosts] = useState<SocialPost[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isCreating, setIsCreating] = useState(false)
   const [selectedPlatform, setSelectedPlatform] = useState("all")
   const [selectedAccount, setSelectedAccount] = useState("all")
   const [searchTerm, setSearchTerm] = useState("")
 
-  const handleCreatePost = (postData: any) => {
-    const newPost = {
-      id: Date.now().toString(),
-      ...postData,
-      scheduledFor: new Date(postData.scheduledFor),
-      status: "scheduled" as const,
+  // Fetch social posts on mount
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setIsLoading(true)
+      try {
+        const params: any = { page: 1, limit: 100 }
+        if (selectedPlatform !== "all") {
+          params.platform = selectedPlatform
+        }
+        const response = await apiClient.getSocialPosts(params)
+        const mappedPosts = response.items.map(mapBackendPostToFrontend)
+        setScheduledPosts(mappedPosts)
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load posts'
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
     }
-    
-    setScheduledPosts((prev: any[]) => [newPost, ...prev])
-    setCreateDialogOpen(false)
-    
-    toast({
-      title: "Post Scheduled",
-      description: `Post has been scheduled for ${new Date(postData.scheduledFor).toLocaleDateString()}`,
-    })
-  }
 
-  const handlePublishNow = (postId: string) => {
-    setScheduledPosts((prev: any[]) =>
-      prev.map((post: any) =>
-        post.id === postId
-          ? { ...post, status: "published" as const, scheduledFor: new Date() }
-          : post
+    fetchPosts()
+  }, [selectedPlatform, toast])
+
+  const handleCreatePost = useCallback(async (postData: any) => {
+    setIsCreating(true)
+    try {
+      const backendPost = await apiClient.createSocialPost({
+        account_id: postData.accountId,
+        post_text: postData.content,
+        media_urls: postData.media || [],
+        hashtags: postData.hashtags || [],
+        scheduled_at: postData.scheduledFor ? new Date(postData.scheduledFor).toISOString() : null,
+      })
+
+      const post = mapBackendPostToFrontend(backendPost)
+      setScheduledPosts(prev => [post, ...prev])
+      
+      toast({
+        title: "Post Scheduled",
+        description: `Post has been scheduled${post.scheduledFor ? ` for ${post.scheduledFor.toLocaleDateString()}` : ''}.`,
+      })
+    } catch (err: any) {
+      const errorMessage = err.detail || 'Failed to create post'
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      })
+    } finally {
+      setIsCreating(false)
+    }
+  }, [toast])
+
+  const handlePublishNow = useCallback(async (postId: string) => {
+    try {
+      // Note: This endpoint may need to be implemented in backend
+      await apiClient.post(`/social/posts/${postId}/publish`)
+      
+      setScheduledPosts(prev =>
+        prev.map(post =>
+          post.id === postId
+            ? { ...post, status: "published" as const, publishedAt: new Date() }
+            : post
+        )
       )
-    )
-    
-    toast({
-      title: "Post Published",
-      description: "Post has been published successfully.",
-    })
-  }
+      
+      toast({
+        title: "Post Published",
+        description: "Post has been published successfully.",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to publish post",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
 
-  const handleDeletePost = (postId: string) => {
-    setScheduledPosts((prev: any[]) => prev.filter((post: any) => post.id !== postId))
-    
-    toast({
-      title: "Post Deleted",
-      description: "Post has been removed.",
-      variant: "destructive",
-    })
-  }
+  const handleDeletePost = useCallback(async (postId: string) => {
+    try {
+      await apiClient.deleteSocialPost(postId)
+      setScheduledPosts(prev => prev.filter(post => post.id !== postId))
+      
+      toast({
+        title: "Post Deleted",
+        description: "Post has been removed.",
+        variant: "destructive",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to delete post",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
 
-  const filteredPosts = scheduledPosts.filter((post: any) => {
+  const filteredPosts = scheduledPosts.filter((post) => {
     const matchesPlatform = selectedPlatform === "all" || post.platform === selectedPlatform
-    const matchesAccount = selectedAccount === "all" || post.accountId === selectedAccount
+    // Note: accountId filtering would need account_id from backend
     const matchesSearch = post.content.toLowerCase().includes(searchTerm.toLowerCase())
-    return matchesPlatform && matchesAccount && matchesSearch
+    return matchesPlatform && matchesSearch
   })
 
   const getStatusColor = (status: string) => {

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
 from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel
@@ -151,3 +151,80 @@ async def list_workflow_runs(
     )
     runs = result.scalars().all()
     return [WorkflowRunResponse.model_validate(run) for run in runs]
+
+
+class WorkflowUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    trigger_type: Optional[str] = None
+    trigger_config: Optional[dict] = None
+    steps: Optional[List[dict]] = None
+    is_active: Optional[bool] = None
+
+
+@router.get("/{workflow_id}", response_model=WorkflowResponse)
+async def get_workflow(
+    workflow_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get workflow by ID"""
+    result = await db.execute(
+        select(Workflow).where(
+            Workflow.id == workflow_id,
+            Workflow.org_id == current_user.org_id
+        )
+    )
+    workflow = result.scalar_one_or_none()
+    if not workflow:
+        raise HTTPException(status_code=404, detail="Workflow not found")
+    return WorkflowResponse.model_validate(workflow)
+
+
+@router.patch("/{workflow_id}", response_model=WorkflowResponse)
+async def update_workflow(
+    workflow_id: UUID,
+    workflow_data: WorkflowUpdate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Update workflow"""
+    result = await db.execute(
+        select(Workflow).where(
+            Workflow.id == workflow_id,
+            Workflow.org_id == current_user.org_id
+        )
+    )
+    workflow = result.scalar_one_or_none()
+    if not workflow:
+        raise HTTPException(status_code=404, detail="Workflow not found")
+    
+    update_data = workflow_data.model_dump(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(workflow, field, value)
+    
+    await db.commit()
+    await db.refresh(workflow)
+    return WorkflowResponse.model_validate(workflow)
+
+
+@router.delete("/{workflow_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_workflow(
+    workflow_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Delete workflow"""
+    result = await db.execute(
+        select(Workflow).where(
+            Workflow.id == workflow_id,
+            Workflow.org_id == current_user.org_id
+        )
+    )
+    workflow = result.scalar_one_or_none()
+    if not workflow:
+        raise HTTPException(status_code=404, detail="Workflow not found")
+    
+    from app.models.agent import Workflow
+    await db.execute(delete(Workflow).where(Workflow.id == workflow_id))
+    await db.commit()

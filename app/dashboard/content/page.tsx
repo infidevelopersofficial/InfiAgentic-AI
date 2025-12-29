@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { ContentList } from "@/components/dashboard/content-list"
 import { CreateContentDialog } from "@/components/dashboard/create-content-dialog"
 import { Button } from "@/components/ui/button"
@@ -8,7 +8,29 @@ import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Plus, Search, Filter, Sparkles } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
+import { apiClient } from "@/lib/api-client"
 import type { ContentItem } from "@/lib/types"
+
+// Helper function to map backend content to frontend ContentItem type
+function mapBackendContentToFrontend(backendContent: any): ContentItem {
+  return {
+    id: backendContent.id,
+    title: backendContent.title || '',
+    type: backendContent.content_type as ContentItem['type'],
+    status: backendContent.status as ContentItem['status'],
+    content: backendContent.content || '',
+    metadata: backendContent.metadata || {
+      keywords: [],
+      seoScore: 0,
+    },
+    createdBy: backendContent.created_by || '',
+    createdAt: new Date(backendContent.created_at),
+    updatedAt: new Date(backendContent.updated_at || backendContent.created_at),
+    scheduledFor: backendContent.scheduled_for ? new Date(backendContent.scheduled_for) : undefined,
+    publishedAt: backendContent.published_at ? new Date(backendContent.published_at) : undefined,
+  }
+}
 
 const mockContent: ContentItem[] = [
   {
@@ -71,9 +93,39 @@ const mockContent: ContentItem[] = [
 ]
 
 export default function ContentPage() {
+  const { toast } = useToast()
   const [searchQuery, setSearchQuery] = useState("")
   const [typeFilter, setTypeFilter] = useState("all")
-  const [content, setContent] = useState(mockContent)
+  const [content, setContent] = useState<ContentItem[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isCreating, setIsCreating] = useState(false)
+
+  // Fetch content on mount
+  useEffect(() => {
+    const fetchContent = async () => {
+      setIsLoading(true)
+      try {
+        const params: any = { page: 1, limit: 100 }
+        if (typeFilter !== "all") {
+          params.content_type = typeFilter
+        }
+        const response = await apiClient.getContent(params)
+        const mappedContent = response.items.map(mapBackendContentToFrontend)
+        setContent(mappedContent)
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load content'
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchContent()
+  }, [typeFilter, toast])
 
   const filteredContent = content.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -81,20 +133,35 @@ export default function ContentPage() {
     return matchesSearch && matchesType
   })
 
-  const handleCreateContent = (newContent: any) => {
-    const contentItem: ContentItem = {
-      id: (content.length + 1).toString(),
-      title: newContent.title,
-      type: newContent.type as any,
-      status: "draft",
-      content: newContent.content,
-      metadata: { keywords: [], seoScore: 0 },
-      createdBy: "current_user",
-      createdAt: new Date(),
-      updatedAt: new Date(),
+  const handleCreateContent = useCallback(async (newContent: any) => {
+    setIsCreating(true)
+    try {
+      const backendContent = await apiClient.createContent({
+        title: newContent.title,
+        content_type: newContent.type,
+        content: newContent.content || '',
+        status: 'draft',
+        metadata: newContent.metadata || {},
+      })
+
+      const contentItem = mapBackendContentToFrontend(backendContent)
+      setContent([contentItem, ...content])
+      
+      toast({
+        title: "Content Created",
+        description: `${contentItem.title} has been created successfully.`,
+      })
+    } catch (err: any) {
+      const errorMessage = err.detail || 'Failed to create content'
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      })
+    } finally {
+      setIsCreating(false)
     }
-    setContent([contentItem, ...content])
-  }
+  }, [content, toast])
 
   return (
     <div className="space-y-6">
@@ -145,26 +212,32 @@ export default function ContentPage() {
         </Select>
       </div>
 
-      <Tabs defaultValue="all">
-        <TabsList>
-          <TabsTrigger value="all">All Content</TabsTrigger>
-          <TabsTrigger value="draft">Drafts</TabsTrigger>
-          <TabsTrigger value="pending">Pending Review</TabsTrigger>
-          <TabsTrigger value="published">Published</TabsTrigger>
-        </TabsList>
-        <TabsContent value="all" className="mt-6">
-          <ContentList items={filteredContent} />
-        </TabsContent>
-        <TabsContent value="draft" className="mt-6">
-          <ContentList items={filteredContent.filter((i) => i.status === "draft")} />
-        </TabsContent>
-        <TabsContent value="pending" className="mt-6">
-          <ContentList items={filteredContent.filter((i) => i.status === "pending_review")} />
-        </TabsContent>
-        <TabsContent value="published" className="mt-6">
-          <ContentList items={filteredContent.filter((i) => i.status === "published")} />
-        </TabsContent>
-      </Tabs>
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <p className="text-muted-foreground">Loading content...</p>
+        </div>
+      ) : (
+        <Tabs defaultValue="all">
+          <TabsList>
+            <TabsTrigger value="all">All Content</TabsTrigger>
+            <TabsTrigger value="draft">Drafts</TabsTrigger>
+            <TabsTrigger value="pending">Pending Review</TabsTrigger>
+            <TabsTrigger value="published">Published</TabsTrigger>
+          </TabsList>
+          <TabsContent value="all" className="mt-6">
+            <ContentList items={filteredContent} />
+          </TabsContent>
+          <TabsContent value="draft" className="mt-6">
+            <ContentList items={filteredContent.filter((i) => i.status === "draft")} />
+          </TabsContent>
+          <TabsContent value="pending" className="mt-6">
+            <ContentList items={filteredContent.filter((i) => i.status === "pending_review")} />
+          </TabsContent>
+          <TabsContent value="published" className="mt-6">
+            <ContentList items={filteredContent.filter((i) => i.status === "published")} />
+          </TabsContent>
+        </Tabs>
+      )}
     </div>
   )
 }

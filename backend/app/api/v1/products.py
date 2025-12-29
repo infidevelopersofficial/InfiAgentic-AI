@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
 from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel
@@ -184,5 +184,6 @@ async def delete_product(
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
     
-    await db.delete(product)
+    from app.models.product import Product
+    await db.execute(delete(Product).where(Product.id == product_id))
     await db.commit()

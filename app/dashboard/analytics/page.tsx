@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Download, TrendingUp, Users, Eye, MousePointer, Calendar, Filter, RefreshCw } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { apiClient } from "@/lib/api-client"
 
 const trafficData = [
   { date: "Jan", value: 4000 },
@@ -52,7 +53,41 @@ export default function AnalyticsPage() {
   const { toast } = useToast()
   const [selectedPeriod, setSelectedPeriod] = useState("30d")
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState(new Date())
+  const [analyticsData, setAnalyticsData] = useState<any>(null)
+
+  // Fetch analytics on mount and when period changes
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      setIsLoading(true)
+      try {
+        const days = selectedPeriod === "7d" ? 7 : selectedPeriod === "30d" ? 30 : selectedPeriod === "90d" ? 90 : 365
+        const endDate = new Date()
+        const startDate = new Date()
+        startDate.setDate(startDate.getDate() - days)
+        
+        const response = await apiClient.getDashboardAnalytics({
+          start_date: startDate.toISOString().split('T')[0],
+          end_date: endDate.toISOString().split('T')[0],
+        })
+        
+        setAnalyticsData(response)
+        setLastUpdated(new Date())
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load analytics'
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchAnalytics()
+  }, [selectedPeriod, toast])
 
   const handleExport = () => {
     toast({
@@ -69,27 +104,40 @@ export default function AnalyticsPage() {
     }, 2000)
   }
 
-  const handleRefresh = async () => {
+  const handleRefresh = useCallback(async () => {
     setIsRefreshing(true)
     
-    // Simulate data refresh
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    setLastUpdated(new Date())
-    setIsRefreshing(false)
-    
-    toast({
-      title: "Data Refreshed",
-      description: "Analytics data has been updated.",
-    })
-  }
+    try {
+      const days = selectedPeriod === "7d" ? 7 : selectedPeriod === "30d" ? 30 : selectedPeriod === "90d" ? 90 : 365
+      const endDate = new Date()
+      const startDate = new Date()
+      startDate.setDate(startDate.getDate() - days)
+      
+      const response = await apiClient.getDashboardAnalytics({
+        start_date: startDate.toISOString().split('T')[0],
+        end_date: endDate.toISOString().split('T')[0],
+      })
+      
+      setAnalyticsData(response)
+      setLastUpdated(new Date())
+      
+      toast({
+        title: "Data Refreshed",
+        description: "Analytics data has been updated.",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to refresh data",
+        variant: "destructive",
+      })
+    } finally {
+      setIsRefreshing(false)
+    }
+  }, [selectedPeriod, toast])
 
   const handlePeriodChange = (period: string) => {
     setSelectedPeriod(period)
-    toast({
-      title: "Period Changed",
-      description: `Showing data for the last ${period}`,
-    })
   }
 
   const getPeriodLabel = (period: string) => {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { ApprovalQueue } from "@/components/dashboard/approval-queue"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -12,6 +12,24 @@ import { Label } from "@/components/ui/label"
 import { CheckCircle, Clock, XCircle, Eye, MessageSquare } from "lucide-react"
 import type { ApprovalRequest } from "@/lib/types"
 import { useToast } from "@/hooks/use-toast"
+import { apiClient } from "@/lib/api-client"
+
+// Helper function to map backend approval to frontend ApprovalRequest type
+function mapBackendApprovalToFrontend(backendApproval: any): ApprovalRequest {
+  return {
+    id: backendApproval.id,
+    type: backendApproval.type as ApprovalRequest['type'],
+    itemId: backendApproval.item_id,
+    title: backendApproval.title,
+    description: backendApproval.description || '',
+    requestedBy: backendApproval.requested_by || '',
+    requestedAt: new Date(backendApproval.requested_at),
+    status: backendApproval.status as ApprovalRequest['status'],
+    reviewedBy: backendApproval.reviewed_by || undefined,
+    reviewedAt: backendApproval.reviewed_at ? new Date(backendApproval.reviewed_at) : undefined,
+    comments: backendApproval.comments || undefined,
+  }
+}
 
 const initialApprovals: ApprovalRequest[] = [
   {
@@ -73,68 +91,104 @@ const initialApprovals: ApprovalRequest[] = [
 
 export default function ApprovalsPage() {
   const { toast } = useToast()
-  const [approvals, setApprovals] = useState(initialApprovals)
+  const [approvals, setApprovals] = useState<ApprovalRequest[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [selectedRequest, setSelectedRequest] = useState<ApprovalRequest | null>(null)
   const [viewDialogOpen, setViewDialogOpen] = useState(false)
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false)
   const [rejectComment, setRejectComment] = useState("")
+  const [activeTab, setActiveTab] = useState("pending")
+
+  // Fetch approvals on mount and when tab changes
+  useEffect(() => {
+    const fetchApprovals = async () => {
+      setIsLoading(true)
+      try {
+        const params: any = { page: 1, limit: 100 }
+        if (activeTab !== "all") {
+          params.status = activeTab
+        }
+        const response = await apiClient.getApprovals(params)
+        const mappedApprovals = response.items.map(mapBackendApprovalToFrontend)
+        setApprovals(mappedApprovals)
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load approvals'
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchApprovals()
+  }, [activeTab, toast])
 
   const pendingCount = approvals.filter((a) => a.status === "pending").length
   const approvedCount = approvals.filter((a) => a.status === "approved").length
   const rejectedCount = approvals.filter((a) => a.status === "rejected").length
 
-  const handleApprove = (request: ApprovalRequest) => {
-    setApprovals(prev =>
-      prev.map(approval =>
-        approval.id === request.id
-          ? {
-              ...approval,
-              status: "approved" as const,
-              reviewedBy: "Current User",
-              reviewedAt: new Date(),
-            }
-          : approval
+  const handleApprove = useCallback(async (request: ApprovalRequest) => {
+    try {
+      const updatedApproval = await apiClient.approveItem(request.id)
+      const mappedApproval = mapBackendApprovalToFrontend(updatedApproval)
+      
+      setApprovals(prev =>
+        prev.map(approval =>
+          approval.id === request.id ? mappedApproval : approval
+        )
       )
-    )
-    
-    toast({
-      title: "Request Approved",
-      description: `${request.title} has been approved.`,
-    })
-  }
+      
+      toast({
+        title: "Request Approved",
+        description: `${request.title} has been approved.`,
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to approve request",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
 
   const handleReject = (request: ApprovalRequest) => {
     setSelectedRequest(request)
     setRejectDialogOpen(true)
   }
 
-  const confirmReject = () => {
+  const confirmReject = useCallback(async () => {
     if (!selectedRequest) return
 
-    setApprovals(prev =>
-      prev.map(approval =>
-        approval.id === selectedRequest.id
-          ? {
-              ...approval,
-              status: "rejected" as const,
-              reviewedBy: "Current User",
-              reviewedAt: new Date(),
-              comments: rejectComment,
-            }
-          : approval
+    try {
+      const updatedApproval = await apiClient.rejectItem(selectedRequest.id, rejectComment)
+      const mappedApproval = mapBackendApprovalToFrontend(updatedApproval)
+      
+      setApprovals(prev =>
+        prev.map(approval =>
+          approval.id === selectedRequest.id ? mappedApproval : approval
+        )
       )
-    )
-    
-    setRejectDialogOpen(false)
-    setRejectComment("")
-    setSelectedRequest(null)
-    
-    toast({
-      title: "Request Rejected",
-      description: `${selectedRequest.title} has been rejected.`,
-      variant: "destructive",
-    })
-  }
+      
+      setRejectDialogOpen(false)
+      setRejectComment("")
+      setSelectedRequest(null)
+      
+      toast({
+        title: "Request Rejected",
+        description: `${selectedRequest.title} has been rejected.`,
+        variant: "destructive",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to reject request",
+        variant: "destructive",
+      })
+    }
+  }, [selectedRequest, rejectComment, toast])
 
   const handleView = (request: ApprovalRequest) => {
     setSelectedRequest(request)
@@ -191,51 +245,57 @@ export default function ApprovalsPage() {
       </div>
 
       {/* Approval Queue */}
-      <Tabs defaultValue="pending">
-        <TabsList>
-          <TabsTrigger value="pending">
-            Pending{" "}
-            <Badge variant="secondary" className="ml-2">
-              {pendingCount}
-            </Badge>
-          </TabsTrigger>
-          <TabsTrigger value="approved">Approved</TabsTrigger>
-          <TabsTrigger value="rejected">Rejected</TabsTrigger>
-          <TabsTrigger value="all">All</TabsTrigger>
-        </TabsList>
-        <TabsContent value="pending" className="mt-6">
-          <ApprovalQueue 
-            requests={getFilteredApprovals("pending")} 
-            onApprove={handleApprove}
-            onReject={handleReject}
-            onView={handleView}
-          />
-        </TabsContent>
-        <TabsContent value="approved" className="mt-6">
-          <ApprovalQueue 
-            requests={getFilteredApprovals("approved")} 
-            onApprove={handleApprove}
-            onReject={handleReject}
-            onView={handleView}
-          />
-        </TabsContent>
-        <TabsContent value="rejected" className="mt-6">
-          <ApprovalQueue 
-            requests={getFilteredApprovals("rejected")} 
-            onApprove={handleApprove}
-            onReject={handleReject}
-            onView={handleView}
-          />
-        </TabsContent>
-        <TabsContent value="all" className="mt-6">
-          <ApprovalQueue 
-            requests={getFilteredApprovals("all")} 
-            onApprove={handleApprove}
-            onReject={handleReject}
-            onView={handleView}
-          />
-        </TabsContent>
-      </Tabs>
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <p className="text-muted-foreground">Loading approvals...</p>
+        </div>
+      ) : (
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList>
+            <TabsTrigger value="pending">
+              Pending{" "}
+              <Badge variant="secondary" className="ml-2">
+                {pendingCount}
+              </Badge>
+            </TabsTrigger>
+            <TabsTrigger value="approved">Approved</TabsTrigger>
+            <TabsTrigger value="rejected">Rejected</TabsTrigger>
+            <TabsTrigger value="all">All</TabsTrigger>
+          </TabsList>
+          <TabsContent value="pending" className="mt-6">
+            <ApprovalQueue 
+              requests={getFilteredApprovals("pending")} 
+              onApprove={handleApprove}
+              onReject={handleReject}
+              onView={handleView}
+            />
+          </TabsContent>
+          <TabsContent value="approved" className="mt-6">
+            <ApprovalQueue 
+              requests={getFilteredApprovals("approved")} 
+              onApprove={handleApprove}
+              onReject={handleReject}
+              onView={handleView}
+            />
+          </TabsContent>
+          <TabsContent value="rejected" className="mt-6">
+            <ApprovalQueue 
+              requests={getFilteredApprovals("rejected")} 
+              onApprove={handleApprove}
+              onReject={handleReject}
+              onView={handleView}
+            />
+          </TabsContent>
+          <TabsContent value="all" className="mt-6">
+            <ApprovalQueue 
+              requests={getFilteredApprovals("all")} 
+              onApprove={handleApprove}
+              onReject={handleReject}
+              onView={handleView}
+            />
+          </TabsContent>
+        </Tabs>
+      )}
 
       {/* View Dialog */}
       <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>

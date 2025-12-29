@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
 from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel
@@ -213,3 +213,74 @@ async def run_agent(
         tokens_used=len(run_request.input_text.split()),
         execution_time_ms=execution_time
     )
+
+
+class AgentUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    model: Optional[str] = None
+    system_prompt: Optional[str] = None
+    temperature: Optional[float] = None
+    max_tokens: Optional[int] = None
+    tools: Optional[List[str]] = None
+    capabilities: Optional[List[str]] = None
+    is_active: Optional[bool] = None
+    status: Optional[str] = None
+
+
+@router.patch("/{agent_id}", response_model=AgentResponse)
+async def update_agent(
+    agent_id: UUID,
+    agent_data: AgentUpdate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Update agent"""
+    result = await db.execute(
+        select(AIAgent).where(
+            AIAgent.id == agent_id,
+            AIAgent.org_id == current_user.org_id
+        )
+    )
+    agent = result.scalar_one_or_none()
+    if not agent:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    
+    update_data = agent_data.model_dump(exclude_unset=True)
+    # Handle status separately if provided
+    if 'status' in update_data:
+        # Map status to is_active if needed
+        if update_data['status'] == 'running':
+            update_data['is_active'] = True
+        elif update_data['status'] == 'idle':
+            update_data['is_active'] = False
+        del update_data['status']
+    
+    for field, value in update_data.items():
+        setattr(agent, field, value)
+    
+    await db.commit()
+    await db.refresh(agent)
+    return AgentResponse.model_validate(agent)
+
+
+@router.delete("/{agent_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_agent(
+    agent_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Delete agent"""
+    result = await db.execute(
+        select(AIAgent).where(
+            AIAgent.id == agent_id,
+            AIAgent.org_id == current_user.org_id
+        )
+    )
+    agent = result.scalar_one_or_none()
+    if not agent:
+        raise HTTPException(status_code=404, detail="Agent not found")
+    
+    from app.models.agent import AIAgent
+    await db.execute(delete(AIAgent).where(AIAgent.id == agent_id))
+    await db.commit()

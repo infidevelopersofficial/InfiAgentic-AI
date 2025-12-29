@@ -1,7 +1,7 @@
 (globalThis.TURBOPACK_CHUNK_LISTS || (globalThis.TURBOPACK_CHUNK_LISTS = [])).push({
     script: typeof document === "object" ? document.currentScript : undefined,
     chunks: [
-  "static/chunks/Codework_agentic-ai-platform_91ca12a0._.js",
+  "static/chunks/Codework_agentic-ai-platform_125f3bad._.js",
   "static/chunks/f2e7e_recharts_es6_util_1247278c._.js",
   "static/chunks/f2e7e_recharts_es6_state_8c1e2d7c._.js",
   "static/chunks/f2e7e_recharts_es6_component_d1e6e5d0._.js",

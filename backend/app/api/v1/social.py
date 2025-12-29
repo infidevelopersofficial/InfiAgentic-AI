@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
 from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel
@@ -138,6 +138,92 @@ async def create_social_post(
         status="scheduled" if post_data.scheduled_at else "draft"
     )
     db.add(post)
+    await db.commit()
+    await db.refresh(post)
+    
+    return SocialPostResponse.model_validate(post)
+
+
+class SocialPostUpdate(BaseModel):
+    post_text: Optional[str] = None
+    media_urls: Optional[List[str]] = None
+    hashtags: Optional[List[str]] = None
+    scheduled_at: Optional[datetime] = None
+    status: Optional[str] = None
+
+
+@router.patch("/posts/{post_id}", response_model=SocialPostResponse)
+async def update_social_post(
+    post_id: UUID,
+    post_data: SocialPostUpdate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Update social post"""
+    result = await db.execute(
+        select(SocialPost).where(
+            SocialPost.id == post_id,
+            SocialPost.org_id == current_user.org_id
+        )
+    )
+    post = result.scalar_one_or_none()
+    if not post:
+        raise HTTPException(status_code=404, detail="Social post not found")
+    
+    update_data = post_data.model_dump(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(post, field, value)
+    
+    await db.commit()
+    await db.refresh(post)
+    return SocialPostResponse.model_validate(post)
+
+
+@router.delete("/posts/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_social_post(
+    post_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Delete social post"""
+    result = await db.execute(
+        select(SocialPost).where(
+            SocialPost.id == post_id,
+            SocialPost.org_id == current_user.org_id
+        )
+    )
+    post = result.scalar_one_or_none()
+    if not post:
+        raise HTTPException(status_code=404, detail="Social post not found")
+    
+    from app.models.social import SocialPost
+    await db.execute(delete(SocialPost).where(SocialPost.id == post_id))
+    await db.commit()
+
+
+@router.post("/posts/{post_id}/publish", response_model=SocialPostResponse)
+async def publish_social_post(
+    post_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Publish social post immediately"""
+    result = await db.execute(
+        select(SocialPost).where(
+            SocialPost.id == post_id,
+            SocialPost.org_id == current_user.org_id
+        )
+    )
+    post = result.scalar_one_or_none()
+    if not post:
+        raise HTTPException(status_code=404, detail="Social post not found")
+    
+    if post.status == "published":
+        raise HTTPException(status_code=400, detail="Post already published")
+    
+    post.status = "published"
+    post.published_at = datetime.utcnow()
+    # In production, this would trigger async publishing via Celery
     await db.commit()
     await db.refresh(post)
     

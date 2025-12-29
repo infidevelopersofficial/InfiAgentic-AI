@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { AgentStatusCard } from "@/components/dashboard/agent-status-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -31,7 +31,22 @@ import {
   Activity,
 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { apiClient } from "@/lib/api-client"
 import type { Agent } from "@/lib/types"
+
+// Helper function to map backend agent to frontend Agent type
+function mapBackendAgentToFrontend(backendAgent: any): Agent {
+  return {
+    id: backendAgent.id,
+    name: backendAgent.name,
+    type: backendAgent.agent_type as Agent['type'],
+    status: backendAgent.status as Agent['status'],
+    description: backendAgent.description || '',
+    lastRun: backendAgent.last_run_at ? new Date(backendAgent.last_run_at) : undefined,
+    nextRun: backendAgent.next_run_at ? new Date(backendAgent.next_run_at) : undefined,
+    config: backendAgent.config || {},
+  }
+}
 
 const initialAgents: Agent[] = [
   {
@@ -114,72 +129,136 @@ const recentLogs = [
 
 export default function AgentsPage() {
   const { toast } = useToast()
-  const [agents, setAgents] = useState(initialAgents)
-  const [createDialogOpen, setCreateDialogOpen] = useState(false)
+  const [agents, setAgents] = useState<Agent[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isCreating, setIsCreating] = useState(false)
   const [selectedType, setSelectedType] = useState("all")
   const [searchTerm, setSearchTerm] = useState("")
   
-  const runningAgents = agents.filter((a) => a.status === "running").length
-  const totalTasks = 1247
-  const successRate = 98.5
-
-  const handleCreateAgent = (newAgent: any) => {
-    const agent: Agent = {
-      id: Date.now().toString(),
-      ...newAgent,
-      status: "idle",
-      lastRun: new Date(),
-      nextRun: new Date(Date.now() + 3600000),
+  // Fetch agents on mount
+  useEffect(() => {
+    const fetchAgents = async () => {
+      setIsLoading(true)
+      try {
+        const response = await apiClient.getAgents({ page: 1, limit: 100 })
+        const mappedAgents = response.items.map(mapBackendAgentToFrontend)
+        setAgents(mappedAgents)
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load agents'
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
     }
-    
-    setAgents(prev => [agent, ...prev])
-    setCreateDialogOpen(false)
-    
-    toast({
-      title: "Agent Created",
-      description: `${newAgent.name} has been created successfully.`,
-    })
-  }
 
-  const handleStartAgent = (agentId: string) => {
-    setAgents(prev =>
-      prev.map(agent =>
-        agent.id === agentId
-          ? { ...agent, status: "running" as const }
-          : agent
+    fetchAgents()
+  }, [toast])
+  
+  const runningAgents = agents.filter((a) => a.status === "running").length
+  const totalTasks = 1247 // This would come from backend stats
+  const successRate = 98.5 // This would come from backend stats
+
+  const handleCreateAgent = useCallback(async (newAgent: any) => {
+    setIsCreating(true)
+    try {
+      const backendAgent = await apiClient.createAgent({
+        name: newAgent.name,
+        agent_type: newAgent.type,
+        description: newAgent.description,
+        config: newAgent.config || {},
+      })
+
+      const agent = mapBackendAgentToFrontend(backendAgent)
+      setAgents(prev => [agent, ...prev])
+      
+      toast({
+        title: "Agent Created",
+        description: `${agent.name} has been created successfully.`,
+      })
+    } catch (err: any) {
+      const errorMessage = err.detail || 'Failed to create agent'
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      })
+    } finally {
+      setIsCreating(false)
+    }
+  }, [toast])
+
+  const handleStartAgent = useCallback(async (agentId: string) => {
+    try {
+      await apiClient.updateAgent(agentId, { status: 'running' })
+      
+      setAgents(prev =>
+        prev.map(agent =>
+          agent.id === agentId
+            ? { ...agent, status: "running" as const }
+            : agent
+        )
       )
-    )
-    
-    toast({
-      title: "Agent Started",
-      description: "Agent has been started successfully.",
-    })
-  }
+      
+      toast({
+        title: "Agent Started",
+        description: "Agent has been started successfully.",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to start agent",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
 
-  const handleStopAgent = (agentId: string) => {
-    setAgents(prev =>
-      prev.map(agent =>
-        agent.id === agentId
-          ? { ...agent, status: "idle" as const }
-          : agent
+  const handleStopAgent = useCallback(async (agentId: string) => {
+    try {
+      await apiClient.updateAgent(agentId, { status: 'idle' })
+      
+      setAgents(prev =>
+        prev.map(agent =>
+          agent.id === agentId
+            ? { ...agent, status: "idle" as const }
+            : agent
+        )
       )
-    )
-    
-    toast({
-      title: "Agent Stopped",
-      description: "Agent has been stopped.",
-    })
-  }
+      
+      toast({
+        title: "Agent Stopped",
+        description: "Agent has been stopped.",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to stop agent",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
 
-  const handleDeleteAgent = (agentId: string) => {
-    setAgents(prev => prev.filter(agent => agent.id !== agentId))
-    
-    toast({
-      title: "Agent Deleted",
-      description: "Agent has been removed.",
-      variant: "destructive",
-    })
-  }
+  const handleDeleteAgent = useCallback(async (agentId: string) => {
+    try {
+      await apiClient.deleteAgent(agentId)
+      setAgents(prev => prev.filter(agent => agent.id !== agentId))
+      
+      toast({
+        title: "Agent Deleted",
+        description: "Agent has been removed.",
+        variant: "destructive",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to delete agent",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
 
   const filteredAgents = agents.filter(agent => {
     const matchesType = selectedType === "all" || agent.type === selectedType

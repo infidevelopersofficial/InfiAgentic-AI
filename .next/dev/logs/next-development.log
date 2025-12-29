@@ -1,66 +1,59 @@
-[00:00:12.865] Server  LOG      ✓ Ready in 8.4s
-[00:00:29.618] Server  LOG      ○ Compiling / ...
-[00:00:41.210] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:41.835] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:41.835] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:00:41.835] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227297398}
-[00:00:47.094] Server  LOG      ○ Compiling /dashboard ...
-[00:00:51.838] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:00:51.838] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:00:51.838] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227307245}
-[00:01:20.033] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:01:20.033] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:01:20.033] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227335475}
-[00:01:31.169] Server  WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:01:31.680] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:32.025] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:01:32.025] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:01:32.149] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:01:32.149] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/dashboard/email","route":"/dashboard/email"}
-[00:01:32.150] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227347712}
-[00:01:37.258] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227352781}
-[00:01:39.431] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:01:39.431] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:01:39.431] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227354893}
-[00:01:45.019] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://localhost:3000/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227360564}
-[00:01:58.851] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227374380}
-[00:02:17.352] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:02:17.352] Browser WARN    The width(-1) and height(-1) of chart should be greater than 0,
-       please check the style of container, or the props width(100%) and height(100%),
-       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
-       height and width.
-[00:02:17.353] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227392839}
-[00:02:20.834] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://localhost:3000/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227396359}
-[00:02:21.038] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://localhost:3000/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227396593}
-[00:02:32.699] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://localhost:3000/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766227408253}
-[02:52:44.317] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1766248126112}
+[00:00:10.915] Server  LOG      ✓ Ready in 9.3s
+[00:00:13.945] Server  LOG      ○ Compiling / ...
+[00:00:28.833] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:29.066] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:29.066] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:29.066] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036467342}
+[00:00:29.537] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:29.722] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:29.722] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:29.722] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036467997}
+[00:00:30.273] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:30.429] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:30.429] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:30.429] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036468705}
+[00:01:59.167] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:00.215] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:02:00.215] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:02:00.215] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036557626}
+[00:02:24.452] Server  LOG      ○ Compiling /dashboard ...
+[00:02:36.888] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036594909}
+[00:02:57.769] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036615965}
+[00:04:59.633] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/social color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/social","o":"http://localhost:3000/dashboard/social","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036737649}
+[00:05:33.810] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/content color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/content","o":"http://localhost:3000/dashboard/content","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036772049}
+[00:05:48.352] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036786420}
+[00:05:58.590] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://localhost:3000/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036796813}
+[00:05:58.590] Browser LOG     CRMPage rendered 1 times. Time since last render: 23ms
+[00:05:58.590] Browser LOG     CRMPage rendered 2 times. Time since last render: 1ms
+[00:05:58.725] Browser LOG     CRMPage rendered 3 times. Time since last render: 143ms
+[00:05:58.725] Browser LOG     CRMPage rendered 4 times. Time since last render: 5ms
+[00:06:02.375] Browser LOG     LeadFlowsPage rendered 1 times. Time since last render: 12ms
+[00:06:02.375] Browser LOG     LeadFlowsPage rendered 2 times. Time since last render: 2ms
+[00:06:02.375] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://localhost:3000/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036800548}
+[00:06:02.375] Browser LOG     LeadFlowsPage rendered 3 times. Time since last render: 91ms
+[00:06:02.375] Browser LOG     LeadFlowsPage rendered 4 times. Time since last render: 12ms
+[00:06:03.742] Browser LOG     LeadFlowsPage rendered 5 times. Time since last render: 1367ms
+[00:06:05.566] Browser LOG     CRMPage rendered 1 times. Time since last render: 15ms
+[00:06:05.566] Browser LOG     CRMPage rendered 2 times. Time since last render: 2ms
+[00:06:05.566] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://localhost:3000/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036803685}
+[00:06:05.566] Browser LOG     CRMPage rendered 3 times. Time since last render: 135ms
+[00:06:05.566] Browser LOG     CRMPage rendered 4 times. Time since last render: 15ms
+[00:06:06.424] Browser LOG     CRMPage rendered 5 times. Time since last render: 864ms
+[00:06:09.549] Browser LOG     LeadFlowsPage rendered 1 times. Time since last render: 9ms
+[00:06:09.549] Browser LOG     LeadFlowsPage rendered 2 times. Time since last render: 1ms
+[00:06:09.549] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/leads color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/leads","o":"http://localhost:3000/dashboard/leads","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036807785}
+[00:06:09.549] Browser LOG     LeadFlowsPage rendered 3 times. Time since last render: 31ms
+[00:06:09.549] Browser LOG     LeadFlowsPage rendered 4 times. Time since last render: 9ms
+[00:06:10.853] Browser LOG     LeadFlowsPage rendered 5 times. Time since last render: 1304ms
+[00:06:15.852] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/workflows color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/workflows","o":"http://localhost:3000/dashboard/workflows","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036814125}
+[00:06:31.125] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/agents color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/agents","o":"http://localhost:3000/dashboard/agents","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036829153}
+[00:06:35.218] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/approvals color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/approvals","o":"http://localhost:3000/dashboard/approvals","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036833483}
+[00:06:46.265] Server  LOG      ○ Compiling /dashboard/calendar ...
+[00:06:47.275] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/analytics color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/analytics","o":"http://localhost:3000/dashboard/analytics","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036845073}
+[00:06:51.306] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/email color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/email","o":"http://localhost:3000/dashboard/email","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036849491}
+[00:06:53.076] Browser LOG     CRMPage rendered 1 times. Time since last render: 10ms
+[00:06:53.076] Browser LOG     CRMPage rendered 2 times. Time since last render: 2ms
+[00:06:53.076] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard/crm color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard/crm","o":"http://localhost:3000/dashboard/crm","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1767036851303}
+[00:06:53.076] Browser LOG     CRMPage rendered 3 times. Time since last render: 44ms
+[00:06:53.076] Browser LOG     CRMPage rendered 4 times. Time since last render: 3ms
+[00:06:54.659] Browser LOG     CRMPage rendered 5 times. Time since last render: 1583ms

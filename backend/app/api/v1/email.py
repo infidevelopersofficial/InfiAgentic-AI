@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
 from typing import List, Optional
 from uuid import UUID
 from pydantic import BaseModel, EmailStr
@@ -145,4 +145,110 @@ async def create_campaign(
     db.add(campaign)
     await db.commit()
     await db.refresh(campaign)
+    return EmailCampaignResponse.model_validate(campaign)
+
+
+class EmailCampaignUpdate(BaseModel):
+    name: Optional[str] = None
+    subject: Optional[str] = None
+    html_body: Optional[str] = None
+    plain_body: Optional[str] = None
+    scheduled_at: Optional[datetime] = None
+    status: Optional[str] = None
+
+
+@router.get("/campaigns/{campaign_id}", response_model=EmailCampaignResponse)
+async def get_campaign(
+    campaign_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Get email campaign by ID"""
+    result = await db.execute(
+        select(EmailCampaign).where(
+            EmailCampaign.id == campaign_id,
+            EmailCampaign.org_id == current_user.org_id
+        )
+    )
+    campaign = result.scalar_one_or_none()
+    if not campaign:
+        raise HTTPException(status_code=404, detail="Campaign not found")
+    return EmailCampaignResponse.model_validate(campaign)
+
+
+@router.patch("/campaigns/{campaign_id}", response_model=EmailCampaignResponse)
+async def update_campaign(
+    campaign_id: UUID,
+    campaign_data: EmailCampaignUpdate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Update email campaign"""
+    result = await db.execute(
+        select(EmailCampaign).where(
+            EmailCampaign.id == campaign_id,
+            EmailCampaign.org_id == current_user.org_id
+        )
+    )
+    campaign = result.scalar_one_or_none()
+    if not campaign:
+        raise HTTPException(status_code=404, detail="Campaign not found")
+    
+    update_data = campaign_data.model_dump(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(campaign, field, value)
+    
+    await db.commit()
+    await db.refresh(campaign)
+    return EmailCampaignResponse.model_validate(campaign)
+
+
+@router.delete("/campaigns/{campaign_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_campaign(
+    campaign_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Delete email campaign"""
+    result = await db.execute(
+        select(EmailCampaign).where(
+            EmailCampaign.id == campaign_id,
+            EmailCampaign.org_id == current_user.org_id
+        )
+    )
+    campaign = result.scalar_one_or_none()
+    if not campaign:
+        raise HTTPException(status_code=404, detail="Campaign not found")
+    
+    from app.models.email import EmailCampaign
+    await db.execute(delete(EmailCampaign).where(EmailCampaign.id == campaign_id))
+    await db.commit()
+
+
+@router.post("/campaigns/{campaign_id}/send", response_model=EmailCampaignResponse)
+async def send_campaign(
+    campaign_id: UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """Send email campaign"""
+    result = await db.execute(
+        select(EmailCampaign).where(
+            EmailCampaign.id == campaign_id,
+            EmailCampaign.org_id == current_user.org_id
+        )
+    )
+    campaign = result.scalar_one_or_none()
+    if not campaign:
+        raise HTTPException(status_code=404, detail="Campaign not found")
+    
+    if campaign.status == "sent":
+        raise HTTPException(status_code=400, detail="Campaign already sent")
+    
+    campaign.status = "active"
+    campaign.sent_at = datetime.utcnow()
+    # In production, this would trigger async sending via Celery
+    await db.commit()
+    await db.refresh(campaign)
+    
     return EmailCampaignResponse.model_validate(campaign)

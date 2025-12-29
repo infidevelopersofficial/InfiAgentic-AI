@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -12,6 +12,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { ChevronLeft, ChevronRight, Plus, Trash2, Edit, Calendar as CalendarIcon } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { apiClient } from "@/lib/api-client"
+
+// Helper function to map backend event to frontend format
+function mapBackendEventToFrontend(backendEvent: any) {
+  const startTime = new Date(backendEvent.start_time)
+  return {
+    id: backendEvent.id,
+    title: backendEvent.title,
+    type: backendEvent.event_type,
+    date: startTime,
+    time: startTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+    description: backendEvent.description || '',
+    location: backendEvent.location,
+  }
+}
 
 const initialEvents = [
   { id: "1", title: "Blog Post: AI Trends", type: "content", date: new Date(2025, 0, 15), time: "10:00 AM" },
@@ -30,17 +45,51 @@ const typeColors: Record<string, string> = {
 
 export default function CalendarPage() {
   const { toast } = useToast()
-  const [events, setEvents] = useState(initialEvents)
+  const [events, setEvents] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
   const [addEventDialogOpen, setAddEventDialogOpen] = useState(false)
   const [newEvent, setNewEvent] = useState({
     title: "",
-    type: "content",
+    type: "reminder",
     date: new Date(),
     time: "9:00 AM",
     description: "",
+    location: "",
   })
+
+  // Fetch events on mount and when date changes
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setIsLoading(true)
+      try {
+        const startOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
+        const endOfMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0)
+        
+        const response = await apiClient.getCalendarEvents({
+          page: 1,
+          limit: 100,
+          start_date: startOfMonth.toISOString().split('T')[0],
+          end_date: endOfMonth.toISOString().split('T')[0],
+        })
+        
+        const mappedEvents = response.items.map(mapBackendEventToFrontend)
+        setEvents(mappedEvents)
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load calendar events'
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchEvents()
+  }, [selectedDate, toast])
 
   const eventsForSelectedDate = events.filter((event) => event.date.toDateString() === selectedDate.toDateString())
 
@@ -49,44 +98,73 @@ export default function CalendarPage() {
     .sort((a, b) => a.date.getTime() - b.date.getTime())
     .slice(0, 5)
 
-  const handleAddEvent = () => {
+  const handleAddEvent = useCallback(async () => {
     if (!newEvent.title) return
 
-    const event = {
-      id: (events.length + 1).toString(),
-      title: newEvent.title,
-      type: newEvent.type,
-      date: newEvent.date,
-      time: newEvent.time,
-      description: newEvent.description,
+    try {
+      // Combine date and time
+      const [time, period] = newEvent.time.split(' ')
+      const [hours, minutes] = time.split(':')
+      let hour = parseInt(hours)
+      if (period === 'PM' && hour !== 12) hour += 12
+      if (period === 'AM' && hour === 12) hour = 0
+      
+      const startTime = new Date(newEvent.date)
+      startTime.setHours(hour, parseInt(minutes), 0, 0)
+
+      const backendEvent = await apiClient.createCalendarEvent({
+        title: newEvent.title,
+        description: newEvent.description,
+        event_type: newEvent.type,
+        start_time: startTime.toISOString(),
+        all_day: false,
+        location: newEvent.location || undefined,
+      })
+
+      const event = mapBackendEventToFrontend(backendEvent)
+      setEvents([...events, event])
+      setNewEvent({
+        title: "",
+        type: "reminder",
+        date: new Date(),
+        time: "9:00 AM",
+        description: "",
+        location: "",
+      })
+      setAddEventDialogOpen(false)
+
+      toast({
+        title: "Event Added",
+        description: `${event.title} has been added to your calendar.`,
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to create event",
+        variant: "destructive",
+      })
     }
+  }, [newEvent, events, toast])
 
-    setEvents([...events, event])
-    setNewEvent({
-      title: "",
-      type: "content",
-      date: new Date(),
-      time: "9:00 AM",
-      description: "",
-    })
-    setAddEventDialogOpen(false)
-
-    toast({
-      title: "Event Added",
-      description: `${event.title} has been added to your calendar.`,
-    })
-  }
-
-  const handleDeleteEvent = (eventId: string) => {
-    const event = events.find(e => e.id === eventId)
-    setEvents(events.filter(e => e.id !== eventId))
-    
-    toast({
-      title: "Event Deleted",
-      description: `${event?.title} has been removed from your calendar.`,
-      variant: "destructive",
-    })
-  }
+  const handleDeleteEvent = useCallback(async (eventId: string) => {
+    try {
+      const event = events.find(e => e.id === eventId)
+      await apiClient.deleteCalendarEvent(eventId)
+      setEvents(events.filter(e => e.id !== eventId))
+      
+      toast({
+        title: "Event Deleted",
+        description: `${event?.title} has been removed from your calendar.`,
+        variant: "destructive",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to delete event",
+        variant: "destructive",
+      })
+    }
+  }, [events, toast])
 
   const navigateMonth = (direction: "prev" | "next") => {
     const newDate = new Date(selectedDate)

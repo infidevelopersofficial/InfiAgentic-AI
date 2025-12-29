@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useEffect } from "react"
 import { CreateFlowDialog } from "@/components/dashboard/create-flow-dialog"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,23 @@ import { useToast } from "@/hooks/use-toast"
 import { ErrorBoundary, ErrorState } from "@/components/ui/error-boundary"
 import { LoadingState } from "@/components/ui/loading-state"
 import { usePerformanceMonitor } from "@/lib/performance"
+import { apiClient } from "@/lib/api-client"
+
+// Helper function to map backend lead flow to frontend format
+function mapBackendFlowToFrontend(backendFlow: any) {
+  return {
+    id: backendFlow.id,
+    name: backendFlow.name,
+    description: backendFlow.description || '',
+    status: backendFlow.is_active ? 'active' : 'paused',
+    trigger: backendFlow.trigger_type,
+    leads: backendFlow.total_leads || 0,
+    conversionRate: backendFlow.total_leads > 0 
+      ? Math.round((backendFlow.conversion_count / backendFlow.total_leads) * 100)
+      : 0,
+    steps: backendFlow.steps || [],
+  }
+}
 
 const triggerOptions = [
   { value: "form_submission", label: "Form Submission" },
@@ -76,25 +93,53 @@ const statusColors: Record<string, string> = {
 
 export default function LeadFlowsPage() {
   const { toast } = useToast()
-  const [leadFlows, setLeadFlows] = useState(initialLeadFlows)
-  const [isLoading, setIsLoading] = useState(false)
+  const [leadFlows, setLeadFlows] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   // Performance monitoring
   usePerformanceMonitor('LeadFlowsPage')
+
+  // Fetch lead flows on mount
+  useEffect(() => {
+    const fetchLeadFlows = async () => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await apiClient.getLeadFlows({ page: 1, limit: 100 })
+        const mappedFlows = response.items.map(mapBackendFlowToFrontend)
+        setLeadFlows(mappedFlows)
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load lead flows'
+        setError(errorMessage)
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchLeadFlows()
+  }, [toast])
 
   // Memoized metrics calculation
   const metrics = useMemo(() => ({
     totalFlows: leadFlows.length,
     activeFlows: leadFlows.filter(flow => flow.status === 'active').length,
     totalLeads: leadFlows.reduce((acc, flow) => acc + flow.leads, 0),
-    avgConversion: Math.round(
-      leadFlows.reduce((acc, flow) => acc + flow.conversionRate, 0) / leadFlows.length
-    )
+    avgConversion: leadFlows.length > 0
+      ? Math.round(
+          leadFlows.reduce((acc, flow) => acc + flow.conversionRate, 0) / leadFlows.length
+        )
+      : 0
   }), [leadFlows])
 
   const handleCreateFlow = useCallback(async (newFlow: any) => {
-    setIsLoading(true)
+    setIsCreating(true)
     setError(null)
     
     try {
@@ -107,33 +152,23 @@ export default function LeadFlowsPage() {
         throw new Error("Trigger is required")
       }
 
-      // Check for duplicate name
-      const duplicateName = leadFlows.some(flow => 
-        flow.name.toLowerCase() === newFlow.name.trim().toLowerCase()
-      )
-      if (duplicateName) {
-        throw new Error("A flow with this name already exists")
-      }
-
-      const flow = {
-        id: (leadFlows.length + 1).toString(),
+      const backendFlow = await apiClient.createLeadFlow({
         name: newFlow.name.trim(),
-        description: newFlow.description?.trim() || "",
-        status: "paused",
-        trigger: triggerOptions.find(opt => opt.value === newFlow.trigger)?.label || newFlow.trigger,
-        leads: 0,
-        conversionRate: 0,
+        description: newFlow.description?.trim(),
+        trigger_type: newFlow.trigger,
+        trigger_conditions: newFlow.triggerConditions || {},
         steps: newFlow.steps || [],
-      }
-      
+      })
+
+      const flow = mapBackendFlowToFrontend(backendFlow)
       setLeadFlows([flow, ...leadFlows])
       
       toast({
         title: "Flow Created",
         description: `${flow.name} has been created successfully.`,
       })
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to create flow"
+    } catch (err: any) {
+      const errorMessage = err.detail || (err instanceof Error ? err.message : "Failed to create flow")
       setError(errorMessage)
       
       toast({
@@ -142,29 +177,32 @@ export default function LeadFlowsPage() {
         variant: "destructive",
       })
     } finally {
-      setIsLoading(false)
+      setIsCreating(false)
     }
   }, [leadFlows, toast])
 
   const handleToggleStatus = useCallback(async (flowId: string) => {
     try {
+      const flow = leadFlows.find(f => f.id === flowId)
+      if (!flow) return
+
+      const updatedFlow = await apiClient.toggleLeadFlow(flowId)
+      const mappedFlow = mapBackendFlowToFrontend(updatedFlow)
+      
       setLeadFlows(prev =>
-        prev.map(flow =>
-          flow.id === flowId
-            ? { ...flow, status: flow.status === "active" ? "paused" : "active" }
-            : flow
+        prev.map(f =>
+          f.id === flowId ? mappedFlow : f
         )
       )
       
-      const flow = leadFlows.find(f => f.id === flowId)
       toast({
         title: "Status Updated",
-        description: `${flow?.name} is now ${flow?.status === "active" ? "paused" : "active"}.`,
+        description: `${flow.name} is now ${mappedFlow.status}.`,
       })
-    } catch (error) {
+    } catch (err: any) {
       toast({
         title: "Error",
-        description: "Failed to update flow status",
+        description: err.detail || "Failed to update flow status",
         variant: "destructive",
       })
     }
@@ -230,7 +268,7 @@ export default function LeadFlowsPage() {
     </Card>
   ), [handleToggleStatus])
 
-  if (error) {
+  if (error && leadFlows.length === 0) {
     return (
       <ErrorState 
         message={error} 
@@ -239,8 +277,8 @@ export default function LeadFlowsPage() {
     )
   }
 
-  if (isLoading) {
-    return <LoadingState message="Creating flow..." />
+  if (isLoading && leadFlows.length === 0) {
+    return <LoadingState message="Loading lead flows..." />
   }
 
   return (

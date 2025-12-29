@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, func
+from sqlalchemy import select, func, delete
 from typing import List, Optional
 from uuid import UUID
 
@@ -144,5 +144,5 @@ async def delete_content(
     if not content:
         raise HTTPException(status_code=404, detail="Content not found")
     
-    await db.delete(content)
+    await db.execute(delete(Content).where(Content.id == content_id))
     await db.commit()

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useEffect } from "react"
 import { LeadPipeline } from "@/components/dashboard/lead-pipeline"
 import { CreateLeadDialog } from "@/components/dashboard/create-lead-dialog"
 import { Card, CardContent } from "@/components/ui/card"
@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast"
 import { ErrorBoundary, ErrorState } from "@/components/ui/error-boundary"
 import { LoadingState } from "@/components/ui/loading-state"
 import { useDebouncedValue, useOptimizedSearch, usePerformanceMonitor } from "@/lib/performance"
+import { apiClient } from "@/lib/api-client"
 import type { Lead } from "@/lib/types"
 
 // Status color mapping
@@ -25,127 +26,57 @@ const statusColors: Record<string, string> = {
   converted: "bg-purple-500/10 text-purple-600 border-purple-500/20",
 }
 
-const initialLeads: Lead[] = [
-  {
-    id: "1",
-    name: "John Smith",
-    email: "john@acme.com",
-    company: "Acme Corp",
-    phone: "+1 555-0101",
-    status: "new",
-    score: 85,
-    source: "Website",
-    tags: ["enterprise"],
-    notes: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "2",
-    name: "Sarah Johnson",
-    email: "sarah@tech.io",
-    company: "Tech.io",
-    phone: "+1 555-0102",
-    status: "contacted",
-    score: 72,
-    source: "LinkedIn",
-    tags: ["startup"],
-    notes: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "3",
-    name: "Mike Wilson",
-    email: "mike@startup.co",
-    company: "Startup Co",
-    phone: "+1 555-0103",
-    status: "qualified",
-    score: 91,
-    source: "Referral",
-    tags: ["hot lead"],
-    notes: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "4",
-    name: "Emily Brown",
-    email: "emily@corp.com",
-    company: "Global Corp",
-    phone: "+1 555-0104",
-    status: "proposal",
-    score: 88,
-    source: "Trade Show",
-    tags: ["enterprise"],
-    notes: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "5",
-    name: "David Lee",
-    email: "david@agency.com",
-    company: "Creative Agency",
-    phone: "+1 555-0105",
-    status: "negotiation",
-    score: 94,
-    source: "Website",
-    tags: ["agency"],
-    notes: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "6",
-    name: "Lisa Chen",
-    email: "lisa@media.co",
-    company: "Media Co",
-    phone: "+1 555-0106",
-    status: "won",
-    score: 96,
-    source: "Webinar",
-    tags: ["enterprise"],
-    notes: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "7",
-    name: "Tom Davis",
-    email: "tom@retail.com",
-    company: "Retail Plus",
-    phone: "+1 555-0107",
-    status: "new",
-    score: 65,
-    source: "Website",
-    tags: ["smb"],
-    notes: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    id: "8",
-    name: "Anna White",
-    email: "anna@finance.io",
-    company: "Finance.io",
-    phone: "+1 555-0108",
-    status: "contacted",
-    score: 78,
-    source: "Email",
-    tags: ["fintech"],
-    notes: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-]
+// Helper function to map backend lead to frontend Lead type
+function mapBackendLeadToFrontend(backendLead: any): Lead {
+  return {
+    id: backendLead.id,
+    name: `${backendLead.first_name || ''} ${backendLead.last_name || ''}`.trim() || backendLead.email,
+    email: backendLead.email,
+    company: backendLead.company || undefined,
+    phone: backendLead.phone || undefined,
+    status: backendLead.status as Lead['status'],
+    score: backendLead.score || 0,
+    source: backendLead.source || 'Unknown',
+    assignedTo: backendLead.assigned_to || undefined,
+    tags: backendLead.tags || [],
+    notes: [], // Backend doesn't have notes in response, would need separate endpoint
+    createdAt: new Date(backendLead.created_at),
+    updatedAt: new Date(backendLead.updated_at || backendLead.created_at),
+  }
+}
 
 export default function CRMPage() {
   const { toast } = useToast()
   const [searchQuery, setSearchQuery] = useState("")
-  const [leads, setLeads] = useState(initialLeads)
-  const [isLoading, setIsLoading] = useState(false)
+  const [leads, setLeads] = useState<Lead[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Fetch leads on mount
+  useEffect(() => {
+    const fetchLeads = async () => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await apiClient.getLeads({ page: 1, limit: 100 })
+        const mappedLeads = response.items.map(mapBackendLeadToFrontend)
+        setLeads(mappedLeads)
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load leads'
+        setError(errorMessage)
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchLeads()
+  }, [toast])
 
   // Performance monitoring
   usePerformanceMonitor('CRMPage')
@@ -159,48 +90,48 @@ export default function CRMPage() {
     totalLeads: leads.length,
     newLeads: leads.filter(lead => lead.status === 'new').length,
     contactedLeads: leads.filter(lead => lead.status === 'contacted').length,
-    avgScore: Math.round(leads.reduce((acc, lead) => acc + lead.score, 0) / leads.length)
+    avgScore: leads.length > 0 
+      ? Math.round(leads.reduce((acc, lead) => acc + lead.score, 0) / leads.length)
+      : 0
   }), [leads])
 
   const handleCreateLead = useCallback(async (newLead: any) => {
-    setIsLoading(true)
+    setIsCreating(true)
     setError(null)
     
     try {
       // Validate required fields
-      if (!newLead.name || !newLead.email) {
-        throw new Error("Name and email are required fields")
+      if (!newLead.email) {
+        throw new Error("Email is required")
       }
 
-      // Check for duplicate email
-      const duplicateEmail = leads.some(lead => lead.email === newLead.email)
-      if (duplicateEmail) {
-        throw new Error("A lead with this email already exists")
-      }
+      // Split name into first_name and last_name if provided
+      const nameParts = (newLead.name || '').trim().split(' ')
+      const first_name = nameParts[0] || ''
+      const last_name = nameParts.slice(1).join(' ') || ''
 
-      const lead: Lead = {
-        id: (leads.length + 1).toString(),
-        name: newLead.name.trim(),
+      // Create lead via API
+      const backendLead = await apiClient.createLead({
         email: newLead.email.trim(),
-        company: newLead.company?.trim() || "",
-        phone: newLead.phone?.trim() || "",
-        status: newLead.status as any,
-        score: Math.floor(Math.random() * 40) + 60, // Random score between 60-100
-        source: newLead.source,
+        phone: newLead.phone?.trim(),
+        first_name,
+        last_name,
+        company: newLead.company?.trim(),
+        job_title: newLead.jobTitle?.trim(),
+        source: newLead.source || 'Manual',
         tags: newLead.tags || [],
-        notes: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
-      
+      })
+
+      // Map and add to local state
+      const lead = mapBackendLeadToFrontend(backendLead)
       setLeads([lead, ...leads])
       
       toast({
         title: "Lead Created",
         description: `${lead.name} has been added to your pipeline.`,
       })
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to create lead"
+    } catch (err: any) {
+      const errorMessage = err.detail || (err instanceof Error ? err.message : "Failed to create lead")
       setError(errorMessage)
       
       toast({
@@ -209,7 +140,7 @@ export default function CRMPage() {
         variant: "destructive",
       })
     } finally {
-      setIsLoading(false)
+      setIsCreating(false)
     }
   }, [leads, toast])
 
@@ -248,7 +179,7 @@ export default function CRMPage() {
     </Card>
   ), [])
 
-  if (error) {
+  if (error && leads.length === 0) {
     return (
       <ErrorState 
         message={error} 
@@ -257,8 +188,8 @@ export default function CRMPage() {
     )
   }
 
-  if (isLoading) {
-    return <LoadingState message="Creating lead..." />
+  if (isLoading && leads.length === 0) {
+    return <LoadingState message="Loading leads..." />
   }
 
   return (

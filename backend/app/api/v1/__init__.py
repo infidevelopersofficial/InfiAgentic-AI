@@ -9,7 +9,9 @@ from app.api.v1 import (
     workflows,
     agents,
     analytics,
-    products
+    products,
+    calendar,
+    approvals
 )
 
 __all__ = [
@@ -22,5 +24,7 @@ __all__ = [
     "workflows",
     "agents",
     "analytics",
-    "products"
+    "products",
+    "calendar",
+    "approvals"
 ]

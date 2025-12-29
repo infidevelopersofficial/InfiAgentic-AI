@@ -73,6 +73,8 @@ async def lifespan(app: FastAPI):
     
     # Shutdown
     logger.info(f"Shutting down {settings.PROJECT_NAME} API")
+    from app.core.redis_client import close_redis
+    await close_redis()
     await engine.dispose()
 
 
@@ -168,6 +170,11 @@ app.include_router(workflows.router, prefix="/v1/workflows", tags=["Workflows"])
 app.include_router(agents.router, prefix="/v1/agents", tags=["Agents"])
 app.include_router(analytics.router, prefix="/v1/analytics", tags=["Analytics"])
 app.include_router(products.router, prefix="/v1/products", tags=["Products"])
+
+# Import and include calendar and approvals routers
+from app.api.v1 import calendar, approvals
+app.include_router(calendar.router, prefix="/v1/calendar", tags=["Calendar"])
+app.include_router(approvals.router, prefix="/v1/approvals", tags=["Approvals"])
 
 
 # Global exception handler

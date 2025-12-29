@@ -1,5 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization")
 
@@ -7,15 +9,30 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
-  // Mock user data - replace with real user lookup
-  const user = {
-    id: "user_1",
-    email: "admin@infidevelopers.com",
-    name: "Admin User",
-    role: "admin",
-    avatar: null,
-    created_at: new Date().toISOString(),
-  }
+  try {
+    // Call backend API
+    const response = await fetch(`${API_BASE_URL}/v1/auth/me`, {
+      method: 'GET',
+      headers: {
+        'Authorization': authHeader,
+        'Content-Type': 'application/json',
+      },
+    })
 
-  return NextResponse.json(user)
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: response.status }
+      )
+    }
+
+    const user = await response.json()
+    return NextResponse.json(user)
+  } catch (error: any) {
+    console.error('Get user error:', error)
+    return NextResponse.json(
+      { error: error.message || 'Internal server error' },
+      { status: 500 }
+    )
+  }
 }

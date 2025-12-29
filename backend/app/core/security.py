@@ -23,7 +23,7 @@ pwd_context = CryptContext(
 # JWT Bearer
 security = HTTPBearer()
 
-# This is a simple implementation - for production scale, use Redis
+# In-memory fallback for token blacklist (used if Redis is unavailable)
 _token_blacklist: set = set()
 
 
@@ -42,14 +42,38 @@ def _get_token_hash(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()[:16]
 
 
-def blacklist_token(token: str) -> None:
-    """Add token to blacklist"""
-    _token_blacklist.add(_get_token_hash(token))
+async def blacklist_token(token: str) -> None:
+    """Add token to blacklist (uses Redis if available, falls back to in-memory)"""
+    token_hash = _get_token_hash(token)
+    
+    # Try Redis first
+    try:
+        from app.core.redis_client import TokenBlacklist
+        success = await TokenBlacklist.add(token_hash)
+        if success:
+            return
+    except Exception:
+        pass  # Fall back to in-memory
+    
+    # Fallback to in-memory
+    _token_blacklist.add(token_hash)
 
 
-def is_token_blacklisted(token: str) -> bool:
-    """Check if token is blacklisted"""
-    return _get_token_hash(token) in _token_blacklist
+async def is_token_blacklisted(token: str) -> bool:
+    """Check if token is blacklisted (uses Redis if available, falls back to in-memory)"""
+    token_hash = _get_token_hash(token)
+    
+    # Try Redis first
+    try:
+        from app.core.redis_client import TokenBlacklist
+        is_blacklisted = await TokenBlacklist.is_blacklisted(token_hash)
+        if is_blacklisted:
+            return True
+    except Exception:
+        pass  # Fall back to in-memory
+    
+    # Fallback to in-memory
+    return token_hash in _token_blacklist
 
 
 def create_access_token(data: Dict, expires_delta: Optional[timedelta] = None) -> str:
@@ -86,9 +110,9 @@ def create_refresh_token(data: Dict) -> str:
     return encoded_jwt
 
 
-def decode_token(token: str) -> Dict:
+async def decode_token(token: str) -> Dict:
     """Decode and verify JWT token"""
-    if is_token_blacklisted(token):
+    if await is_token_blacklisted(token):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token has been revoked"
@@ -104,9 +128,9 @@ def decode_token(token: str) -> Dict:
         )
 
 
-def verify_refresh_token(token: str) -> Dict:
+async def verify_refresh_token(token: str) -> Dict:
     """Verify refresh token and return payload"""
-    payload = decode_token(token)
+    payload = await decode_token(token)
     if payload.get("type") != "refresh":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -121,7 +145,7 @@ async def get_current_user(
 ) -> User:
     """Get current authenticated user"""
     token = credentials.credentials
-    payload = decode_token(token)
+    payload = await decode_token(token)
     
     if payload.get("type") != "access":
         raise HTTPException(

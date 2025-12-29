@@ -99,6 +99,22 @@ export interface Lead {
   updatedAt: Date
 }
 
+// Backend API response types
+export interface BackendLead {
+  id: string
+  email: string
+  phone?: string
+  first_name?: string
+  last_name?: string
+  company?: string
+  source?: string
+  status: string
+  score: number
+  tags: string[]
+  created_at: string
+  updated_at?: string
+}
+
 export interface Workflow {
   id: string
   name: string

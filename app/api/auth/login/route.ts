@@ -1,5 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -10,30 +12,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email and password are required" }, { status: 400 })
     }
 
-    // Mock authentication - replace with real auth logic
-    if (email === "admin@infidevelopers.com" && password === "admin123") {
-      const user = {
-        id: "user_1",
-        email: email,
-        name: "Admin User",
-        role: "admin",
-      }
+    // Call backend API
+    const response = await fetch(`${API_BASE_URL}/v1/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    })
 
-      const token = {
-        access_token: "mock_access_token_" + Date.now(),
-        refresh_token: "mock_refresh_token_" + Date.now(),
-        expires_in: 3600,
-        token_type: "Bearer",
-      }
-
-      return NextResponse.json({
-        user,
-        ...token,
-      })
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ detail: 'Invalid credentials' }))
+      return NextResponse.json(
+        { error: errorData.detail || 'Invalid credentials' },
+        { status: response.status }
+      )
     }
 
-    return NextResponse.json({ error: "Invalid credentials" }, { status: 401 })
-  } catch {
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    const data = await response.json()
+    
+    // Transform backend response to frontend format
+    return NextResponse.json({
+      user: data.user,
+      tokens: data.tokens || {
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+        token_type: data.token_type || 'Bearer',
+        expires_in: data.expires_in,
+      },
+    })
+  } catch (error: any) {
+    console.error('Login error:', error)
+    return NextResponse.json(
+      { error: error.message || 'Internal server error' },
+      { status: 500 }
+    )
   }
 }

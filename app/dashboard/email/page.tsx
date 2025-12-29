@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -14,6 +14,31 @@ import { Input } from "@/components/ui/input"
 import { Plus, Mail, Users, MousePointer, MoreHorizontal, Send, Eye, Edit, Trash2, Search, Filter, Calendar, TrendingUp } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useToast } from "@/hooks/use-toast"
+import { apiClient } from "@/lib/api-client"
+import type { EmailCampaign } from "@/lib/types"
+
+// Helper function to map backend campaign to frontend EmailCampaign type
+function mapBackendCampaignToFrontend(backendCampaign: any): EmailCampaign {
+  return {
+    id: backendCampaign.id,
+    name: backendCampaign.name,
+    subject: backendCampaign.subject || '',
+    preheader: backendCampaign.preheader,
+    content: backendCampaign.html_body || backendCampaign.content || '',
+    status: backendCampaign.status as EmailCampaign['status'],
+    audienceId: backendCampaign.audience_id || '',
+    scheduledFor: backendCampaign.scheduled_at ? new Date(backendCampaign.scheduled_at) : undefined,
+    sentAt: backendCampaign.sent_at ? new Date(backendCampaign.sent_at) : undefined,
+    metrics: {
+      sent: backendCampaign.sent_count || 0,
+      delivered: backendCampaign.delivered_count || 0,
+      opened: backendCampaign.open_count || 0,
+      clicked: backendCampaign.click_count || 0,
+      bounced: backendCampaign.bounced_count || 0,
+      unsubscribed: backendCampaign.unsubscribed_count || 0,
+    },
+  }
+}
 
 const initialCampaigns = [
   {
@@ -76,54 +101,115 @@ const statusColors: Record<string, string> = {
 
 export default function EmailPage() {
   const { toast } = useToast()
-  const [campaigns, setCampaigns] = useState(initialCampaigns)
-  const [createDialogOpen, setCreateDialogOpen] = useState(false)
+  const [campaigns, setCampaigns] = useState<EmailCampaign[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isCreating, setIsCreating] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState("all")
   const [searchTerm, setSearchTerm] = useState("")
 
-  const handleCreateCampaign = (campaignData: any) => {
-    const newCampaign = {
-      id: Date.now().toString(),
-      ...campaignData,
-      sent: 0,
-      delivered: 0,
-      opened: 0,
-      clicked: 0,
-      status: campaignData.scheduledFor ? "scheduled" : "draft",
+  // Fetch campaigns on mount
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      setIsLoading(true)
+      try {
+        const params: any = { page: 1, limit: 100 }
+        if (selectedStatus !== "all") {
+          params.status = selectedStatus
+        }
+        const response = await apiClient.getEmailCampaigns(params)
+        const mappedCampaigns = response.items.map(mapBackendCampaignToFrontend)
+        setCampaigns(mappedCampaigns)
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load campaigns'
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
     }
-    setCampaigns(prev => [newCampaign, ...prev])
-    setCreateDialogOpen(false)
-    
-    toast({
-      title: "Campaign Created",
-      description: `${campaignData.name} has been created successfully.`,
-    })
-  }
 
-  const handleSendCampaign = (campaignId: string) => {
-    setCampaigns(prev =>
-      prev.map(campaign =>
-        campaign.id === campaignId
-          ? { ...campaign, status: "active" as const }
-          : campaign
+    fetchCampaigns()
+  }, [selectedStatus, toast])
+
+  const handleCreateCampaign = useCallback(async (campaignData: any) => {
+    setIsCreating(true)
+    try {
+      const backendCampaign = await apiClient.createEmailCampaign({
+        name: campaignData.name,
+        subject: campaignData.subject,
+        html_body: campaignData.content || '',
+        plain_body: campaignData.plainText,
+        from_name: campaignData.fromName,
+        from_email: campaignData.fromEmail,
+        scheduled_at: campaignData.scheduledFor ? new Date(campaignData.scheduledFor).toISOString() : null,
+      })
+
+      const campaign = mapBackendCampaignToFrontend(backendCampaign)
+      setCampaigns(prev => [campaign, ...prev])
+      
+      toast({
+        title: "Campaign Created",
+        description: `${campaign.name} has been created successfully.`,
+      })
+    } catch (err: any) {
+      const errorMessage = err.detail || 'Failed to create campaign'
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      })
+    } finally {
+      setIsCreating(false)
+    }
+  }, [toast])
+
+  const handleSendCampaign = useCallback(async (campaignId: string) => {
+    try {
+      // Note: This endpoint may need to be implemented in backend
+      await apiClient.post(`/email/campaigns/${campaignId}/send`)
+      
+      setCampaigns(prev =>
+        prev.map(campaign =>
+          campaign.id === campaignId
+            ? { ...campaign, status: "active" as const }
+            : campaign
+        )
       )
-    )
-    
-    toast({
-      title: "Campaign Sent",
-      description: "Campaign has been sent successfully.",
-    })
-  }
+      
+      toast({
+        title: "Campaign Sent",
+        description: "Campaign has been sent successfully.",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to send campaign",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
 
-  const handleDeleteCampaign = (campaignId: string) => {
-    setCampaigns(prev => prev.filter(campaign => campaign.id !== campaignId))
-    
-    toast({
-      title: "Campaign Deleted",
-      description: "Campaign has been removed.",
-      variant: "destructive",
-    })
-  }
+  const handleDeleteCampaign = useCallback(async (campaignId: string) => {
+    try {
+      await apiClient.deleteEmailCampaign(campaignId)
+      setCampaigns(prev => prev.filter(campaign => campaign.id !== campaignId))
+      
+      toast({
+        title: "Campaign Deleted",
+        description: "Campaign has been removed.",
+        variant: "destructive",
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to delete campaign",
+        variant: "destructive",
+      })
+    }
+  }, [toast])
 
   const filteredCampaigns = campaigns.filter(campaign => {
     const matchesStatus = selectedStatus === "all" || campaign.status === selectedStatus
@@ -131,11 +217,11 @@ export default function EmailPage() {
     return matchesStatus && matchesSearch
   })
 
-  const calculateMetrics = () => {
-    const totalSent = campaigns.reduce((sum, c) => sum + c.sent, 0)
-    const totalDelivered = campaigns.reduce((sum, c) => sum + c.delivered, 0)
-    const totalOpened = campaigns.reduce((sum, c) => sum + c.opened, 0)
-    const totalClicked = campaigns.reduce((sum, c) => sum + c.clicked, 0)
+  const calculateMetrics = useCallback(() => {
+    const totalSent = campaigns.reduce((sum, c) => sum + (c.metrics?.sent || 0), 0)
+    const totalDelivered = campaigns.reduce((sum, c) => sum + (c.metrics?.delivered || 0), 0)
+    const totalOpened = campaigns.reduce((sum, c) => sum + (c.metrics?.opened || 0), 0)
+    const totalClicked = campaigns.reduce((sum, c) => sum + (c.metrics?.clicked || 0), 0)
     
     return {
       totalSent,
@@ -143,7 +229,7 @@ export default function EmailPage() {
       openRate: totalDelivered > 0 ? (totalOpened / totalDelivered) * 100 : 0,
       clickRate: totalOpened > 0 ? (totalClicked / totalOpened) * 100 : 0,
     }
-  }
+  }, [campaigns])
 
   const metrics = calculateMetrics()
 
@@ -254,38 +340,54 @@ export default function EmailPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredCampaigns.map((campaign) => {
-                    const openRate = campaign.sent > 0 ? ((campaign.opened / campaign.sent) * 100).toFixed(1) : "-"
-                    const clickRate = campaign.sent > 0 ? ((campaign.clicked / campaign.sent) * 100).toFixed(1) : "-"
-                    return (
-                      <TableRow key={campaign.id}>
-                        <TableCell className="font-medium">{campaign.name}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline" className={cn("capitalize", statusColors[campaign.status])}>
-                            {campaign.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{campaign.sent > 0 ? campaign.sent.toLocaleString() : "-"}</TableCell>
-                        <TableCell>
-                          {openRate !== "-" ? (
-                            <div className="flex items-center gap-2">
-                              <span>{openRate}%</span>
-                              <Progress value={parseFloat(openRate)} className="w-12 h-2" />
-                            </div>
-                          ) : (
-                            "-"
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {clickRate !== "-" ? (
-                            <div className="flex items-center gap-2">
-                              <span>{clickRate}%</span>
-                              <Progress value={parseFloat(clickRate)} className="w-12 h-2" />
-                            </div>
-                          ) : (
-                            "-"
-                          )}
-                        </TableCell>
+                  {isLoading ? (
+                    <TableRow>
+                      <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                        Loading campaigns...
+                      </TableCell>
+                    </TableRow>
+                  ) : filteredCampaigns.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                        No campaigns found
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    filteredCampaigns.map((campaign) => {
+                      const sent = campaign.metrics?.sent || 0
+                      const opened = campaign.metrics?.opened || 0
+                      const clicked = campaign.metrics?.clicked || 0
+                      const openRate = sent > 0 ? ((opened / sent) * 100).toFixed(1) : "-"
+                      const clickRate = sent > 0 ? ((clicked / sent) * 100).toFixed(1) : "-"
+                      return (
+                        <TableRow key={campaign.id}>
+                          <TableCell className="font-medium">{campaign.name}</TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className={cn("capitalize", statusColors[campaign.status])}>
+                              {campaign.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>{sent > 0 ? sent.toLocaleString() : "-"}</TableCell>
+                          <TableCell>
+                            {openRate !== "-" ? (
+                              <div className="flex items-center gap-2">
+                                <span>{openRate}%</span>
+                                <Progress value={parseFloat(openRate)} className="w-12 h-2" />
+                              </div>
+                            ) : (
+                              "-"
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            {clickRate !== "-" ? (
+                              <div className="flex items-center gap-2">
+                                <span>{clickRate}%</span>
+                                <Progress value={parseFloat(clickRate)} className="w-12 h-2" />
+                              </div>
+                            ) : (
+                              "-"
+                            )}
+                          </TableCell>
                         <TableCell>
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
@@ -319,8 +421,9 @@ export default function EmailPage() {
                           </DropdownMenu>
                         </TableCell>
                       </TableRow>
-                    )
-                  })}
+                      )
+                    })
+                  )}
                 </TableBody>
               </Table>
             </CardContent>

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { CreateWorkflowDialog } from "@/components/dashboard/create-workflow-dialog"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,25 @@ import { Plus, MoreHorizontal, GitBranch, Zap, Play, Settings, TrendingUp, Clock
 import { useToast } from "@/hooks/use-toast"
 import { ErrorBoundary, ErrorState } from "@/components/ui/error-boundary"
 import { LoadingState } from "@/components/ui/loading-state"
+import { apiClient } from "@/lib/api-client"
+import type { Workflow } from "@/lib/types"
+
+// Helper function to map backend workflow to frontend Workflow type
+function mapBackendWorkflowToFrontend(backendWorkflow: any): Workflow {
+  return {
+    id: backendWorkflow.id,
+    name: backendWorkflow.name,
+    description: backendWorkflow.description || '',
+    trigger: {
+      type: backendWorkflow.trigger_type as Workflow['trigger']['type'],
+      config: backendWorkflow.trigger_config || {},
+    },
+    steps: backendWorkflow.steps || [],
+    status: backendWorkflow.is_active ? 'active' : 'paused' as Workflow['status'],
+    createdAt: new Date(backendWorkflow.created_at),
+    updatedAt: new Date(backendWorkflow.updated_at || backendWorkflow.created_at),
+  }
+}
 
 const triggerOptions = [
   { value: "new_lead", label: "New Lead Created" },
@@ -74,12 +93,38 @@ const statusColors: Record<string, string> = {
 
 export default function WorkflowsPage() {
   const { toast } = useToast()
-  const [workflows, setWorkflows] = useState(initialWorkflows)
-  const [isLoading, setIsLoading] = useState(false)
+  const [workflows, setWorkflows] = useState<Workflow[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleCreateWorkflow = async (newWorkflow: any) => {
-    setIsLoading(true)
+  // Fetch workflows on mount
+  useEffect(() => {
+    const fetchWorkflows = async () => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await apiClient.getWorkflows({ page: 1, limit: 100 })
+        const mappedWorkflows = response.items.map(mapBackendWorkflowToFrontend)
+        setWorkflows(mappedWorkflows)
+      } catch (err: any) {
+        const errorMessage = err.detail || 'Failed to load workflows'
+        setError(errorMessage)
+        toast({
+          title: "Error",
+          description: errorMessage,
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchWorkflows()
+  }, [toast])
+
+  const handleCreateWorkflow = useCallback(async (newWorkflow: any) => {
+    setIsCreating(true)
     setError(null)
     
     try {
@@ -96,33 +141,23 @@ export default function WorkflowsPage() {
         throw new Error("At least one workflow step is required")
       }
 
-      // Check for duplicate name
-      const duplicateName = workflows.some(workflow => 
-        workflow.name.toLowerCase() === newWorkflow.name.trim().toLowerCase()
-      )
-      if (duplicateName) {
-        throw new Error("A workflow with this name already exists")
-      }
-
-      const workflow = {
-        id: (workflows.length + 1).toString(),
+      const backendWorkflow = await apiClient.createWorkflow({
         name: newWorkflow.name.trim(),
-        description: newWorkflow.description?.trim() || "",
-        status: "draft",
-        trigger: triggerOptions.find(opt => opt.value === newWorkflow.trigger)?.label || newWorkflow.trigger,
-        steps: newWorkflow.steps.length,
-        runs: 0,
-        successRate: 0,
-      }
-      
+        description: newWorkflow.description?.trim(),
+        trigger_type: newWorkflow.trigger,
+        trigger_config: newWorkflow.triggerConfig || {},
+        steps: newWorkflow.steps || [],
+      })
+
+      const workflow = mapBackendWorkflowToFrontend(backendWorkflow)
       setWorkflows([workflow, ...workflows])
       
       toast({
         title: "Workflow Created",
         description: `${workflow.name} has been created successfully.`,
       })
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to create workflow"
+    } catch (err: any) {
+      const errorMessage = err.detail || (err instanceof Error ? err.message : "Failed to create workflow")
       setError(errorMessage)
       
       toast({
@@ -131,68 +166,69 @@ export default function WorkflowsPage() {
         variant: "destructive",
       })
     } finally {
-      setIsLoading(false)
+      setIsCreating(false)
     }
-  }
+  }, [workflows, toast])
 
-  const handleToggleStatus = async (workflowId: string) => {
-    try {
-      setWorkflows(prev =>
-        prev.map(workflow =>
-          workflow.id === workflowId
-            ? { ...workflow, status: workflow.status === "active" ? "paused" : "active" }
-            : workflow
-        )
-      )
-      
-      const workflow = workflows.find(w => w.id === workflowId)
-      toast({
-        title: "Status Updated",
-        description: `${workflow?.name} is now ${workflow?.status === "active" ? "paused" : "active"}.`,
-      })
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update workflow status",
-        variant: "destructive",
-      })
-    }
-  }
-
-  const handleRunWorkflow = async (workflowId: string) => {
+  const handleToggleStatus = useCallback(async (workflowId: string) => {
     try {
       const workflow = workflows.find(w => w.id === workflowId)
       if (!workflow) return
 
-      // Simulate running workflow
+      const newStatus = workflow.status === "active" ? "paused" : "active"
+      
+      // Update via API
+      await apiClient.updateWorkflow(workflowId, {
+        is_active: newStatus === "active",
+      })
+
+      setWorkflows(prev =>
+        prev.map(w =>
+          w.id === workflowId
+            ? { ...w, status: newStatus as Workflow['status'] }
+            : w
+        )
+      )
+      
+      toast({
+        title: "Status Updated",
+        description: `${workflow.name} is now ${newStatus}.`,
+      })
+    } catch (err: any) {
+      toast({
+        title: "Error",
+        description: err.detail || "Failed to update workflow status",
+        variant: "destructive",
+      })
+    }
+  }, [workflows, toast])
+
+  const handleRunWorkflow = useCallback(async (workflowId: string) => {
+    try {
+      const workflow = workflows.find(w => w.id === workflowId)
+      if (!workflow) return
+
+      await apiClient.runWorkflow(workflowId)
+      
       toast({
         title: "Workflow Running",
         description: `${workflow.name} is now executing...`,
       })
-      
-      // Update run count
-      setWorkflows(prev =>
-        prev.map(w =>
-          w.id === workflowId
-            ? { ...w, runs: w.runs + 1 }
-            : w
-        )
-      )
-    } catch (error) {
+    } catch (err: any) {
       toast({
         title: "Error",
-        description: "Failed to run workflow",
+        description: err.detail || "Failed to run workflow",
         variant: "destructive",
       })
     }
-  }
+  }, [workflows, toast])
 
   const handleRetry = () => {
     setError(null)
     setIsLoading(false)
   }
 
-  if (error) {
+  if (error && workflows.length === 0) {
     return (
       <ErrorState 
         message={error} 
@@ -201,8 +237,8 @@ export default function WorkflowsPage() {
     )
   }
 
-  if (isLoading) {
-    return <LoadingState message="Creating workflow..." />
+  if (isLoading && workflows.length === 0) {
+    return <LoadingState message="Loading workflows..." />
   }
 
   return (
@@ -252,7 +288,7 @@ export default function WorkflowsPage() {
             </div>
             <div>
               <p className="text-sm font-medium text-muted-foreground">Total Runs</p>
-              <p className="text-2xl font-bold">{workflows.reduce((acc, w) => acc + w.runs, 0).toLocaleString()}</p>
+              <p className="text-2xl font-bold">-</p>
             </div>
           </CardContent>
         </Card>
@@ -262,9 +298,9 @@ export default function WorkflowsPage() {
               <Clock className="h-6 w-6 text-purple-500" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Avg Success Rate</p>
+              <p className="text-sm font-medium text-muted-foreground">Total Steps</p>
               <p className="text-2xl font-bold">
-                {Math.round(workflows.reduce((acc, w) => acc + w.successRate, 0) / workflows.length)}%
+                {workflows.reduce((acc, w) => acc + w.steps.length, 0)}
               </p>
             </div>
           </CardContent>
@@ -288,14 +324,12 @@ export default function WorkflowsPage() {
                   <div className="mt-4 flex items-center gap-6 text-sm">
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Zap className="h-4 w-4" />
-                      <span>Trigger: {workflow.trigger}</span>
+                      <span>Trigger: {workflow.trigger.type}</span>
                     </div>
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <ArrowRight className="h-4 w-4" />
-                      <span>{workflow.steps} steps</span>
+                      <span>{workflow.steps.length} steps</span>
                     </div>
-                    <div className="text-muted-foreground">{workflow.runs.toLocaleString()} runs</div>
-                    <div className="text-muted-foreground">{workflow.successRate}% success</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
