@@ -1,0 +1,1759 @@
+openapi: 3.0.3
+info:
+  title: InfiAgentic Platform API
+  description: |
+    Complete API documentation for the InfiAgentic Marketing Automation Platform.
+    
+    ## Authentication
+    All endpoints require JWT Bearer token authentication except `/auth/login` and `/auth/register`.
+    
+    ## Rate Limiting
+    - Standard: 100 requests/minute
+    - Premium: 1000 requests/minute
+    
+    ## Products
+    - **Jyotishya** - Astrology SaaS
+    - **HealthPedya** - Healthcare Portal
+    - **SchooPay** - Education Payments
+  version: 1.0.0
+  contact:
+    name: InfiDevelopers API Support
+    email: api@infidevelopers.com
+    url: https://infidevelopers.com/support
+  license:
+    name: Proprietary
+    url: https://infidevelopers.com/license
+
+servers:
+  - url: https://api.infiagentic.com/v1
+    description: Production
+  - url: https://staging-api.infiagentic.com/v1
+    description: Staging
+  - url: http://localhost:8000/v1
+    description: Local Development
+
+tags:
+  - name: Authentication
+    description: User authentication and authorization
+  - name: Content
+    description: Content creation and management
+  - name: Social
+    description: Social media management
+  - name: Email
+    description: Email campaigns and automation
+  - name: Leads
+    description: Lead management and scoring
+  - name: CRM
+    description: Customer relationship management
+  - name: Workflows
+    description: Workflow automation
+  - name: Agents
+    description: AI agent management
+  - name: Analytics
+    description: Analytics and reporting
+  - name: Products
+    description: Product configuration
+
+security:
+  - BearerAuth: []
+
+paths:
+  # ============================================
+  # AUTHENTICATION
+  # ============================================
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: User login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: admin@infidevelopers.com
+                password:
+                  type: string
+                  format: password
+                  example: admin123
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/register:
+    post:
+      tags: [Authentication]
+      summary: Register new user
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /auth/refresh:
+    post:
+      tags: [Authentication]
+      summary: Refresh access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refresh_token]
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        '200':
+          description: Token refreshed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+  /auth/me:
+    get:
+      tags: [Authentication]
+      summary: Get current user profile
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  # ============================================
+  # CONTENT
+  # ============================================
+  /content:
+    get:
+      tags: [Content]
+      summary: List content items
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, pending_approval, approved, rejected, published, archived]
+        - name: content_type
+          in: query
+          schema:
+            type: string
+            enum: [post, article, email, ad, video_script, image]
+        - name: product_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Content list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentList'
+
+    post:
+      tags: [Content]
+      summary: Create content item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentCreate'
+      responses:
+        '201':
+          description: Content created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+
+  /content/{id}:
+    get:
+      tags: [Content]
+      summary: Get content item
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Content item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags: [Content]
+      summary: Update content item
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContentUpdate'
+      responses:
+        '200':
+          description: Content updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+
+    delete:
+      tags: [Content]
+      summary: Delete content item
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Content deleted
+
+  /content/{id}/approve:
+    post:
+      tags: [Content]
+      summary: Approve content
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comments:
+                  type: string
+      responses:
+        '200':
+          description: Content approved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+
+  /content/{id}/reject:
+    post:
+      tags: [Content]
+      summary: Reject content
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [reason]
+              properties:
+                reason:
+                  type: string
+      responses:
+        '200':
+          description: Content rejected
+
+  # ============================================
+  # SOCIAL
+  # ============================================
+  /social/accounts:
+    get:
+      tags: [Social]
+      summary: List connected social accounts
+      responses:
+        '200':
+          description: Social accounts list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SocialAccount'
+
+  /social/accounts/connect/{platform}:
+    post:
+      tags: [Social]
+      summary: Connect social account
+      parameters:
+        - name: platform
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [twitter, facebook, instagram, linkedin, youtube, tiktok]
+      responses:
+        '200':
+          description: OAuth redirect URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redirect_url:
+                    type: string
+                    format: uri
+
+  /social/posts:
+    get:
+      tags: [Social]
+      summary: List social posts
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: platform
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, scheduled, publishing, published, failed]
+      responses:
+        '200':
+          description: Social posts list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialPostList'
+
+    post:
+      tags: [Social]
+      summary: Create social post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialPostCreate'
+      responses:
+        '201':
+          description: Post created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialPost'
+
+  /social/publish:
+    post:
+      tags: [Social]
+      summary: Publish post immediately
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [post_id]
+              properties:
+                post_id:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Post published
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialPost'
+
+  /social/schedule:
+    post:
+      tags: [Social]
+      summary: Schedule post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [post_id, scheduled_at]
+              properties:
+                post_id:
+                  type: string
+                  format: uuid
+                scheduled_at:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Post scheduled
+
+  # ============================================
+  # EMAIL
+  # ============================================
+  /email/campaigns:
+    get:
+      tags: [Email]
+      summary: List email campaigns
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, scheduled, sending, sent, paused, cancelled]
+      responses:
+        '200':
+          description: Campaigns list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailCampaignList'
+
+    post:
+      tags: [Email]
+      summary: Create email campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailCampaignCreate'
+      responses:
+        '201':
+          description: Campaign created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailCampaign'
+
+  /email/send:
+    post:
+      tags: [Email]
+      summary: Send email campaign
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [campaign_id]
+              properties:
+                campaign_id:
+                  type: string
+                  format: uuid
+                schedule_at:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Campaign sent/scheduled
+
+  /email/templates:
+    get:
+      tags: [Email]
+      summary: List email templates
+      responses:
+        '200':
+          description: Templates list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmailTemplate'
+
+    post:
+      tags: [Email]
+      summary: Create email template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailTemplateCreate'
+      responses:
+        '201':
+          description: Template created
+
+  /email/automations:
+    get:
+      tags: [Email]
+      summary: List email automations
+      responses:
+        '200':
+          description: Automations list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmailAutomation'
+
+  # ============================================
+  # LEADS
+  # ============================================
+  /leads:
+    get:
+      tags: [Leads]
+      summary: List leads
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [new, contacted, qualified, unqualified, converted, lost]
+        - name: source
+          in: query
+          schema:
+            type: string
+        - name: assigned_to
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: score_min
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Leads list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeadList'
+
+    post:
+      tags: [Leads]
+      summary: Create lead
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadCreate'
+      responses:
+        '201':
+          description: Lead created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lead'
+
+  /leads/{id}:
+    get:
+      tags: [Leads]
+      summary: Get lead
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Lead details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lead'
+
+    put:
+      tags: [Leads]
+      summary: Update lead
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadUpdate'
+      responses:
+        '200':
+          description: Lead updated
+
+  /leads/{id}/convert:
+    post:
+      tags: [Leads]
+      summary: Convert lead to contact
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Lead converted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+
+  /leads/flows:
+    get:
+      tags: [Leads]
+      summary: List lead flows
+      responses:
+        '200':
+          description: Lead flows list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LeadFlow'
+
+  # ============================================
+  # CRM
+  # ============================================
+  /crm/contacts:
+    get:
+      tags: [CRM]
+      summary: List contacts
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Contacts list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactList'
+
+    post:
+      tags: [CRM]
+      summary: Create contact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactCreate'
+      responses:
+        '201':
+          description: Contact created
+
+  /crm/deals:
+    get:
+      tags: [CRM]
+      summary: List deals
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: stage
+          in: query
+          schema:
+            type: string
+        - name: owner_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Deals list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DealList'
+
+    post:
+      tags: [CRM]
+      summary: Create deal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DealCreate'
+      responses:
+        '201':
+          description: Deal created
+
+  /crm/deals/{id}:
+    put:
+      tags: [CRM]
+      summary: Update deal
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DealUpdate'
+      responses:
+        '200':
+          description: Deal updated
+
+  # ============================================
+  # WORKFLOWS
+  # ============================================
+  /workflows:
+    get:
+      tags: [Workflows]
+      summary: List workflows
+      responses:
+        '200':
+          description: Workflows list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workflow'
+
+    post:
+      tags: [Workflows]
+      summary: Create workflow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkflowCreate'
+      responses:
+        '201':
+          description: Workflow created
+
+  /workflows/{id}/run:
+    post:
+      tags: [Workflows]
+      summary: Run workflow manually
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input:
+                  type: object
+      responses:
+        '200':
+          description: Workflow run started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowRun'
+
+  /workflows/runs:
+    get:
+      tags: [Workflows]
+      summary: List workflow runs
+      parameters:
+        - name: workflow_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, running, completed, failed, cancelled]
+      responses:
+        '200':
+          description: Workflow runs list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkflowRun'
+
+  # ============================================
+  # AGENTS
+  # ============================================
+  /agents:
+    get:
+      tags: [Agents]
+      summary: List AI agents
+      responses:
+        '200':
+          description: Agents list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Agent'
+
+    post:
+      tags: [Agents]
+      summary: Create AI agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentCreate'
+      responses:
+        '201':
+          description: Agent created
+
+  /agents/{id}/invoke:
+    post:
+      tags: [Agents]
+      summary: Invoke agent action
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action, input]
+              properties:
+                action:
+                  type: string
+                input:
+                  type: object
+      responses:
+        '200':
+          description: Agent response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+
+  # ============================================
+  # ANALYTICS
+  # ============================================
+  /analytics/overview:
+    get:
+      tags: [Analytics]
+      summary: Get analytics overview
+      parameters:
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: product_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Analytics overview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsOverview'
+
+  /analytics/content:
+    get:
+      tags: [Analytics]
+      summary: Get content analytics
+      parameters:
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Content analytics
+
+  /analytics/social:
+    get:
+      tags: [Analytics]
+      summary: Get social media analytics
+      parameters:
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: platform
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Social analytics
+
+  /analytics/email:
+    get:
+      tags: [Analytics]
+      summary: Get email analytics
+      parameters:
+        - name: start_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Email analytics
+
+  /analytics/leads:
+    get:
+      tags: [Analytics]
+      summary: Get leads analytics
+      responses:
+        '200':
+          description: Leads analytics
+
+  # ============================================
+  # PRODUCTS
+  # ============================================
+  /products:
+    get:
+      tags: [Products]
+      summary: List products
+      responses:
+        '200':
+          description: Products list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+
+    post:
+      tags: [Products]
+      summary: Create product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+      responses:
+        '201':
+          description: Product created
+
+  /products/{id}:
+    get:
+      tags: [Products]
+      summary: Get product
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Product details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+
+    put:
+      tags: [Products]
+      summary: Update product
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdate'
+      responses:
+        '200':
+          description: Product updated
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    PageParam:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+        minimum: 1
+    LimitParam:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        default: 20
+        minimum: 1
+        maximum: 100
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+
+    AuthResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+          default: bearer
+        expires_in:
+          type: integer
+        user:
+          $ref: '#/components/schemas/User'
+
+    RegisterRequest:
+      type: object
+      required: [email, password, first_name, last_name, org_name]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        first_name:
+          type: string
+        last_name:
+          type: string
+        org_name:
+          type: string
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        org_id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        role:
+          $ref: '#/components/schemas/Role'
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+
+    Content:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        body:
+          type: string
+        content_type:
+          type: string
+        status:
+          type: string
+        scheduled_at:
+          type: string
+          format: date-time
+        published_at:
+          type: string
+          format: date-time
+        ai_generated:
+          type: boolean
+        created_by:
+          $ref: '#/components/schemas/User'
+        created_at:
+          type: string
+          format: date-time
+
+    ContentCreate:
+      type: object
+      required: [title, body, content_type]
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        content_type:
+          type: string
+          enum: [post, article, email, ad, video_script, image]
+        product_id:
+          type: string
+          format: uuid
+        tags:
+          type: array
+          items:
+            type: string
+        scheduled_at:
+          type: string
+          format: date-time
+
+    ContentUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        status:
+          type: string
+        scheduled_at:
+          type: string
+          format: date-time
+
+    ContentList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Content'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+    SocialAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        platform:
+          type: string
+        account_name:
+          type: string
+        is_active:
+          type: boolean
+
+    SocialPost:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        platform:
+          type: string
+        post_text:
+          type: string
+        status:
+          type: string
+        scheduled_at:
+          type: string
+          format: date-time
+        published_at:
+          type: string
+          format: date-time
+        metrics:
+          type: object
+
+    SocialPostCreate:
+      type: object
+      required: [social_account_id, post_text]
+      properties:
+        social_account_id:
+          type: string
+          format: uuid
+        content_id:
+          type: string
+          format: uuid
+        post_text:
+          type: string
+        media_urls:
+          type: array
+          items:
+            type: string
+        hashtags:
+          type: array
+          items:
+            type: string
+        scheduled_at:
+          type: string
+          format: date-time
+
+    SocialPostList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialPost'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+    EmailCampaign:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        subject:
+          type: string
+        status:
+          type: string
+        sent_count:
+          type: integer
+        opened_count:
+          type: integer
+        clicked_count:
+          type: integer
+
+    EmailCampaignCreate:
+      type: object
+      required: [name, subject, html_content]
+      properties:
+        name:
+          type: string
+        subject:
+          type: string
+        html_content:
+          type: string
+        text_content:
+          type: string
+        template_id:
+          type: string
+          format: uuid
+
+    EmailCampaignList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailCampaign'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+    EmailTemplate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        subject:
+          type: string
+        html_content:
+          type: string
+        category:
+          type: string
+
+    EmailTemplateCreate:
+      type: object
+      required: [name, subject, html_content]
+      properties:
+        name:
+          type: string
+        subject:
+          type: string
+        html_content:
+          type: string
+        text_content:
+          type: string
+        category:
+          type: string
+
+    EmailAutomation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        trigger_type:
+          type: string
+        is_active:
+          type: boolean
+
+    Lead:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        phone:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        company:
+          type: string
+        source:
+          type: string
+        status:
+          type: string
+        score:
+          type: integer
+        assigned_to:
+          $ref: '#/components/schemas/User'
+
+    LeadCreate:
+      type: object
+      properties:
+        email:
+          type: string
+        phone:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        company:
+          type: string
+        source:
+          type: string
+        product_id:
+          type: string
+          format: uuid
+
+    LeadUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+        score:
+          type: integer
+        assigned_to:
+          type: string
+          format: uuid
+
+    LeadList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lead'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+    LeadFlow:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        trigger_type:
+          type: string
+        is_active:
+          type: boolean
+
+    Contact:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        company:
+          type: string
+        lifecycle_stage:
+          type: string
+
+    ContactCreate:
+      type: object
+      required: [email]
+      properties:
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        company:
+          type: string
+        phone:
+          type: string
+
+    ContactList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+    Deal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        value:
+          type: number
+        currency:
+          type: string
+        stage:
+          type: string
+        probability:
+          type: integer
+        expected_close_date:
+          type: string
+          format: date
+        contact:
+          $ref: '#/components/schemas/Contact'
+
+    DealCreate:
+      type: object
+      required: [title, contact_id]
+      properties:
+        title:
+          type: string
+        contact_id:
+          type: string
+          format: uuid
+        product_id:
+          type: string
+          format: uuid
+        value:
+          type: number
+        stage:
+          type: string
+
+    DealUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        value:
+          type: number
+        stage:
+          type: string
+        probability:
+          type: integer
+        expected_close_date:
+          type: string
+          format: date
+
+    DealList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deal'
+        total:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+
+    Workflow:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        trigger_type:
+          type: string
+        is_active:
+          type: boolean
+        run_count:
+          type: integer
+
+    WorkflowCreate:
+      type: object
+      required: [name, trigger_type, steps]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        trigger_type:
+          type: string
+          enum: [manual, schedule, webhook, event, api]
+        trigger_config:
+          type: object
+        steps:
+          type: array
+          items:
+            type: object
+        agent_id:
+          type: string
+          format: uuid
+
+    WorkflowRun:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        workflow_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+        current_step:
+          type: integer
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+        error:
+          type: string
+
+    Agent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        agent_type:
+          type: string
+        model:
+          type: string
+        is_active:
+          type: boolean
+        total_runs:
+          type: integer
+
+    AgentCreate:
+      type: object
+      required: [name, agent_type, system_prompt]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        agent_type:
+          type: string
+          enum: [content, engagement, sales, support, custom]
+        model:
+          type: string
+          default: gpt-4
+        system_prompt:
+          type: string
+        tools:
+          type: array
+          items:
+            type: string
+        config:
+          type: object
+
+    AgentResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        output:
+          type: object
+        tokens_used:
+          type: integer
+        duration_ms:
+          type: integer
+
+    AnalyticsOverview:
+      type: object
+      properties:
+        total_content:
+          type: integer
+        total_posts:
+          type: integer
+        total_emails_sent:
+          type: integer
+        total_leads:
+          type: integer
+        total_deals_value:
+          type: number
+        engagement_rate:
+          type: number
+        conversion_rate:
+          type: number
+        charts:
+          type: object
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        slug:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        is_active:
+          type: boolean
+
+    ProductCreate:
+      type: object
+      required: [name, slug, type]
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        type:
+          type: string
+          enum: [jyotishya, healthpedya, schoopay, custom]
+        description:
+          type: string
+        api_key:
+          type: string
+        webhook_url:
+          type: string
+
+    ProductUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        is_active:
+          type: boolean
+        settings:
+          type: object

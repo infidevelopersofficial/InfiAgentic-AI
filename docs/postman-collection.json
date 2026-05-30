@@ -1,0 +1,881 @@
+{
+  "info": {
+    "name": "InfiAgentic Platform API",
+    "description": "Complete API collection for InfiAgentic Marketing Automation Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/v1",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.access_token) {",
+                  "    pm.collectionVariables.set('access_token', jsonData.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@infidevelopers.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"first_name\": \"John\",\n  \"last_name\": \"Doe\",\n  \"org_name\": \"Acme Corp\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/auth/me",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "me"]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "refresh"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Content",
+      "item": [
+        {
+          "name": "List Content",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/content?page=1&limit=20&status=draft",
+              "host": ["{{base_url}}"],
+              "path": ["content"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" },
+                { "key": "status", "value": "draft" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Content",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"10 Astrology Tips for 2024\",\n  \"body\": \"Discover the cosmic insights that will guide your year...\",\n  \"content_type\": \"article\",\n  \"product_id\": \"00000000-0000-0000-0000-000000000001\",\n  \"tags\": [\"astrology\", \"horoscope\", \"2024\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/content",
+              "host": ["{{base_url}}"],
+              "path": ["content"]
+            }
+          }
+        },
+        {
+          "name": "Get Content",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/content/:id",
+              "host": ["{{base_url}}"],
+              "path": ["content", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Update Content",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Title\",\n  \"status\": \"pending_approval\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/content/:id",
+              "host": ["{{base_url}}"],
+              "path": ["content", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Approve Content",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comments\": \"Looks great!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/content/:id/approve",
+              "host": ["{{base_url}}"],
+              "path": ["content", ":id", "approve"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Reject Content",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Please revise the headline\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/content/:id/reject",
+              "host": ["{{base_url}}"],
+              "path": ["content", ":id", "reject"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Social",
+      "item": [
+        {
+          "name": "List Social Accounts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/social/accounts",
+              "host": ["{{base_url}}"],
+              "path": ["social", "accounts"]
+            }
+          }
+        },
+        {
+          "name": "Connect Social Account",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/social/accounts/connect/twitter",
+              "host": ["{{base_url}}"],
+              "path": ["social", "accounts", "connect", "twitter"]
+            }
+          }
+        },
+        {
+          "name": "List Social Posts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/social/posts?page=1&limit=20",
+              "host": ["{{base_url}}"],
+              "path": ["social", "posts"],
+              "query": [{ "key": "page", "value": "1" }, { "key": "limit", "value": "20" }]
+            }
+          }
+        },
+        {
+          "name": "Create Social Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"social_account_id\": \"account-uuid\",\n  \"post_text\": \"Check out our latest astrology insights! ✨\",\n  \"hashtags\": [\"#astrology\", \"#horoscope\", \"#jyotishya\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/social/posts",
+              "host": ["{{base_url}}"],
+              "path": ["social", "posts"]
+            }
+          }
+        },
+        {
+          "name": "Publish Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"post_id\": \"post-uuid\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/social/publish",
+              "host": ["{{base_url}}"],
+              "path": ["social", "publish"]
+            }
+          }
+        },
+        {
+          "name": "Schedule Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"post_id\": \"post-uuid\",\n  \"scheduled_at\": \"2024-02-01T10:00:00Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/social/schedule",
+              "host": ["{{base_url}}"],
+              "path": ["social", "schedule"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Email",
+      "item": [
+        {
+          "name": "List Campaigns",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/email/campaigns",
+              "host": ["{{base_url}}"],
+              "path": ["email", "campaigns"]
+            }
+          }
+        },
+        {
+          "name": "Create Campaign",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"January Newsletter\",\n  \"subject\": \"Your Monthly Horoscope is Here!\",\n  \"html_content\": \"<html><body><h1>Hello!</h1></body></html>\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/email/campaigns",
+              "host": ["{{base_url}}"],
+              "path": ["email", "campaigns"]
+            }
+          }
+        },
+        {
+          "name": "Send Campaign",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"campaign_id\": \"campaign-uuid\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/email/send",
+              "host": ["{{base_url}}"],
+              "path": ["email", "send"]
+            }
+          }
+        },
+        {
+          "name": "List Templates",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/email/templates",
+              "host": ["{{base_url}}"],
+              "path": ["email", "templates"]
+            }
+          }
+        },
+        {
+          "name": "List Automations",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/email/automations",
+              "host": ["{{base_url}}"],
+              "path": ["email", "automations"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leads",
+      "item": [
+        {
+          "name": "List Leads",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/leads?page=1&limit=20&status=new",
+              "host": ["{{base_url}}"],
+              "path": ["leads"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" },
+                { "key": "status", "value": "new" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"lead@example.com\",\n  \"first_name\": \"Jane\",\n  \"last_name\": \"Smith\",\n  \"company\": \"Tech Corp\",\n  \"source\": \"website\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/leads",
+              "host": ["{{base_url}}"],
+              "path": ["leads"]
+            }
+          }
+        },
+        {
+          "name": "Get Lead",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/leads/:id",
+              "host": ["{{base_url}}"],
+              "path": ["leads", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Update Lead",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"qualified\",\n  \"score\": 75\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/leads/:id",
+              "host": ["{{base_url}}"],
+              "path": ["leads", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Convert Lead",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/leads/:id/convert",
+              "host": ["{{base_url}}"],
+              "path": ["leads", ":id", "convert"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "List Lead Flows",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/leads/flows",
+              "host": ["{{base_url}}"],
+              "path": ["leads", "flows"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "CRM",
+      "item": [
+        {
+          "name": "List Contacts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/crm/contacts",
+              "host": ["{{base_url}}"],
+              "path": ["crm", "contacts"]
+            }
+          }
+        },
+        {
+          "name": "Create Contact",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"contact@example.com\",\n  \"first_name\": \"Alice\",\n  \"last_name\": \"Johnson\",\n  \"company\": \"Acme Inc\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/crm/contacts",
+              "host": ["{{base_url}}"],
+              "path": ["crm", "contacts"]
+            }
+          }
+        },
+        {
+          "name": "List Deals",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/crm/deals",
+              "host": ["{{base_url}}"],
+              "path": ["crm", "deals"]
+            }
+          }
+        },
+        {
+          "name": "Create Deal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Enterprise License\",\n  \"contact_id\": \"contact-uuid\",\n  \"value\": 50000,\n  \"stage\": \"proposal\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/crm/deals",
+              "host": ["{{base_url}}"],
+              "path": ["crm", "deals"]
+            }
+          }
+        },
+        {
+          "name": "Update Deal",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"stage\": \"negotiation\",\n  \"probability\": 60\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/crm/deals/:id",
+              "host": ["{{base_url}}"],
+              "path": ["crm", "deals", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Workflows",
+      "item": [
+        {
+          "name": "List Workflows",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/workflows",
+              "host": ["{{base_url}}"],
+              "path": ["workflows"]
+            }
+          }
+        },
+        {
+          "name": "Create Workflow",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Lead Welcome\",\n  \"trigger_type\": \"event\",\n  \"trigger_config\": {\"event\": \"lead.created\"},\n  \"steps\": [\n    {\"id\": 1, \"type\": \"delay\", \"duration\": \"1h\"},\n    {\"id\": 2, \"type\": \"action\", \"action\": \"send_email\"}\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/workflows",
+              "host": ["{{base_url}}"],
+              "path": ["workflows"]
+            }
+          }
+        },
+        {
+          "name": "Run Workflow",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": {\"lead_id\": \"lead-uuid\"}\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/workflows/:id/run",
+              "host": ["{{base_url}}"],
+              "path": ["workflows", ":id", "run"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "List Workflow Runs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/workflows/runs",
+              "host": ["{{base_url}}"],
+              "path": ["workflows", "runs"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Agents",
+      "item": [
+        {
+          "name": "List Agents",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/agents",
+              "host": ["{{base_url}}"],
+              "path": ["agents"]
+            }
+          }
+        },
+        {
+          "name": "Create Agent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Custom Content Agent\",\n  \"agent_type\": \"content\",\n  \"system_prompt\": \"You are an expert content creator...\",\n  \"tools\": [\"generate_post\", \"optimize_seo\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/agents",
+              "host": ["{{base_url}}"],
+              "path": ["agents"]
+            }
+          }
+        },
+        {
+          "name": "Invoke Agent",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"generate_post\",\n  \"input\": {\n    \"platform\": \"twitter\",\n    \"topic\": \"astrology tips\",\n    \"product\": \"jyotishya\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/agents/:id/invoke",
+              "host": ["{{base_url}}"],
+              "path": ["agents", ":id", "invoke"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Overview",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/analytics/overview?start_date=2024-01-01&end_date=2024-01-31",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "overview"],
+              "query": [{ "key": "start_date", "value": "2024-01-01" }, { "key": "end_date", "value": "2024-01-31" }]
+            }
+          }
+        },
+        {
+          "name": "Content Analytics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/analytics/content?start_date=2024-01-01&end_date=2024-01-31",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "content"],
+              "query": [{ "key": "start_date", "value": "2024-01-01" }, { "key": "end_date", "value": "2024-01-31" }]
+            }
+          }
+        },
+        {
+          "name": "Social Analytics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/analytics/social?start_date=2024-01-01&end_date=2024-01-31",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "social"],
+              "query": [{ "key": "start_date", "value": "2024-01-01" }, { "key": "end_date", "value": "2024-01-31" }]
+            }
+          }
+        },
+        {
+          "name": "Email Analytics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/analytics/email?start_date=2024-01-01&end_date=2024-01-31",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "email"],
+              "query": [{ "key": "start_date", "value": "2024-01-01" }, { "key": "end_date", "value": "2024-01-31" }]
+            }
+          }
+        },
+        {
+          "name": "Leads Analytics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/analytics/leads",
+              "host": ["{{base_url}}"],
+              "path": ["analytics", "leads"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/products",
+              "host": ["{{base_url}}"],
+              "path": ["products"]
+            }
+          }
+        },
+        {
+          "name": "Get Product",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/products/:id",
+              "host": ["{{base_url}}"],
+              "path": ["products", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Product\",\n  \"slug\": \"new-product\",\n  \"type\": \"custom\",\n  \"description\": \"A new custom product\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/products",
+              "host": ["{{base_url}}"],
+              "path": ["products"]
+            }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Product Name\",\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/products/:id",
+              "host": ["{{base_url}}"],
+              "path": ["products", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
