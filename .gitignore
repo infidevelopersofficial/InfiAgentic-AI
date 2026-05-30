@@ -1,1 +1,110 @@
-node_modules
+# Node.js / Next.js
+node_modules/
+.next/
+out/
+build/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+
+# Mac
+.DS_Store
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+venv/
+ENV/
+env/
+.venv/
+
+# Python packaging
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environment
+.Python
+
+# Celery
+celerybeat-schedule
+
+django-debug.log
+
+# Misc
+*.env
+*.local
+*.pem
+*.key
+*.crt
+
+# IDE settings
+.vscode/
+.idea/
+
+# Yarn
+.pnp.*
+
+# pnpm
+.pnpm-store/
+
+# SQLite
+*.sqlite3
+
+# macOS Thumbnails
+.AppleDouble
+.LSOverride
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+.coverage.*
+.coveragerc
+
+# Tests
+.pytest_cache/
+coverage.xml
+
+# Build output
+dist/
+build/
+
+# Generated files
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+package-lock.json
+
+test-results/
+
+# Optional npm cache directory
+.npm/
